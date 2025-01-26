@@ -47,11 +47,13 @@ func _process(delta: float) -> void:
 
 func _integrate_forces(state):
 	if Input.is_action_pressed("left_hit") and left_permission:
+		print("left hit")
 		ball_hit.emit()
 		left_permission = false
 		var force_vector = thrust * left_force
 		state.apply_force(force_vector.rotated(left_rotation))
 	elif Input.is_action_pressed("right_hit") and right_permission:
+		print("right hit")
 		ball_hit.emit()
 		right_permission = false
 		var force_vector = thrust * right_force

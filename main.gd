@@ -20,11 +20,13 @@ func _process(delta: float) -> void:
 func start():
 	if side == "left":
 		side = "right"
-		_on_left_body_exited($Ball)
+		if position == "right":
+			_on_left_body_exited($Ball)
 		possession = "right"
 	else:
 		side = "left"
-		_on_right_body_exited($Ball)
+		if position == "left":
+			_on_left_body_entered($Ball)
 		possession = "left"
 	$Ball.reset_ball(side)
 
@@ -52,8 +54,7 @@ func _on_left_body_exited(body: Node2D) -> void:
 	$Ball.left_permission = false
 	hit_time = 0
 
-
-func _on_right_body_exited(body: Node2D) -> void:
+func _on_left_body_entered(body: Node2D) -> void:
 	position = "left"
 	$Ball.left_permission = true
 	$Ball.right_permission = false
