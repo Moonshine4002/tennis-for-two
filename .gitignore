@@ -6,5 +6,8 @@
 addons/
 *.translation
 
+# Dist
+dist/
+
 # Temp
 .tmp
