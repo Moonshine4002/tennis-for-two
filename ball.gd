@@ -1,6 +1,7 @@
 extends RigidBody2D
 
 signal ball_hit
+signal ball_hit_floor
 signal ball_screen_exited
 
 @export var force_speed = 3
@@ -46,10 +47,12 @@ func _process(delta: float) -> void:
 
 func _integrate_forces(state):
 	if Input.is_action_pressed("left_hit") and left_permission:
+		ball_hit.emit()
 		left_permission = false
 		var force_vector = thrust * left_force
 		state.apply_force(force_vector.rotated(left_rotation))
-	if Input.is_action_pressed("right_hit") and right_permission:
+	elif Input.is_action_pressed("right_hit") and right_permission:
+		ball_hit.emit()
 		right_permission = false
 		var force_vector = thrust * right_force
 		state.apply_force(force_vector.rotated(right_rotation))
@@ -65,7 +68,7 @@ func _integrate_forces(state):
 
 
 func _on_body_entered(body: Node) -> void:
-	ball_hit.emit()
+	ball_hit_floor.emit()
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
