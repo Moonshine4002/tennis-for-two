@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://bn7orgyw3fdmp"]
+
+[ext_resource type="Texture2D" uid="uid://rswr1ob3sbd3" path="res://art/textures/Arrow.png" id="1_pyq1o"]
+
+[node name="Arrow" type="TextureRect"]
+offset_left = -848.0
+offset_top = -1936.0
+offset_right = 924.0
+offset_bottom = 2108.0
+scale = Vector2(0.04, 0.04)
+pivot_offset = Vector2(886, 2022)
+texture = ExtResource("1_pyq1o")

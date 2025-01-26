@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://k2nku1xhnt1c"]
+
+[ext_resource type="Texture2D" uid="uid://b0eg30whg82c3" path="res://art/textures/Grass.png" id="1_k60qj"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_d2xjp"]
+bounce = 0.4
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q5vqt"]
+size = Vector2(30000, 600)
+
+[node name="Floor" type="StaticBody2D"]
+scale = Vector2(0.04, 0.04)
+collision_layer = 2
+physics_material_override = SubResource("PhysicsMaterial_d2xjp")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_repeat = 2
+texture = ExtResource("1_k60qj")
+centered = false
+offset = Vector2(0, -1990)
+region_enabled = true
+region_rect = Rect2(0, 34, 30000, 1990)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(15000, -300)
+shape = SubResource("RectangleShape2D_q5vqt")

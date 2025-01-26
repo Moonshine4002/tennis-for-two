@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://iln0mul2pjvx"]
+
+[ext_resource type="PackedScene" uid="uid://bn7orgyw3fdmp" path="res://arrow.tscn" id="1_nsjwd"]
+[ext_resource type="Script" path="res://hud.gd" id="1_vexfr"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_vexfr")
+
+[node name="ArrowLeft" parent="." instance=ExtResource("1_nsjwd")]
+offset_left = -720.0
+offset_top = -1880.0
+offset_right = 1052.0
+offset_bottom = 2164.0
+
+[node name="ArrowRight" parent="." instance=ExtResource("1_nsjwd")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1048.0
+offset_top = -1880.0
+offset_right = 724.0
+offset_bottom = 2164.0
+grow_horizontal = 0
