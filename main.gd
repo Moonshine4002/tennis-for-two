@@ -69,3 +69,7 @@ func _on_ball_ball_hit() -> void:
 
 func _on_ball_ball_screen_exited() -> void:
 	end()
+
+
+func _on_net_body_entered(body: Node2D) -> void:
+	end()

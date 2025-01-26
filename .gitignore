@@ -5,3 +5,6 @@
 # VCS
 addons/
 *.translation
+
+# Temp
+.tmp

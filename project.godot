@@ -82,3 +82,4 @@ right_down={
 2d_physics/layer_1="ball"
 2d_physics/layer_2="floor"
 2d_physics/layer_3="area"
+2d_physics/layer_4="net"
