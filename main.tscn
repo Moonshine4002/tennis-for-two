@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://b0dyfpbrcnsf1" path="res://art/textures/NetVert.png" id="3_re5hx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_va52x"]
-size = Vector2(639.188, 362.125)
+size = Vector2(625.872, 362.125)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_tjjb1"]
 b = Vector2(0, 152)
@@ -27,7 +27,7 @@ color = Color(0.803922, 0.333333, 0.196078, 1)
 collision_layer = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Left"]
-position = Vector2(288, 324)
+position = Vector2(284, 324)
 scale = Vector2(0.901143, 1.78944)
 shape = SubResource("RectangleShape2D_va52x")
 
@@ -35,7 +35,7 @@ shape = SubResource("RectangleShape2D_va52x")
 collision_layer = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Right"]
-position = Vector2(864, 324)
+position = Vector2(866, 324)
 scale = Vector2(0.901143, 1.78944)
 shape = SubResource("RectangleShape2D_va52x")
 

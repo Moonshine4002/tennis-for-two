@@ -3,6 +3,8 @@ extends Node
 var side = "left"
 var position = "left"
 var hit_time = 0
+var left_score = 0
+var right_score = 0
 
 
 func _ready() -> void:
@@ -31,10 +33,13 @@ func end():
 	else:
 		if position == "left":
 			winner = "right"
+			right_score += 1
 		else:
 			winner = "left"
+			left_score += 1
 	
-	print("{0} win".format({0:winner}))
+	$HUD/Score.text = "{0} : {1}".format({0:left_score, 1:right_score})
+	$HUD/Info.text = "{0} win".format({0:winner})
 	start()
 
 
