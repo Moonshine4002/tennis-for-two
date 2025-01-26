@@ -65,6 +65,7 @@ func _integrate_forces(state):
 		else:
 			position = Vector2(get_viewport_rect().size.x - 100, 100)
 		linear_velocity = Vector2(0, 0)
+		angular_velocity = 0
 
 
 func _on_body_entered(body: Node) -> void:
