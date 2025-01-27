@@ -70,10 +70,13 @@ func _integrate_forces(state):
 	
 	if reset:
 		reset = false
+		var center = get_viewport_rect().size / 2
+		var rand_y = randf_range(150, 250)
+		var rand_x = randf_range(300, 500)
 		if side == "left":
-			position = Vector2(100, 100)
+			position = center + Vector2(-rand_x, -rand_y)
 		else:
-			position = Vector2(get_viewport_rect().size.x - 100, 100)
+			position = center + Vector2(rand_x, -rand_y)
 		linear_velocity = Vector2(0, 0)
 		angular_velocity = 0
 

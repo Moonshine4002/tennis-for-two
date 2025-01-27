@@ -1,7 +1,7 @@
 extends Node
 
 var start_flag = false
-var side = "left"
+var side = ["left", "right"].pick_random()
 var position = "left"
 var possession = "left"
 var hit_time = 0
