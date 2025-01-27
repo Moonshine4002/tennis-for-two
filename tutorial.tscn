@@ -1,0 +1,82 @@
+[gd_scene load_steps=3 format=3 uid="uid://cpg2hly1yqwwr"]
+
+[ext_resource type="Script" path="res://tutorial.gd" id="1_2juo1"]
+[ext_resource type="FontFile" uid="uid://btx4r6ytf1kkt" path="res://art/fonts/Xolonium-Regular.ttf" id="2_uf3ue"]
+
+[node name="Tutorial" type="CanvasLayer"]
+script = ExtResource("1_2juo1")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.803922, 0.333333, 0.196078, 1)
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -382.0
+offset_top = -250.5
+offset_right = 382.0
+offset_bottom = 250.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_uf3ue")
+theme_override_font_sizes/font_size = 20
+text = "Introduction
+A 2D demo game project made with the Godot engine
+and based on the pioneering Tennis for Two game from the 1950s.
+
+Gameplay
+Players take turns hitting the ball.
+You can only hit the ball when it is on your side,
+and you can only hit it once per turn.
+The player with ball possession loses
+if the ball hits the net, goes out of bounds, or exceeds the screen height.
+
+Controls
+        Player One        Player Two
+Hit the ball        Tab                   Enter                 .
+Adjust angle     A/D                    J/L                   .
+Adjust power    W/S                    I/K                    .
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Title" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -252.0
+offset_top = 20.0
+offset_right = 252.0
+offset_bottom = 98.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_uf3ue")
+theme_override_font_sizes/font_size = 64
+text = "Tennis for Two"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -110.0
+offset_top = -78.0
+offset_right = 110.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_uf3ue")
+theme_override_font_sizes/font_size = 32
+text = "Start Game"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

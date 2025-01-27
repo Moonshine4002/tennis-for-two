@@ -1,5 +1,6 @@
 extends Node
 
+var start_flag = false
 var side = "left"
 var position = "left"
 var possession = "left"
@@ -9,12 +10,16 @@ var right_score = 0
 
 
 func _ready() -> void:
-	start()
+	$Ball.gravity_scale = 0
 
 
 func _process(delta: float) -> void:
 	$HUD.set_left_arrow($Ball.left_rotation, $Ball.left_force)
 	$HUD.set_right_arrow($Ball.right_rotation, $Ball.right_force)
+	if Input.is_action_pressed("start_game") and start_flag == false:
+		start_flag = true
+		$Ball.gravity_scale = 1
+		start()
 
 
 func start():
