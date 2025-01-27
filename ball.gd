@@ -5,11 +5,11 @@ signal ball_hit_floor
 signal ball_screen_exited
 
 @export var force_speed = 3
-@export var rotation_speed = PI
+@export var rotation_speed = 2 * PI
 @export var thrust = Vector2(0, -25000)
 
-var left_force = 1
-var right_force = 1
+var left_force = 0.5
+var right_force = 0.5
 var left_rotation = 0
 var right_rotation = 0
 
@@ -32,7 +32,7 @@ func _process(delta: float) -> void:
 		left_force += force_speed * delta
 	if Input.is_action_pressed("left_down"):
 		left_force -= force_speed * delta
-	left_force = clamp(left_force, 0.5, 2)
+	left_force = clamp(left_force, 0, 1)
 	
 	if Input.is_action_pressed("right_turn_clockwise"):
 		right_rotation += rotation_speed * delta
@@ -42,7 +42,7 @@ func _process(delta: float) -> void:
 		right_force += force_speed * delta
 	if Input.is_action_pressed("right_down"):
 		right_force -= force_speed * delta
-	right_force = clamp(right_force, 0.5, 2)
+	right_force = clamp(right_force, 0, 1)
 
 
 func _integrate_forces(state):
@@ -50,14 +50,22 @@ func _integrate_forces(state):
 		print("left hit")
 		ball_hit.emit()
 		left_permission = false
-		var force_vector = thrust * left_force
-		state.apply_force(force_vector.rotated(left_rotation))
+		var normalized_vector = thrust.normalized().rotated(left_rotation)
+		var force_vector = normalized_vector * left_force * 1250
+		var thrust_vector = force_vector * thrust.length()
+		print(state.linear_velocity, normalized_vector, force_vector, thrust_vector)
+		state.linear_velocity = -(state.linear_velocity-force_vector).reflect(normalized_vector)*0.8+force_vector
+		#state.apply_force(thrust_vector)
 	elif Input.is_action_pressed("right_hit") and right_permission:
 		print("right hit")
 		ball_hit.emit()
 		right_permission = false
-		var force_vector = thrust * right_force
-		state.apply_force(force_vector.rotated(right_rotation))
+		var normalized_vector = thrust.normalized().rotated(right_rotation)
+		var force_vector = normalized_vector * right_force * 1250
+		var thrust_vector = force_vector * thrust.length()
+		print(state.linear_velocity, normalized_vector, force_vector, thrust_vector)
+		state.linear_velocity = -(state.linear_velocity-force_vector).reflect(normalized_vector)*0.8+force_vector
+		#state.apply_force(thrust_vector)
 	#state.apply_torque()
 	
 	if reset:
