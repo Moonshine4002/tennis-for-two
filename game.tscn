@@ -1,0 +1,65 @@
+[gd_scene load_steps=9 format=3 uid="uid://cg8kmgjnsd127"]
+
+[ext_resource type="Script" path="res://game.gd" id="1_nf47p"]
+[ext_resource type="PackedScene" uid="uid://k2nku1xhnt1c" path="res://floor.tscn" id="2_cgyxt"]
+[ext_resource type="Texture2D" uid="uid://b0dyfpbrcnsf1" path="res://art/textures/NetVert.png" id="3_kvva6"]
+[ext_resource type="PackedScene" uid="uid://f3xc8n6f3yh4" path="res://ball.tscn" id="4_nf03e"]
+[ext_resource type="PackedScene" uid="uid://iln0mul2pjvx" path="res://hud.tscn" id="5_smubo"]
+[ext_resource type="PackedScene" uid="uid://cpg2hly1yqwwr" path="res://tutorial.tscn" id="6_chgxy"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_neuko"]
+distance = -17.8827
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_tjjb1"]
+b = Vector2(0, 152)
+
+[node name="Game" type="Node"]
+script = ExtResource("1_nf47p")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.803922, 0.333333, 0.196078, 1)
+
+[node name="Left" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Left"]
+position = Vector2(584, 320)
+rotation = 1.5708
+scale = Vector2(0.901143, 1.78944)
+shape = SubResource("WorldBoundaryShape2D_neuko")
+
+[node name="Floor" parent="." instance=ExtResource("2_cgyxt")]
+position = Vector2(0, 648)
+
+[node name="Net" type="Area2D" parent="."]
+collision_layer = 8
+
+[node name="Sprite2D" type="Sprite2D" parent="Net"]
+position = Vector2(576, 584)
+rotation = 1.5708
+scale = Vector2(0.3, 0.2)
+skew = -0.872665
+texture = ExtResource("3_kvva6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Net"]
+position = Vector2(576, 496)
+shape = SubResource("SegmentShape2D_tjjb1")
+
+[node name="Ball" parent="." instance=ExtResource("4_nf03e")]
+position = Vector2(576, 440)
+
+[node name="HUD" parent="." instance=ExtResource("5_smubo")]
+
+[node name="Tutorial" parent="." instance=ExtResource("6_chgxy")]
+
+[connection signal="body_entered" from="Left" to="." method="_on_left_body_entered"]
+[connection signal="body_exited" from="Left" to="." method="_on_left_body_exited"]
+[connection signal="body_entered" from="Net" to="." method="_on_net_body_entered"]
+[connection signal="ball_hit" from="Ball" to="." method="_on_ball_ball_hit"]
+[connection signal="ball_hit_floor" from="Ball" to="." method="_on_ball_ball_hit_floor"]
+[connection signal="ball_screen_exited" from="Ball" to="." method="_on_ball_ball_screen_exited"]

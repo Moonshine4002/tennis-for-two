@@ -20,7 +20,7 @@ var side = "left"
 
 
 func _ready() -> void:
-	pass # Replace with function body.
+	pass  # Replace with function body.
 
 
 func _process(delta: float) -> void:
@@ -33,7 +33,7 @@ func _process(delta: float) -> void:
 	if Input.is_action_pressed("left_down"):
 		left_force -= force_speed * delta
 	left_force = clamp(left_force, 0, 1)
-	
+
 	if Input.is_action_pressed("right_turn_clockwise"):
 		right_rotation += rotation_speed * delta
 	if Input.is_action_pressed("right_turn_counterclockwise"):
@@ -54,7 +54,9 @@ func _integrate_forces(state):
 		var force_vector = normalized_vector * left_force * 1250
 		var thrust_vector = force_vector * thrust.length()
 		print(state.linear_velocity, normalized_vector, force_vector, thrust_vector)
-		state.linear_velocity = -(state.linear_velocity-force_vector).reflect(normalized_vector)*0.8+force_vector
+		state.linear_velocity = (
+			-(state.linear_velocity - force_vector).reflect(normalized_vector) * 0.8 + force_vector
+		)
 		#state.apply_force(thrust_vector)
 	elif Input.is_action_pressed("right_hit") and right_permission:
 		print("right hit")
@@ -64,10 +66,12 @@ func _integrate_forces(state):
 		var force_vector = normalized_vector * right_force * 1250
 		var thrust_vector = force_vector * thrust.length()
 		print(state.linear_velocity, normalized_vector, force_vector, thrust_vector)
-		state.linear_velocity = -(state.linear_velocity-force_vector).reflect(normalized_vector)*0.8+force_vector
+		state.linear_velocity = (
+			-(state.linear_velocity - force_vector).reflect(normalized_vector) * 0.8 + force_vector
+		)
 		#state.apply_force(thrust_vector)
 	#state.apply_torque()
-	
+
 	if reset:
 		reset = false
 		var center = get_viewport_rect().size / 2
