@@ -4,6 +4,8 @@ signal ball_hit
 signal ball_hit_floor
 signal ball_screen_exited
 
+enum Side { LEFT, RIGHT }
+
 @export var force_speed = 3
 @export var rotation_speed = 2 * PI
 @export var thrust = Vector2(0, -25000)
@@ -16,7 +18,7 @@ var right_rotation = 0
 var left_permission = true
 var right_permission = true
 var reset = false
-var side = "left"
+var side = Side.LEFT
 
 
 func _ready() -> void:
@@ -77,7 +79,7 @@ func _integrate_forces(state):
 		var center = get_viewport_rect().size / 2
 		var rand_y = randf_range(150, 250)
 		var rand_x = randf_range(300, 500)
-		if side == "left":
+		if side == Side.LEFT:
 			position = center + Vector2(-rand_x, -rand_y)
 		else:
 			position = center + Vector2(rand_x, -rand_y)

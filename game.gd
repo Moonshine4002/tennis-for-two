@@ -1,9 +1,11 @@
 extends Node
 
+enum Side { LEFT, RIGHT }
+
 var start_flag = false
-var side = ["left", "right"].pick_random()
-var position = "left"
-var possession = "left"
+var side = [Side.LEFT, Side.RIGHT].pick_random()
+var position = Side.LEFT
+var possession = Side.LEFT
 var hit_time = 0
 var left_score = 0
 var right_score = 0
@@ -23,16 +25,16 @@ func _process(delta: float) -> void:
 
 
 func start():
-	if side == "left":
-		side = "right"
-		if position == "right":
+	if side == Side.LEFT:
+		side = Side.RIGHT
+		if position == Side.RIGHT:
 			_on_left_body_exited($Ball)
-		possession = "right"
+		possession = Side.RIGHT
 	else:
-		side = "left"
-		if position == "left":
+		side = Side.LEFT
+		if position == Side.LEFT:
 			_on_left_body_entered($Ball)
-		possession = "left"
+		possession = Side.LEFT
 	$Ball.reset_ball(side)
 
 
@@ -41,27 +43,27 @@ func end():
 	print("hit_time={0}".format({0: hit_time}))
 
 	var winner
-	if possession == "left":
-		winner = "right"
+	if possession == Side.LEFT:
+		winner = Side.RIGHT
 		right_score += 1
 	else:
-		winner = "left"
+		winner = Side.LEFT
 		left_score += 1
 
 	$HUD/Score.text = "{0} : {1}".format({0: left_score, 1: right_score})
-	$HUD/Info.text = "{0} win".format({0: winner})
+	$HUD/Info.text = "{0} win".format({0: Side2str(winner)})
 	start()
 
 
 func _on_left_body_exited(body: Node2D) -> void:
-	position = "right"
+	position = Side.RIGHT
 	$Ball.right_permission = true
 	$Ball.left_permission = false
 	hit_time = 0
 
 
 func _on_left_body_entered(body: Node2D) -> void:
-	position = "left"
+	position = Side.LEFT
 	$Ball.left_permission = true
 	$Ball.right_permission = false
 	hit_time = 0
@@ -88,7 +90,17 @@ func _on_net_body_entered(body: Node2D) -> void:
 
 
 func reverse_side(side):
-	if side == "left":
-		return "right"
+	if side == Side.LEFT:
+		return Side.RIGHT
 	else:
-		return "left"
+		return Side.LEFT
+
+
+func Side2str(side):
+	match side:
+		Side.LEFT:
+			return "left"
+		Side.RIGHT:
+			return "left"
+		_:
+			push_error("Wrong side.")
