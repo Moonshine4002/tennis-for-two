@@ -48,8 +48,7 @@ func _process(delta: float) -> void:
 	right_force = clamp(right_force, 0, 1)
 
 
-func _integrate_forces(state):
-	# TODO: fix
+func _reset() -> bool:
 	if reset:
 		reset = false
 		var center = get_viewport_rect().size / 2
@@ -61,33 +60,42 @@ func _integrate_forces(state):
 			position = center + Vector2(rand_x, -rand_y)
 		linear_velocity = Vector2(0, 0)
 		angular_velocity = 0
+		return true
+	return false
+
+
+func _integrate_forces(state):
+	if _reset():
 		return
 
+	var state_flag := false
+	var normalized_vector
+	var force_vector
+	var thrust_vector
 	if Input.is_action_pressed("left_hit") and left_permission:
 		print("left hit")
 		ball_hit.emit()
 		left_permission = false
-		var normalized_vector = thrust.normalized().rotated(left_rotation)
-		var force_vector = normalized_vector * left_force * 1250
-		var thrust_vector = force_vector * thrust.length()
-		print(state.linear_velocity, normalized_vector, force_vector, thrust_vector)
-		state.linear_velocity = (
-			-(state.linear_velocity - force_vector).reflect(normalized_vector) * 0.8 + force_vector
-		)
-		#state.apply_force(thrust_vector)
+		normalized_vector = thrust.normalized().rotated(left_rotation)
+		force_vector = normalized_vector * left_force * 1250
+		thrust_vector = force_vector * thrust.length()
+		state_flag = true
 	elif Input.is_action_pressed("right_hit") and right_permission:
 		print("right hit")
 		ball_hit.emit()
 		right_permission = false
-		var normalized_vector = thrust.normalized().rotated(right_rotation)
-		var force_vector = normalized_vector * right_force * 1250
-		var thrust_vector = force_vector * thrust.length()
+		normalized_vector = thrust.normalized().rotated(right_rotation)
+		force_vector = normalized_vector * right_force * 1250
+		thrust_vector = force_vector * thrust.length()
+		state_flag = true
+
+	if state_flag:
 		print(state.linear_velocity, normalized_vector, force_vector, thrust_vector)
 		state.linear_velocity = (
 			-(state.linear_velocity - force_vector).reflect(normalized_vector) * 0.8 + force_vector
 		)
 		#state.apply_force(thrust_vector)
-	#state.apply_torque()
+		#state.apply_torque()
 
 
 func _on_body_entered(body: Node) -> void:
