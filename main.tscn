@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://c55l20kfdcuj2"]
+[gd_scene load_steps=3 format=3 uid="uid://c55l20kfdcuj2"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_uqoc8"]
+[ext_resource type="PackedScene" uid="uid://cpg2hly1yqwwr" path="res://tutorial.tscn" id="2_xe7tv"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_uqoc8")
+
+[node name="Tutorial" parent="." instance=ExtResource("2_xe7tv")]
+
+[connection signal="start_game" from="Tutorial" to="." method="_on_tutorial_start_game"]

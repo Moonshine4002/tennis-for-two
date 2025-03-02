@@ -1,11 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://cg8kmgjnsd127"]
+[gd_scene load_steps=8 format=3 uid="uid://cg8kmgjnsd127"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_nf47p"]
 [ext_resource type="PackedScene" uid="uid://k2nku1xhnt1c" path="res://floor.tscn" id="2_cgyxt"]
 [ext_resource type="Texture2D" uid="uid://b0dyfpbrcnsf1" path="res://art/textures/NetVert.png" id="3_kvva6"]
 [ext_resource type="PackedScene" uid="uid://f3xc8n6f3yh4" path="res://ball.tscn" id="4_nf03e"]
 [ext_resource type="PackedScene" uid="uid://iln0mul2pjvx" path="res://hud.tscn" id="5_smubo"]
-[ext_resource type="PackedScene" uid="uid://cpg2hly1yqwwr" path="res://tutorial.tscn" id="6_chgxy"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_neuko"]
 distance = -17.8827
@@ -54,8 +53,6 @@ shape = SubResource("SegmentShape2D_tjjb1")
 position = Vector2(576, 440)
 
 [node name="HUD" parent="." instance=ExtResource("5_smubo")]
-
-[node name="Tutorial" parent="." instance=ExtResource("6_chgxy")]
 
 [connection signal="body_entered" from="Left" to="." method="_on_left_body_entered"]
 [connection signal="body_exited" from="Left" to="." method="_on_left_body_exited"]

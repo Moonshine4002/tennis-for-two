@@ -5,8 +5,12 @@ extends Node
 
 
 func _ready() -> void:
-	add_child(game)
+	pass
 
 
 func _process(delta: float) -> void:
 	pass
+
+
+func _on_tutorial_start_game() -> void:
+	add_child(game)
