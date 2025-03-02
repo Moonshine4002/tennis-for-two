@@ -18,6 +18,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	$HUD.set_left_arrow($Ball.left_rotation, $Ball.left_force)
 	$HUD.set_right_arrow($Ball.right_rotation, $Ball.right_force)
+	# TODO: use signal
 	if Input.is_action_pressed("start_game") and start_flag == false:
 		start_flag = true
 		$Ball.gravity_scale = 1
@@ -89,11 +90,14 @@ func _on_net_body_entered(body: Node2D) -> void:
 	end()
 
 
-func reverse_side(side):
-	if side == Side.LEFT:
-		return Side.RIGHT
-	else:
-		return Side.LEFT
+func side_reverse(side):
+	match side:
+		Side.LEFT:
+			return Side.RIGHT
+		Side.RIGHT:
+			return Side.LEFT
+		_:
+			push_error("Wrong side.")
 
 
 func Side2str(side):
@@ -101,6 +105,6 @@ func Side2str(side):
 		Side.LEFT:
 			return "left"
 		Side.RIGHT:
-			return "left"
+			return "right"
 		_:
 			push_error("Wrong side.")

@@ -26,6 +26,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	# TODO: move
 	if Input.is_action_pressed("left_turn_clockwise"):
 		left_rotation += rotation_speed * delta
 	if Input.is_action_pressed("left_turn_counterclockwise"):
@@ -48,6 +49,20 @@ func _process(delta: float) -> void:
 
 
 func _integrate_forces(state):
+	# TODO: fix
+	if reset:
+		reset = false
+		var center = get_viewport_rect().size / 2
+		var rand_y = randf_range(150, 250)
+		var rand_x = randf_range(300, 500)
+		if side == Side.LEFT:
+			position = center + Vector2(-rand_x, -rand_y)
+		else:
+			position = center + Vector2(rand_x, -rand_y)
+		linear_velocity = Vector2(0, 0)
+		angular_velocity = 0
+		return
+
 	if Input.is_action_pressed("left_hit") and left_permission:
 		print("left hit")
 		ball_hit.emit()
@@ -73,18 +88,6 @@ func _integrate_forces(state):
 		)
 		#state.apply_force(thrust_vector)
 	#state.apply_torque()
-
-	if reset:
-		reset = false
-		var center = get_viewport_rect().size / 2
-		var rand_y = randf_range(150, 250)
-		var rand_x = randf_range(300, 500)
-		if side == Side.LEFT:
-			position = center + Vector2(-rand_x, -rand_y)
-		else:
-			position = center + Vector2(rand_x, -rand_y)
-		linear_velocity = Vector2(0, 0)
-		angular_velocity = 0
 
 
 func _on_body_entered(body: Node) -> void:
