@@ -3,7 +3,7 @@ extends Node
 enum Side { LEFT, RIGHT }
 
 var start_flag = false
-var side = [Side.LEFT, Side.RIGHT].pick_random()
+var serve = [Side.LEFT, Side.RIGHT].pick_random()
 var position = Side.LEFT
 var possession = Side.LEFT
 var hit_time = 0
@@ -15,7 +15,7 @@ func _ready() -> void:
 	$Ball.gravity_scale = 0
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	$HUD.set_left_arrow($Ball.left_rotation, $Ball.left_force)
 	$HUD.set_right_arrow($Ball.right_rotation, $Ball.right_force)
 	# TODO: use signal
@@ -26,17 +26,17 @@ func _process(delta: float) -> void:
 
 
 func start():
-	if side == Side.LEFT:
-		side = Side.RIGHT
+	if serve == Side.LEFT:
+		serve = Side.RIGHT
 		if position == Side.RIGHT:
 			_on_left_body_exited($Ball)
 		possession = Side.RIGHT
 	else:
-		side = Side.LEFT
+		serve = Side.LEFT
 		if position == Side.LEFT:
 			_on_left_body_entered($Ball)
 		possession = Side.LEFT
-	$Ball.reset_ball(side)
+	$Ball.reset_ball(serve)
 
 
 func end():
@@ -56,14 +56,14 @@ func end():
 	start()
 
 
-func _on_left_body_exited(body: Node2D) -> void:
+func _on_left_body_exited(_body: Node2D) -> void:
 	position = Side.RIGHT
 	$Ball.right_permission = true
 	$Ball.left_permission = false
 	hit_time = 0
 
 
-func _on_left_body_entered(body: Node2D) -> void:
+func _on_left_body_entered(_body: Node2D) -> void:
 	position = Side.LEFT
 	$Ball.left_permission = true
 	$Ball.right_permission = false
@@ -86,7 +86,7 @@ func _on_ball_ball_screen_exited() -> void:
 	end()
 
 
-func _on_net_body_entered(body: Node2D) -> void:
+func _on_net_body_entered(_body: Node2D) -> void:
 	end()
 
 

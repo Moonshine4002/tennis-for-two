@@ -98,7 +98,7 @@ func _integrate_forces(state):
 		#state.apply_torque()
 
 
-func _on_body_entered(body: Node) -> void:
+func _on_body_entered(_body: Node) -> void:
 	ball_hit_floor.emit()
 
 
