@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cpg2hly1yqwwr"]
 
-[ext_resource type="Script" path="res://tutorial.gd" id="1_2juo1"]
+[ext_resource type="Script" path="res://src/tutorial.gd" id="1_2juo1"]
 [ext_resource type="FontFile" uid="uid://btx4r6ytf1kkt" path="res://art/fonts/Xolonium-Regular.ttf" id="2_uf3ue"]
 
 [node name="Tutorial" type="CanvasLayer"]

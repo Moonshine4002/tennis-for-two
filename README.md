@@ -20,5 +20,4 @@ J/L: Adjust angle
 I/K: Adjust power
 
 ## Known Issues
-- If the ball was moving too fast in the previous turn, the player may not be able to hit the ball.
-- In version 1.3.2, I designed the physics so that the paddle approaches the ball at a certain speed and hits it. If the paddle's speed is too low, it may cause the ball to move in the opposite direction (as if the ball was hit from the back of the paddle). I have temporarily decided to keep this design and not consider it a bug.
+- In version 1.3.2 and beyond, I designed the physics so that the paddle approaches the ball at a certain speed and hits it. If the paddle's speed is too low, it may cause the ball to move in the opposite direction (as if the ball was hit from the back of the paddle). I have temporarily decided to keep this design and not consider it a bug.
