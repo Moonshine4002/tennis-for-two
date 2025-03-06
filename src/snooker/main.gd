@@ -20,11 +20,21 @@ func _process(_delta: float) -> void:
 
 func add_ball(name: String, ball: SnookerBall.Ball, posi: Vector2) -> void:
 	var ball_packed: SnookerBall = ball_scene.instantiate()
+	ball_packed.name = name
 	ball_packed.init(ball, posi)
 	balls[name] = ball_packed
 	add_child(ball_packed)
 
 
+func del_ball(name: String) -> void:
+	balls[name].queue_free()
+	balls.erase(name)
+
+
 func hit_ball(name: String, force: float, angle: float):
 	var ball: SnookerBall = balls[name]
 	ball._hit(force, angle)
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	del_ball(body.name)
