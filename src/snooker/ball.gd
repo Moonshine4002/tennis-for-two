@@ -52,11 +52,9 @@ func _hit(force: float, angle: float):
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	if recover_posi:
-		freeze = true
 		position = recover_posi
 		state.linear_velocity = Vector2.ZERO
 		state.angular_velocity = 0
-		freeze = false
 		recover_posi = Vector2.ZERO
 	if state.linear_velocity == Vector2.ZERO:
 		return

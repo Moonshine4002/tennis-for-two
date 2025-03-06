@@ -27,13 +27,13 @@ const balls_data := {
 	"green": [SnookerBall.Ball.GREEN, Vector2(900, 380)],
 	"black": [SnookerBall.Ball.BLACK, Vector2(150, 300)],
 }
+enum Side { FIRST, SECOND }
 
 var force_percent: float = 0.5
-var permission := true
-
-enum Side { FIRST, SECOND }
-var side = Side.FIRST
 var score = [0, 0]
+
+var permission := true
+var side = Side.FIRST
 var last_red := false
 var change_side_flag := true
 
@@ -43,7 +43,6 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	print(side, " ", last_red, " ", change_side_flag)
 	var distance_vector: Vector2 = get_local_mouse_position() - balls["white"].position
 	distance_vector = distance_vector.normalized()
 
@@ -60,11 +59,13 @@ func _process(_delta: float) -> void:
 		$Cue.solid()
 		if change_side_flag:
 			side = _opposite_side()
+			last_red = false
 		change_side_flag = true
 		if side == Side.FIRST:
 			$HUD/Side.text = "Side: First"
 		else:
 			$HUD/Side.text = "Side: Second"
+		print(side, " ", last_red, " ", change_side_flag, " ", score)
 
 
 func init() -> void:
@@ -75,9 +76,9 @@ func init() -> void:
 	for ball in balls_data:
 		add_ball(ball)
 
+	score = [0, 0]
 	permission = true
 	side = Side.FIRST
-	score = [0, 0]
 	last_red = false
 	change_side_flag = true
 
@@ -138,7 +139,10 @@ func _on_area_2d_body_entered(body: SnookerBall) -> void:
 
 	if rule(body.ball_color):
 		score[side] += current_score
-		del_ball(body.name)
+		if is_red_flag() and (body.ball_color != body.Ball.RED):
+			recover_ball(body)
+		else:
+			del_ball(body.name)
 		change_side_flag = false
 		last_red = (body.ball_color == body.Ball.RED)
 	else:
@@ -148,13 +152,15 @@ func _on_area_2d_body_entered(body: SnookerBall) -> void:
 	$HUD/Label.text = "{0} : {1}".format(score)
 
 
-func rule(ball_color: SnookerBall.Ball) -> bool:
-	var red_flag := false
+func is_red_flag() -> bool:
 	for ball in balls.values():
 		if ball.ball_color == SnookerBall.Ball.RED:
-			red_flag = true
+			return true
+	return false
 
-	if red_flag:
+
+func rule(ball_color: SnookerBall.Ball) -> bool:
+	if is_red_flag():
 		if (ball_color == SnookerBall.Ball.RED) == last_red:
 			return false
 	else:
