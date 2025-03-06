@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://ca13f34jem686"]
+[gd_scene load_steps=10 format=3 uid="uid://ca13f34jem686"]
 
 [ext_resource type="Texture2D" uid="uid://ctnjxt7iyxj3c" path="res://art/textures/snooker/SMS Pool Asset Pack FREE/Pool_Table_Type_1_NO_BG Wide.png" id="1_fbdd3"]
 [ext_resource type="Script" path="res://src/snooker/main.gd" id="1_n1yvf"]
 [ext_resource type="PackedScene" uid="uid://bj4td5fhl3ew" path="res://src/snooker/cue.tscn" id="3_7uwum"]
+[ext_resource type="PackedScene" uid="uid://cwncbx43sfaox" path="res://src/snooker/hud.tscn" id="4_2ibaj"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_iwkx0"]
 
@@ -162,5 +163,7 @@ position = Vector2(576, 600)
 shape = SubResource("CircleShape2D_qdapo")
 
 [node name="Cue" parent="." instance=ExtResource("3_7uwum")]
+
+[node name="HUD" parent="." instance=ExtResource("4_2ibaj")]
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

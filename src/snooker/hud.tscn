@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwncbx43sfaox"]
+
+[ext_resource type="FontFile" uid="uid://btx4r6ytf1kkt" path="res://art/fonts/Xolonium-Regular.ttf" id="1_ixv8p"]
+
+[node name="HUD" type="Node"]
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -47.0
+offset_top = 30.0
+offset_right = 47.0
+offset_bottom = 79.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("1_ixv8p")
+theme_override_font_sizes/font_size = 40
+text = "0 : 0"
