@@ -4,18 +4,20 @@ extends Node2D
 
 var balls := {}
 
+enum Side { FIRST, SECOND }
+var _side = Side.FIRST
+
 
 func _ready() -> void:
 	add_ball("white", SnookerBall.Ball.WHITE, Vector2(100, 200))
 	add_ball("red", SnookerBall.Ball.RED, Vector2(150, 250))
-	hit_ball("white", 1000, 0)
 
 
 func _process(_delta: float) -> void:
 	var distance_vector: Vector2 = get_local_mouse_position() - balls["white"].position
 	distance_vector = distance_vector.normalized()
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-		hit_ball("white", 1000, distance_vector.angle())
+		hit_ball("white", 10, distance_vector.angle())
 
 
 func add_ball(ball_name: String, ball: SnookerBall.Ball, posi: Vector2) -> void:
@@ -23,6 +25,7 @@ func add_ball(ball_name: String, ball: SnookerBall.Ball, posi: Vector2) -> void:
 	ball_packed.name = ball_name
 	ball_packed.init(ball, posi)
 	balls[ball_name] = ball_packed
+	ball_packed.connect("stop", _on_ball_stop)
 	add_child(ball_packed)
 
 
@@ -36,5 +39,26 @@ func hit_ball(ball_name: String, force: float, angle: float):
 	ball._hit(force, angle)
 
 
-func _on_area_2d_body_entered(body: Node2D) -> void:
+func _on_area_2d_body_entered(body: SnookerBall) -> void:
+	match body.ball_color:
+		body.Ball.WHITE:
+			pass
+		body.Ball.RED:
+			pass
+		body.Ball.YELLOW:
+			pass
+		body.Ball.GREEN:
+			pass
+		body.Ball.BROWN:
+			pass
+		body.Ball.BLUE:
+			pass
+		body.Ball.PINK:
+			pass
+		body.Ball.BLACK:
+			pass
 	del_ball(body.name)
+
+
+func _on_ball_stop(source: SnookerBall):
+	print(source.name)

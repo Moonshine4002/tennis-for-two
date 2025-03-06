@@ -1,6 +1,8 @@
 extends RigidBody2D
 class_name SnookerBall
 
+signal stop(source: RigidBody2D)
+
 enum Ball {
 	WHITE,
 	RED,
@@ -11,7 +13,7 @@ enum Ball {
 	PINK,
 	BLACK,
 }
-
+var ball_color: Ball
 var TextureRegionRect := {
 	Ball.WHITE: Vector2(7, 1) * 16 + Vector2.ONE,
 	Ball.RED: Vector2(2, 0) * 16 + Vector2.ONE,
@@ -23,20 +25,18 @@ var TextureRegionRect := {
 	Ball.BLACK: Vector2(7, 0) * 16 + Vector2.ONE,
 }
 
-var _flag_integrate_forces := false
-var _force: float
-var _angle: float
-
 
 func _ready() -> void:
 	pass
 
 
 func _process(_delta: float) -> void:
-	pass
+	if sleeping:
+		stop.emit(self)
 
 
 func init(ball: Ball, posi: Vector2) -> void:
+	ball_color = ball
 	_set_texture(ball)
 	position = posi
 
@@ -46,14 +46,11 @@ func _set_texture(ball: Ball):
 
 
 func _hit(force: float, angle: float):
-	_flag_integrate_forces = true
-	_force = force
-	_angle = angle
+	apply_impulse(force * (Vector2.RIGHT.rotated(angle)))
 
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
-	if not _flag_integrate_forces:
+	if state.linear_velocity == Vector2.ZERO:
 		return
-	_flag_integrate_forces = false
-
-	state.linear_velocity += _force * (Vector2.RIGHT.rotated(_angle)) * state.step
+	if state.linear_velocity.length() < 10:
+		state.linear_velocity = Vector2.ZERO
