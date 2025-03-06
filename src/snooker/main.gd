@@ -6,6 +6,8 @@ var balls := {}
 
 enum Side { FIRST, SECOND }
 var _side = Side.FIRST
+var force: float = 0.5
+var permission := true
 
 
 func _ready() -> void:
@@ -16,8 +18,22 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	var distance_vector: Vector2 = get_local_mouse_position() - balls["white"].position
 	distance_vector = distance_vector.normalized()
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-		hit_ball("white", 10, distance_vector.angle())
+	if permission and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		permission = false
+		hit_ball("white", -1000 * force, distance_vector.angle())
+
+	$Cue.set_cue(distance_vector.angle() - PI / 2)
+	$Cue.set_force(force)
+
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		match event.button_index:
+			MOUSE_BUTTON_WHEEL_UP:
+				force += 0.05
+			MOUSE_BUTTON_WHEEL_DOWN:
+				force -= 0.05
+	force = clamp(force, 0.1, 1)
 
 
 func add_ball(ball_name: String, ball: SnookerBall.Ball, posi: Vector2) -> void:

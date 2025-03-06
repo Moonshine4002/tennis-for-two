@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://bj4td5fhl3ew"]
+
+[ext_resource type="Script" path="res://src/snooker/cue.gd" id="1_scexr"]
+[ext_resource type="Texture2D" uid="uid://c4apvtm410gw0" path="res://art/textures/snooker/SMS Pool Asset Pack FREE/SMS_GUI_Display_NO_BG.png" id="1_su0oe"]
+
+[node name="Cue" type="Node2D"]
+scale = Vector2(4, 4)
+script = ExtResource("1_scexr")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = 4.0
+offset_top = 6.0
+offset_right = 11.0
+offset_bottom = 30.0
+pivot_offset = Vector2(0, 24)
+color = Color(0.92549, 0.45098, 0.145098, 1)
+
+[node name="Cue" type="Sprite2D" parent="."]
+position = Vector2(3.5, 22)
+texture = ExtResource("1_su0oe")
+region_enabled = true
+region_rect = Rect2(176, 0, 15, 32)

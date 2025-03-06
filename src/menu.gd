@@ -16,6 +16,9 @@ func _on_item_list_item_clicked(
 	match index:
 		0:
 			scene = load("res://src/snooker/main.tscn")
+			var timer = get_tree().create_timer(0.2)
+			await timer.timeout
+
 		1:
 			print("Not implemented!")
 			return
