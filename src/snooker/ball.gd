@@ -24,6 +24,7 @@ var TextureRegionRect := {
 	Ball.PINK: Vector2(3, 0) * 16 + Vector2.ONE,
 	Ball.BLACK: Vector2(7, 0) * 16 + Vector2.ONE,
 }
+var recover_posi: Vector2
 
 
 func _ready() -> void:
@@ -50,7 +51,18 @@ func _hit(force: float, angle: float):
 
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
+	if recover_posi:
+		freeze = true
+		position = recover_posi
+		state.linear_velocity = Vector2.ZERO
+		state.angular_velocity = 0
+		freeze = false
+		recover_posi = Vector2.ZERO
 	if state.linear_velocity == Vector2.ZERO:
 		return
 	if state.linear_velocity.length() < 10:
 		state.linear_velocity = Vector2.ZERO
+
+
+func _recover(posi: Vector2):
+	recover_posi = posi

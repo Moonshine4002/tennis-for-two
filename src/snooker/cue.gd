@@ -16,10 +16,12 @@ func set_cue(angle: float):
 func set_force(percentage: float):
 	$ColorRect.scale.y = percentage
 
+
 func fade() -> void:
 	$Cue.modulate.a = 0.5
 	$ColorRect.modulate.a = 0.5
-	
+
+
 func solid() -> void:
 	$Cue.modulate.a = 1
 	$ColorRect.modulate.a = 1

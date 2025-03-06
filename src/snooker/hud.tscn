@@ -16,3 +16,17 @@ grow_horizontal = 2
 theme_override_fonts/font = ExtResource("1_ixv8p")
 theme_override_font_sizes/font_size = 40
 text = "0 : 0"
+
+[node name="Side" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -106.5
+offset_top = 125.0
+offset_right = 106.5
+offset_bottom = 174.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("1_ixv8p")
+theme_override_font_sizes/font_size = 40
+text = "Side: First"
+metadata/_edit_use_anchors_ = true
