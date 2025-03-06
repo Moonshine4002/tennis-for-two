@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=3 uid="uid://2hq2cxfmvmb4"]
+
+[ext_resource type="Texture2D" uid="uid://cpgrehg8jdt4c" path="res://icon.svg" id="1_jerj4"]
+[ext_resource type="Script" path="res://src/menu.gd" id="1_rcvxq"]
+[ext_resource type="FontFile" uid="uid://btx4r6ytf1kkt" path="res://art/fonts/Xolonium-Regular.ttf" id="2_3uhpr"]
+
+[node name="Menu" type="Node"]
+script = ExtResource("1_rcvxq")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.803922, 0.333333, 0.196078, 1)
+
+[node name="ItemList" type="ItemList" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -215.5
+offset_top = -156.5
+offset_right = 215.5
+offset_bottom = 156.5
+grow_horizontal = 2
+grow_vertical = 2
+item_count = 2
+fixed_icon_size = Vector2i(50, 50)
+item_0/text = "Snooker"
+item_0/icon = ExtResource("1_jerj4")
+item_1/text = "Coming soon!"
+item_1/icon = ExtResource("1_jerj4")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -134.5
+offset_top = 30.0
+offset_right = 134.5
+offset_bottom = 79.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_3uhpr")
+theme_override_font_sizes/font_size = 40
+text = "Extra Games"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="item_clicked" from="ItemList" to="." method="_on_item_list_item_clicked"]
