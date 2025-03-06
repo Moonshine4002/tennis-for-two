@@ -13,6 +13,31 @@ var score = [0, 0]
 
 
 func _ready() -> void:
+	init()
+
+
+func _process(_delta: float) -> void:
+	var distance_vector: Vector2 = get_local_mouse_position() - balls["white"].position
+	distance_vector = distance_vector.normalized()
+
+	$Cue.set_cue(distance_vector.angle() - PI / 2)
+	$Cue.set_force(force_percent)
+
+	if permission and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		permission = false
+		$Cue.fade()
+		hit_ball("white", -1000 * force_percent, distance_vector.angle())
+		balls["white"].sleeping = false
+		await balls["white"].stop
+		permission = true
+		$Cue.solid()
+		side = (side + 1) % Side.size()
+
+func init() -> void:
+	for ball in balls.values():
+		ball.queue_free()
+	balls.clear()
+		
 	add_ball("white", SnookerBall.Ball.WHITE, Vector2(900, 300))
 	add_ball("red01", SnookerBall.Ball.RED, Vector2(250, 260))
 	add_ball("red02", SnookerBall.Ball.RED, Vector2(250, 280))
@@ -31,23 +56,6 @@ func _ready() -> void:
 	add_ball("red15", SnookerBall.Ball.RED, Vector2(330, 300))
 	add_ball("pink", SnookerBall.Ball.PINK, Vector2(350, 300))
 	add_ball("black", SnookerBall.Ball.BLACK, Vector2(150, 300))
-
-
-func _process(_delta: float) -> void:
-	var distance_vector: Vector2 = get_local_mouse_position() - balls["white"].position
-	distance_vector = distance_vector.normalized()
-
-	$Cue.set_cue(distance_vector.angle() - PI / 2)
-	$Cue.set_force(force_percent)
-
-	if permission and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-		permission = false
-		hit_ball("white", -1000 * force_percent, distance_vector.angle())
-		balls["white"].sleeping = false
-		await balls["white"].stop
-		permission = true
-		side = (side + 1) % Side.size()
-
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
