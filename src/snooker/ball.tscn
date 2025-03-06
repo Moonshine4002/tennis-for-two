@@ -17,6 +17,5 @@ shape = SubResource("CircleShape2D_od0rm")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(2, 2)
 texture = ExtResource("1_stnx4")
-offset = Vector2(-0.4, -0.3)
 region_enabled = true
-region_rect = Rect2(0, 0, 16, 16)
+region_rect = Rect2(1, 1, 15, 15)

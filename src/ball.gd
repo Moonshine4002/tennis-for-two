@@ -64,7 +64,7 @@ func _reset() -> bool:
 	return false
 
 
-func _integrate_forces(state):
+func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	if _reset():
 		return
 
