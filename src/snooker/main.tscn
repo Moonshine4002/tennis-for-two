@@ -12,7 +12,7 @@ size = Vector2(64, 456)
 size = Vector2(448, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_frreo"]
-size = Vector2(67.8823, 67.8823)
+size = Vector2(64, 64)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qdapo"]
 radius = 12.0
@@ -124,22 +124,40 @@ rotation = 0.785398
 scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_frreo")
 
+[node name="Corner 13" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(576, -16)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_frreo")
+
+[node name="Corner 14" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(576, 664)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_frreo")
+
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="Hole 1" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(48, 48)
+position = Vector2(56, 56)
 shape = SubResource("CircleShape2D_qdapo")
 
 [node name="Hole 2" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(1104, 48)
+position = Vector2(1096, 56)
 shape = SubResource("CircleShape2D_qdapo")
 
 [node name="Hole 3" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(1104, 600)
+position = Vector2(1096, 592)
 shape = SubResource("CircleShape2D_qdapo")
 
 [node name="Hole 4" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(48, 600)
+position = Vector2(56, 592)
+shape = SubResource("CircleShape2D_qdapo")
+
+[node name="Hole 5" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(576, 48)
+shape = SubResource("CircleShape2D_qdapo")
+
+[node name="Hole 6" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(576, 600)
 shape = SubResource("CircleShape2D_qdapo")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

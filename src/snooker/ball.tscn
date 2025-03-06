@@ -1,12 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://h0d83iespfgp"]
+[gd_scene load_steps=5 format=3 uid="uid://h0d83iespfgp"]
 
 [ext_resource type="Texture2D" uid="uid://c4apvtm410gw0" path="res://art/textures/snooker/SMS Pool Asset Pack FREE/SMS_GUI_Display_NO_BG.png" id="1_stnx4"]
 [ext_resource type="Script" path="res://src/snooker/ball.gd" id="1_xrwr4"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_32laj"]
+friction = 0.2
+bounce = 0.8
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_od0rm"]
 radius = 8.0
 
 [node name="Ball" type="RigidBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_32laj")
 gravity_scale = 0.0
 script = ExtResource("1_xrwr4")
 

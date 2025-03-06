@@ -18,21 +18,21 @@ func _process(_delta: float) -> void:
 		hit_ball("white", 1000, distance_vector.angle())
 
 
-func add_ball(name: String, ball: SnookerBall.Ball, posi: Vector2) -> void:
+func add_ball(ball_name: String, ball: SnookerBall.Ball, posi: Vector2) -> void:
 	var ball_packed: SnookerBall = ball_scene.instantiate()
-	ball_packed.name = name
+	ball_packed.name = ball_name
 	ball_packed.init(ball, posi)
-	balls[name] = ball_packed
+	balls[ball_name] = ball_packed
 	add_child(ball_packed)
 
 
-func del_ball(name: String) -> void:
-	balls[name].queue_free()
-	balls.erase(name)
+func del_ball(ball_name: String) -> void:
+	balls[ball_name].queue_free()
+	balls.erase(ball_name)
 
 
-func hit_ball(name: String, force: float, angle: float):
-	var ball: SnookerBall = balls[name]
+func hit_ball(ball_name: String, force: float, angle: float):
+	var ball: SnookerBall = balls[ball_name]
 	ball._hit(force, angle)
 
 

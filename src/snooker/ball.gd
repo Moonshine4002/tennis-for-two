@@ -29,7 +29,7 @@ var _angle: float
 
 
 func _ready() -> void:
-	var region_rect = $Sprite2D.region_rect
+	pass
 
 
 func _process(_delta: float) -> void:
