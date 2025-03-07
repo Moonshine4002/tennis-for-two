@@ -5,28 +5,22 @@
 [node name="HUD" type="Node"]
 
 [node name="Label" type="Label" parent="."]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -47.0
-offset_top = 75.0
-offset_right = 47.0
-offset_bottom = 124.0
-grow_horizontal = 2
+offset_left = 120.0
+offset_top = 15.0
+offset_right = 214.0
+offset_bottom = 64.0
 theme_override_fonts/font = ExtResource("1_ixv8p")
 theme_override_font_sizes/font_size = 40
 text = "0 : 0"
 
 [node name="Side" type="Label" parent="."]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -106.5
-offset_top = 125.0
-offset_right = 106.5
-offset_bottom = 174.0
-grow_horizontal = 2
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -248.0
+offset_right = -120.0
+offset_bottom = 32.0
+grow_horizontal = 0
 theme_override_fonts/font = ExtResource("1_ixv8p")
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 24
 text = "Side: First"
-metadata/_edit_use_anchors_ = true

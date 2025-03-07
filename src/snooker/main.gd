@@ -29,6 +29,7 @@ const balls_data := {
 }
 enum Side { FIRST, SECOND }
 
+var base_force: float = 2000
 var force_percent: float = 0.5
 var score = [0, 0]
 
@@ -49,11 +50,18 @@ func _process(_delta: float) -> void:
 	$Cue.set_cue(distance_vector.angle() - PI / 2)
 	$Cue.set_force(force_percent)
 
-	if permission and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+	if permission and (
+		Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) or 
+		Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT)
+		):
 		permission = false
 		$Cue.fade()
-		hit_ball("white", -1000 * force_percent, distance_vector.angle())
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+			hit_ball("white", -base_force * force_percent, distance_vector.angle())
+		else:
+			hit_ball("white", base_force * force_percent, distance_vector.angle())
 		balls["white"].sleeping = false
+		balls["white"].stop = false
 		await $Manager.stop
 		permission = true
 		$Cue.solid()
@@ -61,11 +69,10 @@ func _process(_delta: float) -> void:
 			side = _opposite_side()
 			last_red = false
 		change_side_flag = true
-		if side == Side.FIRST:
-			$HUD/Side.text = "Side: First"
-		else:
-			$HUD/Side.text = "Side: Second"
+		set_info_text()
 		print(side, " ", last_red, " ", change_side_flag, " ", score)
+		
+
 
 
 func init() -> void:
@@ -81,15 +88,16 @@ func init() -> void:
 	side = Side.FIRST
 	last_red = false
 	change_side_flag = true
+	set_info_text()
 
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		match event.button_index:
 			MOUSE_BUTTON_WHEEL_UP:
-				force_percent += 0.05
+				force_percent += 0.02
 			MOUSE_BUTTON_WHEEL_DOWN:
-				force_percent -= 0.05
+				force_percent -= 0.02
 	force_percent = clamp(force_percent, 0.1, 1)
 
 
@@ -151,6 +159,18 @@ func _on_area_2d_body_entered(body: SnookerBall) -> void:
 
 	$HUD/Label.text = "{0} : {1}".format(score)
 
+func set_info_text()->void:
+		var side_text:String
+		if side == Side.FIRST:
+			side_text = "First"
+		else:
+			side_text = "Second"
+		var target_text:String
+		if last_red:
+			target_text = "Colored"
+		else:
+			target_text = "Red"
+		$HUD/Side.text = "Side: {0}\nTarget: {1}".format([side_text, target_text])
 
 func is_red_flag() -> bool:
 	for ball in balls.values():

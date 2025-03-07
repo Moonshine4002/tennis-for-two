@@ -9,14 +9,13 @@ script = ExtResource("1_scexr")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_left = 4.0
-offset_top = 6.0
 offset_right = 11.0
-offset_bottom = 30.0
+offset_bottom = 24.0
 pivot_offset = Vector2(0, 24)
 color = Color(0.92549, 0.45098, 0.145098, 1)
 
 [node name="Cue" type="Sprite2D" parent="."]
-position = Vector2(3.5, 22)
+position = Vector2(3.5, 16)
 texture = ExtResource("1_su0oe")
 region_enabled = true
 region_rect = Rect2(176, 0, 15, 32)

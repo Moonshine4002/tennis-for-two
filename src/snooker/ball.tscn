@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://src/snooker/ball.gd" id="1_xrwr4"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_32laj"]
-friction = 0.2
+friction = 0.15
 rough = true
 bounce = 0.8
 
@@ -14,7 +14,7 @@ radius = 8.0
 [node name="Ball" type="RigidBody2D"]
 physics_material_override = SubResource("PhysicsMaterial_32laj")
 gravity_scale = 0.0
-linear_damp = 0.2
+linear_damp = 0.15
 script = ExtResource("1_xrwr4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
