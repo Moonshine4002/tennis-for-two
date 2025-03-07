@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://ca13f34jem686"]
+[gd_scene load_steps=11 format=3 uid="uid://ca13f34jem686"]
 
 [ext_resource type="Texture2D" uid="uid://ctnjxt7iyxj3c" path="res://art/textures/snooker/SMS Pool Asset Pack FREE/Pool_Table_Type_1_NO_BG Wide.png" id="1_fbdd3"]
 [ext_resource type="Script" path="res://src/snooker/main.gd" id="1_n1yvf"]
 [ext_resource type="PackedScene" uid="uid://bj4td5fhl3ew" path="res://src/snooker/cue.tscn" id="3_7uwum"]
 [ext_resource type="PackedScene" uid="uid://cwncbx43sfaox" path="res://src/snooker/hud.tscn" id="4_2ibaj"]
+[ext_resource type="Script" path="res://src/snooker/manager.gd" id="4_wyw7c"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_iwkx0"]
 
@@ -57,83 +58,69 @@ shape = SubResource("RectangleShape2D_ewgek")
 [node name="Corner 1" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(16, 96)
 rotation = 0.785398
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_frreo")
 
 [node name="Corner 2" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(0, 1.90735e-06)
 rotation = 0.785398
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_frreo")
 
 [node name="Corner 3" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(96, 16)
 rotation = 0.785398
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_frreo")
 
 [node name="Corner 4" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(1056, 16)
 rotation = 0.785398
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_frreo")
 
 [node name="Corner 5" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(1152, -6.10352e-05)
 rotation = 0.785398
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_frreo")
 
 [node name="Corner 6" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(1136, 96.0001)
 rotation = 0.785398
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_frreo")
 
 [node name="Corner 7" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(1136, 552)
 rotation = 0.785398
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_frreo")
 
 [node name="Corner 8" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(1152, 640)
 rotation = 0.785398
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_frreo")
 
 [node name="Corner 9" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(1056, 632)
 rotation = 0.785398
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_frreo")
 
 [node name="Corner 10" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(96, 632)
 rotation = 0.785398
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_frreo")
 
 [node name="Corner 11" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(-3.05176e-05, 648)
 rotation = 0.785398
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_frreo")
 
 [node name="Corner 12" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(16, 552)
 rotation = 0.785398
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_frreo")
 
 [node name="Corner 13" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(576, -16)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_frreo")
 
 [node name="Corner 14" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(576, 664)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_frreo")
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -163,6 +150,9 @@ position = Vector2(576, 600)
 shape = SubResource("CircleShape2D_qdapo")
 
 [node name="Cue" parent="." instance=ExtResource("3_7uwum")]
+
+[node name="Manager" type="Node" parent="."]
+script = ExtResource("4_wyw7c")
 
 [node name="HUD" parent="." instance=ExtResource("4_2ibaj")]
 

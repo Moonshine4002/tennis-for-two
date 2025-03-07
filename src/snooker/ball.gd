@@ -1,7 +1,7 @@
 extends RigidBody2D
 class_name SnookerBall
 
-signal stop(source: RigidBody2D)
+var stop := true
 
 enum Ball {
 	WHITE,
@@ -33,7 +33,9 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if sleeping:
-		stop.emit(self)
+		stop = true
+	else:
+		stop = false
 
 
 func init(ball: Ball, posi: Vector2) -> void:

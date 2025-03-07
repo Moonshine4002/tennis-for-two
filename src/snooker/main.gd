@@ -54,7 +54,7 @@ func _process(_delta: float) -> void:
 		$Cue.fade()
 		hit_ball("white", -1000 * force_percent, distance_vector.angle())
 		balls["white"].sleeping = false
-		await balls["white"].stop
+		await $Manager.stop
 		permission = true
 		$Cue.solid()
 		if change_side_flag:
