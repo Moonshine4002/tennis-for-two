@@ -128,17 +128,21 @@ func rule() -> void:
 
 	match current_record_ball.size():
 		0:
+			if target[side] == SnookerBall.BallKind.RED:
+				if first_hit != SnookerBall.BallColor.RED:
+					foul = true
+			else:
+				if first_hit == SnookerBall.BallColor.RED:
+					foul = true
 			target[side] = SnookerBall.BallKind.RED
-			if first_hit != SnookerBall.BallColor.RED:
-				foul = true
 		1:
 			var ball: SnookerBall = current_record_ball[0]
 
 			if ball.kind == SnookerBall.BallKind.WHITE:
 				foul = true
 			else:
+				current_score = ball.score  # positive
 				if ball.kind == target[side]:
-					current_score = ball.score  # positive
 					if ball.kind == SnookerBall.BallKind.RED:
 						target[side] = SnookerBall.BallKind.COLORED
 						if first_hit != SnookerBall.BallColor.RED:

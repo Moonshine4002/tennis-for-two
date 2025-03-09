@@ -1,6 +1,10 @@
 extends RigidBody2D
 class_name SnookerBall
 
+@onready var linear_friction = 25
+@onready var angular_friction = 0
+
+
 enum BallColor {
 	WHITE,
 	RED,
@@ -102,15 +106,14 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	else:
 		stop = false
 
-	var normalized := state.linear_velocity.normalized()
-	var length := state.linear_velocity.length()
-	#print(name, ": v = ", int(length))
-	length = clamp(length - 25 * state.step, 0, 1000)
-	state.linear_velocity = normalized * length
-
-	if state.linear_velocity.length() < 1:
-		state.linear_velocity = Vector2.ZERO
-		state.angular_velocity = 0
+	var linear_normalized := state.linear_velocity.normalized()
+	var linear_length := state.linear_velocity.length()
+	linear_length = clamp(linear_length - linear_friction * state.step, 0, 1000)
+	var angular_length := state.angular_velocity
+	angular_length = clamp(angular_length - angular_friction * state.step, 0, 1000)
+	state.linear_velocity = linear_normalized * linear_length
+	state.angular_velocity = angular_length
+	#print(name, ": vl = ", int(linear_length), ", va = ", int(angular_length * 100))
 
 
 func recover(posi: Vector2):
