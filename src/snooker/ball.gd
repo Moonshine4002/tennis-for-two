@@ -1,8 +1,6 @@
 extends RigidBody2D
 class_name SnookerBall
 
-var stop := true
-
 enum Ball {
 	WHITE,
 	RED,
@@ -13,7 +11,6 @@ enum Ball {
 	PINK,
 	BLACK,
 }
-var ball_color: Ball
 var TextureRegionRect := {
 	Ball.WHITE: Vector2(7, 1) * 16 + Vector2.ONE,
 	Ball.RED: Vector2(2, 0) * 16 + Vector2.ONE,
@@ -24,6 +21,9 @@ var TextureRegionRect := {
 	Ball.PINK: Vector2(3, 0) * 16 + Vector2.ONE,
 	Ball.BLACK: Vector2(7, 0) * 16 + Vector2.ONE,
 }
+
+var ball_color: Ball
+var stop := true
 var recover_posi: Vector2
 
 
@@ -32,11 +32,7 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if sleeping:
-		stop = true
-	else:
-		stop = false
-
+	pass
 
 func init(ball: Ball, posi: Vector2) -> void:
 	ball_color = ball
@@ -59,9 +55,20 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 		state.angular_velocity = 0
 		recover_posi = Vector2.ZERO
 	if state.linear_velocity == Vector2.ZERO:
+		stop = true
 		return
+	else:
+		stop = false
+	
+	var normalized := state.linear_velocity.normalized()
+	var length := state.linear_velocity.length()
+	print(name, ": v = ", int(length))
+	length = clamp(length - 25 * state.step, 0, 1000)
+	state.linear_velocity = normalized * length
+	
 	if state.linear_velocity.length() < 10:
 		state.linear_velocity = Vector2.ZERO
+		state.angular_velocity = 0
 
 
 func _recover(posi: Vector2):

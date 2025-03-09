@@ -60,7 +60,6 @@ func _process(_delta: float) -> void:
 			hit_ball("white", -base_force * force_percent, distance_vector.angle())
 		else:
 			hit_ball("white", base_force * force_percent, distance_vector.angle())
-		balls["white"].sleeping = false
 		balls["white"].stop = false
 		await $Manager.stop
 		permission = true
