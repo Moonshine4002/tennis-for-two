@@ -4,7 +4,6 @@ class_name SnookerBall
 @onready var linear_friction = 25
 @onready var angular_friction = 0
 
-
 enum BallColor {
 	WHITE,
 	RED,
