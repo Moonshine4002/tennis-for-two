@@ -28,8 +28,8 @@ const balls_data := {
 }
 enum Player { FIRST, SECOND }
 
-@export var base_force: float = 2000
-@export var force_percent_min: float = 0.1
+@export var base_force: float = 1000
+@export var force_percent_min: float = 0.02
 @export var force_percent_step: float = 0.02
 
 var balls := {}
@@ -41,7 +41,7 @@ var side: Player
 var score: Array
 var permission: bool
 var target: Array
-var first_hit: SnookerBall.BallColor  #TODO
+var first_hit: SnookerBall.BallColor
 
 
 func _ready() -> void:
@@ -72,6 +72,7 @@ func _process(_delta: float) -> void:
 		await $Manager.stop
 		permission = true
 		rule()
+		first_hit = SnookerBall.BallColor.WHITE
 		set_info_text()
 		round_inc_and_clean()
 		$Cue.solid()
@@ -92,6 +93,7 @@ func init() -> void:
 	score = [0, 0]
 	permission = true
 	target = [SnookerBall.BallKind.RED, SnookerBall.BallKind.RED]
+	first_hit = SnookerBall.BallColor.WHITE
 	set_info_text()
 
 
@@ -108,6 +110,7 @@ func round_inc_and_clean() -> void:
 	record[round] = {"side": side, "ball": [], "color": [], "free": []}
 
 
+# TODO
 func rule() -> void:
 	var last_record_side: Player
 	var last_record_color: Array
@@ -120,42 +123,50 @@ func rule() -> void:
 		last_record_side = record[round - 1]["side"]
 		last_record_color = record[round - 1]["color"]
 
+	var current_score: int = 0  # neutral
+	var foul := false
+
 	match current_record_ball.size():
 		0:
 			target[side] = SnookerBall.BallKind.RED
-			_set_score_and_side(-4)
+			if first_hit != SnookerBall.BallColor.RED:
+				foul = true
 		1:
 			var ball: SnookerBall = current_record_ball[0]
+
 			if ball.kind == SnookerBall.BallKind.WHITE:
-				target[side] = SnookerBall.BallKind.RED
-				_set_score_and_side(-4)
-				record[round]["free"] = []
+				foul = true
 			else:
 				if ball.kind == target[side]:
+					current_score = ball.score  # positive
 					if ball.kind == SnookerBall.BallKind.RED:
 						target[side] = SnookerBall.BallKind.COLORED
+						if first_hit != SnookerBall.BallColor.RED:
+							foul = true
 					else:
 						target[side] = SnookerBall.BallKind.RED
-					_set_score_and_side(ball.score)
+						if first_hit == SnookerBall.BallColor.RED:
+							foul = true
 					record[round]["free"] = current_record_ball
 				else:
-					target[side] = SnookerBall.BallKind.RED
-					_set_score_and_side(-max(ball.score, 4))
-					record[round]["free"] = []
+					foul = true
+
 		_:
-			# TODO
-			var current_score: int = 0
+			foul = true
 			for ball: SnookerBall in current_record_ball:
 				current_score += ball.score
-			target[side] = SnookerBall.BallKind.RED
-			_set_score_and_side(-current_score)
-			record[round]["free"] = []
+	print("foul = ", foul, ", current_score = ", current_score)
+	if foul:
+		current_score = -(max(abs(current_score), 4))
+		target[side] = SnookerBall.BallKind.RED
+		record[round]["free"] = []
+	_set_score_and_side(current_score)
 
 
 func _set_score_and_side(current_score: int) -> void:
 	if current_score == 0:
 		side = _opposite_side()
-	elif current_score >= 0:
+	elif current_score > 0:
 		score[side] += current_score
 	else:
 		side = _opposite_side()
@@ -167,6 +178,7 @@ func add_ball(ball_name: String) -> void:
 	var values = balls_data[ball_name]
 	ball_packed.init(ball_name, values[0], values[1])
 	balls[ball_name] = ball_packed
+	ball_packed.connect("body_entered", _on_ball_body_entered)
 	add_child(ball_packed)
 
 
@@ -197,6 +209,14 @@ func _input(event: InputEvent) -> void:
 func _on_area_2d_body_entered(body: SnookerBall) -> void:
 	body.disable()
 	record[round]["ball"].append(body)
+
+
+func _on_ball_body_entered(body: Node) -> void:
+	if body is not SnookerBall:
+		return
+	if first_hit == SnookerBall.BallColor.WHITE:
+		first_hit = body.color
+		print("first_hit = ", first_hit)
 
 
 func _opposite_side(player_side := side) -> Player:

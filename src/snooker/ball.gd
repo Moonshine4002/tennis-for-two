@@ -47,6 +47,7 @@ var _recover_posi: Vector2
 
 
 func _ready() -> void:
+	#continuous_cd = RigidBody2D.CCD_MODE_CAST_RAY
 	pass
 
 
@@ -60,6 +61,8 @@ func init(ball_name: String, ball_color: BallColor, ball_position: Vector2) -> v
 	match ball_color:
 		BallColor.WHITE:
 			kind = BallKind.WHITE
+			contact_monitor = true
+			max_contacts_reported = 1
 		BallColor.RED:
 			kind = BallKind.RED
 		_:
@@ -101,11 +104,11 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 
 	var normalized := state.linear_velocity.normalized()
 	var length := state.linear_velocity.length()
-	print(name, ": v = ", int(length))
+	#print(name, ": v = ", int(length))
 	length = clamp(length - 25 * state.step, 0, 1000)
 	state.linear_velocity = normalized * length
 
-	if state.linear_velocity.length() < 10:
+	if state.linear_velocity.length() < 1:
 		state.linear_velocity = Vector2.ZERO
 		state.angular_velocity = 0
 
