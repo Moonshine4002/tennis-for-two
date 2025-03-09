@@ -2,41 +2,46 @@ extends Node2D
 
 @onready var ball_scene: PackedScene = load("res://src/snooker/ball.tscn")
 
-var balls := {}
 const balls_data := {
-	"white": [SnookerBall.Ball.WHITE, Vector2(950, 330)],
-	"red01": [SnookerBall.Ball.RED, Vector2(250, 260)],
-	"red02": [SnookerBall.Ball.RED, Vector2(250, 280)],
-	"red03": [SnookerBall.Ball.RED, Vector2(250, 300)],
-	"red04": [SnookerBall.Ball.RED, Vector2(250, 320)],
-	"red05": [SnookerBall.Ball.RED, Vector2(250, 340)],
-	"red06": [SnookerBall.Ball.RED, Vector2(270, 270)],
-	"red07": [SnookerBall.Ball.RED, Vector2(270, 290)],
-	"red08": [SnookerBall.Ball.RED, Vector2(270, 310)],
-	"red09": [SnookerBall.Ball.RED, Vector2(270, 330)],
-	"red10": [SnookerBall.Ball.RED, Vector2(290, 280)],
-	"red11": [SnookerBall.Ball.RED, Vector2(290, 300)],
-	"red12": [SnookerBall.Ball.RED, Vector2(290, 320)],
-	"red13": [SnookerBall.Ball.RED, Vector2(310, 290)],
-	"red14": [SnookerBall.Ball.RED, Vector2(310, 310)],
-	"red15": [SnookerBall.Ball.RED, Vector2(330, 300)],
-	"pink": [SnookerBall.Ball.PINK, Vector2(350, 300)],
-	"blue": [SnookerBall.Ball.BLUE, Vector2(600, 300)],
-	"yellow": [SnookerBall.Ball.YELLOW, Vector2(900, 220)],
-	"brown": [SnookerBall.Ball.BROWN, Vector2(900, 300)],
-	"green": [SnookerBall.Ball.GREEN, Vector2(900, 380)],
-	"black": [SnookerBall.Ball.BLACK, Vector2(150, 300)],
+	"white": [SnookerBall.BallColor.WHITE, Vector2(950, 330)],
+	"red01": [SnookerBall.BallColor.RED, Vector2(250, 260)],
+	"red02": [SnookerBall.BallColor.RED, Vector2(250, 280)],
+	"red03": [SnookerBall.BallColor.RED, Vector2(250, 300)],
+	"red04": [SnookerBall.BallColor.RED, Vector2(250, 320)],
+	"red05": [SnookerBall.BallColor.RED, Vector2(250, 340)],
+	"red06": [SnookerBall.BallColor.RED, Vector2(270, 270)],
+	"red07": [SnookerBall.BallColor.RED, Vector2(270, 290)],
+	"red08": [SnookerBall.BallColor.RED, Vector2(270, 310)],
+	"red09": [SnookerBall.BallColor.RED, Vector2(270, 330)],
+	"red10": [SnookerBall.BallColor.RED, Vector2(290, 280)],
+	"red11": [SnookerBall.BallColor.RED, Vector2(290, 300)],
+	"red12": [SnookerBall.BallColor.RED, Vector2(290, 320)],
+	"red13": [SnookerBall.BallColor.RED, Vector2(310, 290)],
+	"red14": [SnookerBall.BallColor.RED, Vector2(310, 310)],
+	"red15": [SnookerBall.BallColor.RED, Vector2(330, 300)],
+	"pink": [SnookerBall.BallColor.PINK, Vector2(350, 300)],
+	"blue": [SnookerBall.BallColor.BLUE, Vector2(600, 300)],
+	"yellow": [SnookerBall.BallColor.YELLOW, Vector2(900, 220)],
+	"brown": [SnookerBall.BallColor.BROWN, Vector2(900, 300)],
+	"green": [SnookerBall.BallColor.GREEN, Vector2(900, 380)],
+	"black": [SnookerBall.BallColor.BLACK, Vector2(150, 300)],
 }
-enum Side { FIRST, SECOND }
+enum Player { FIRST, SECOND }
 
-var base_force: float = 2000
+@export var base_force: float = 2000
+@export var force_percent_min: float = 0.1
+@export var force_percent_step: float = 0.02
+
+var balls := {}
+var record := {}
 var force_percent: float = 0.5
-var score = [0, 0]
 
-var permission := true
-var side = Side.FIRST
-var last_red := false
-var change_side_flag := true
+var round: int
+var side: Player
+var score: Array
+var permission: bool
+var target: Array
+var first_hit: SnookerBall.BallColor  #TODO
 
 
 func _ready() -> void:
@@ -50,10 +55,13 @@ func _process(_delta: float) -> void:
 	$Cue.set_cue(distance_vector.angle() - PI / 2)
 	$Cue.set_force(force_percent)
 
-	if permission and (
-		Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) or 
-		Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT)
-		):
+	if (
+		permission
+		and (
+			Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+			or Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT)
+		)
+	):
 		permission = false
 		$Cue.fade()
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
@@ -63,48 +71,101 @@ func _process(_delta: float) -> void:
 		balls["white"].stop = false
 		await $Manager.stop
 		permission = true
-		$Cue.solid()
-		if change_side_flag:
-			side = _opposite_side()
-			last_red = false
-		change_side_flag = true
+		rule()
 		set_info_text()
-		print(side, " ", last_red, " ", change_side_flag, " ", score)
-		
-
+		round_inc_and_clean()
+		$Cue.solid()
 
 
 func init() -> void:
-	for ball in balls.values():
+	for ball: SnookerBall in balls.values():
 		ball.queue_free()
 	balls.clear()
-
-	for ball in balls_data:
+	for ball: String in balls_data:
 		add_ball(ball)
 
+	record.clear()
+	record[0] = {"side": side, "ball": [], "color": [], "free": []}
+
+	round = 0
+	side = Player.FIRST
 	score = [0, 0]
 	permission = true
-	side = Side.FIRST
-	last_red = false
-	change_side_flag = true
+	target = [SnookerBall.BallKind.RED, SnookerBall.BallKind.RED]
 	set_info_text()
 
 
-func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton:
-		match event.button_index:
-			MOUSE_BUTTON_WHEEL_UP:
-				force_percent += 0.02
-			MOUSE_BUTTON_WHEEL_DOWN:
-				force_percent -= 0.02
-	force_percent = clamp(force_percent, 0.1, 1)
+func round_inc_and_clean() -> void:
+	for ball: SnookerBall in record[round]["free"]:
+		record[round]["color"].append(ball.color)
+		del_ball(ball.name)
+	for ball: SnookerBall in record[round]["ball"]:
+		if ball:
+			recover_ball(ball)
+			ball.enable()
+
+	round += 1
+	record[round] = {"side": side, "ball": [], "color": [], "free": []}
+
+
+func rule() -> void:
+	var last_record_side: Player
+	var last_record_color: Array
+	var current_record_side: Player = record[round]["side"]
+	var current_record_ball: Array = record[round]["ball"]
+	if round == 0:
+		last_record_side = _opposite_side(current_record_side)
+		last_record_color = []
+	else:
+		last_record_side = record[round - 1]["side"]
+		last_record_color = record[round - 1]["color"]
+
+	match current_record_ball.size():
+		0:
+			target[side] = SnookerBall.BallKind.RED
+			_set_score_and_side(-4)
+		1:
+			var ball: SnookerBall = current_record_ball[0]
+			if ball.kind == SnookerBall.BallKind.WHITE:
+				target[side] = SnookerBall.BallKind.RED
+				_set_score_and_side(-4)
+				record[round]["free"] = []
+			else:
+				if ball.kind == target[side]:
+					if ball.kind == SnookerBall.BallKind.RED:
+						target[side] = SnookerBall.BallKind.COLORED
+					else:
+						target[side] = SnookerBall.BallKind.RED
+					_set_score_and_side(ball.score)
+					record[round]["free"] = current_record_ball
+				else:
+					target[side] = SnookerBall.BallKind.RED
+					_set_score_and_side(-max(ball.score, 4))
+					record[round]["free"] = []
+		_:
+			# TODO
+			var current_score: int = 0
+			for ball: SnookerBall in current_record_ball:
+				current_score += ball.score
+			target[side] = SnookerBall.BallKind.RED
+			_set_score_and_side(-current_score)
+			record[round]["free"] = []
+
+
+func _set_score_and_side(current_score: int) -> void:
+	if current_score == 0:
+		side = _opposite_side()
+	elif current_score >= 0:
+		score[side] += current_score
+	else:
+		side = _opposite_side()
+		score[side] += -current_score
 
 
 func add_ball(ball_name: String) -> void:
 	var ball_packed: SnookerBall = ball_scene.instantiate()
-	ball_packed.name = ball_name
-	var value = balls_data[ball_name]
-	ball_packed.init(value[0], value[1])
+	var values = balls_data[ball_name]
+	ball_packed.init(ball_name, values[0], values[1])
 	balls[ball_name] = ball_packed
 	add_child(ball_packed)
 
@@ -115,7 +176,7 @@ func del_ball(ball_name: String) -> void:
 
 
 func recover_ball(ball: SnookerBall) -> void:
-	ball._recover(balls_data[ball.name][1])
+	ball.recover(balls_data[ball.name][1])
 
 
 func hit_ball(ball_name: String, force: float, angle: float) -> void:
@@ -123,70 +184,35 @@ func hit_ball(ball_name: String, force: float, angle: float) -> void:
 	ball._hit(force, angle)
 
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		match event.button_index:
+			MOUSE_BUTTON_WHEEL_UP:
+				force_percent += force_percent_step
+			MOUSE_BUTTON_WHEEL_DOWN:
+				force_percent -= force_percent_step
+	force_percent = clamp(force_percent, force_percent_min, 1)
+
+
 func _on_area_2d_body_entered(body: SnookerBall) -> void:
-	var current_score: int = 0
-	match body.ball_color:
-		body.Ball.WHITE:
-			recover_ball(body)
-			return
-		body.Ball.RED:
-			current_score += 1
-		body.Ball.YELLOW:
-			current_score += 2
-		body.Ball.GREEN:
-			current_score += 3
-		body.Ball.BROWN:
-			current_score += 4
-		body.Ball.BLUE:
-			current_score += 5
-		body.Ball.PINK:
-			current_score += 6
-		body.Ball.BLACK:
-			current_score += 7
+	body.disable()
+	record[round]["ball"].append(body)
 
-	if rule(body.ball_color):
-		score[side] += current_score
-		if is_red_flag() and (body.ball_color != body.Ball.RED):
-			recover_ball(body)
-		else:
-			del_ball(body.name)
-		change_side_flag = false
-		last_red = (body.ball_color == body.Ball.RED)
+
+func _opposite_side(player_side := side) -> Player:
+	return (player_side + 1) % Player.size()
+
+
+func set_info_text() -> void:
+	var side_text: String
+	if side == Player.FIRST:
+		side_text = "First"
 	else:
-		score[_opposite_side()] += current_score
-		recover_ball(body)
-
-	$HUD/Label.text = "{0} : {1}".format(score)
-
-func set_info_text()->void:
-		var side_text:String
-		if side == Side.FIRST:
-			side_text = "First"
-		else:
-			side_text = "Second"
-		var target_text:String
-		if last_red:
-			target_text = "Colored"
-		else:
-			target_text = "Red"
-		$HUD/Side.text = "Side: {0}\nTarget: {1}".format([side_text, target_text])
-
-func is_red_flag() -> bool:
-	for ball in balls.values():
-		if ball.ball_color == SnookerBall.Ball.RED:
-			return true
-	return false
-
-
-func rule(ball_color: SnookerBall.Ball) -> bool:
-	if is_red_flag():
-		if (ball_color == SnookerBall.Ball.RED) == last_red:
-			return false
+		side_text = "Second"
+	var target_text: String
+	if target[side] == SnookerBall.BallKind.RED:
+		target_text = "Red"
 	else:
-		return true  # TODO
-
-	return true
-
-
-func _opposite_side() -> Side:
-	return (side + 1) % Side.size()
+		target_text = "Colored"
+	$HUD/Score.text = "{0} : {1}".format(score)
+	$HUD/Side.text = "Side: {0}\nTarget: {1}".format([side_text, target_text])

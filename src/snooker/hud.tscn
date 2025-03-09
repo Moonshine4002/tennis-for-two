@@ -4,7 +4,7 @@
 
 [node name="HUD" type="Node"]
 
-[node name="Label" type="Label" parent="."]
+[node name="Score" type="Label" parent="."]
 offset_left = 120.0
 offset_top = 15.0
 offset_right = 214.0

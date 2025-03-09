@@ -10,8 +10,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	var balls: Dictionary = get_parent().balls
 	var stop_flag = true
-	for ball in balls.values():
-		if not ball.stop:
+	for ball: SnookerBall in balls.values():
+		if ball.visible and not ball.stop:
 			stop_flag = false
 	if stop_flag:
 		stop.emit()
