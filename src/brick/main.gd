@@ -6,7 +6,7 @@ signal exit(node: Node)
 @onready var ball_scene: PackedScene = load("res://src/brick/ball.tscn")
 @onready var brick_scene: PackedScene = load("res://src/brick/brick.tscn")
 
-@onready var life := 1
+@onready var life := 100
 
 var level := 1
 
