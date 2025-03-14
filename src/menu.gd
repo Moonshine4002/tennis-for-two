@@ -30,5 +30,16 @@ func _on_item_list_item_clicked(
 
 	var game := scene.instantiate()
 	for child in get_children():
-		child.hide()
+		if child is CanvasItem:
+			child.hide()
+
+	if index == 1:
+		game.connect("exit", _on_game_exit)
 	add_child(game)
+
+
+func _on_game_exit(node: Node) -> void:
+	node.queue_free()
+	for child in get_children():
+		if child is CanvasItem:
+			child.show()

@@ -11,4 +11,4 @@ func _process(_delta: float) -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	position.x = get_global_mouse_position().x
+	position.x = get_global_mouse_position().x - 32

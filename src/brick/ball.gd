@@ -1,7 +1,7 @@
 extends RigidBody2D
 class_name BrickBall
 
-@export var velocity := 500.0
+@export var velocity := 750.0
 
 
 func _ready() -> void:
@@ -16,7 +16,7 @@ func _physics_process(_delta: float) -> void:
 	set_linear_velocity(linear_velocity.normalized() * velocity)
 
 
-func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
+func _integrate_forces(_state: PhysicsDirectBodyState2D) -> void:
 	pass
 
 
