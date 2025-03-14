@@ -20,6 +20,11 @@ func _on_item_list_item_clicked(
 			await timer.timeout
 
 		1:
+			scene = load("res://src/brick/main.tscn")
+			var timer = get_tree().create_timer(0.2)
+			await timer.timeout
+
+		2:
 			print("Not implemented!")
 			return
 

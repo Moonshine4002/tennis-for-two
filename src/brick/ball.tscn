@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://d2ir5r1jpvnjo"]
+
+[ext_resource type="Script" path="res://src/brick/ball.gd" id="1_qbro5"]
+[ext_resource type="Texture2D" uid="uid://hkl2rc6iwk7r" path="res://art/textures/brick/Breakout set/breakout_pieces.png" id="2_6o3ug"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_4l6kl"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5wrfj"]
+
+[node name="Ball" type="RigidBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_4l6kl")
+gravity_scale = 0.0
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_qbro5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_5wrfj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("2_6o3ug")
+region_enabled = true
+region_rect = Rect2(48, 136, 8, 8)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

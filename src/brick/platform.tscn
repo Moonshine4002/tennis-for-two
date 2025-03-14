@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://le0ck4wsgfr6"]
+
+[ext_resource type="Script" path="res://src/brick/platform.gd" id="1_sj0kw"]
+[ext_resource type="Texture2D" uid="uid://hkl2rc6iwk7r" path="res://art/textures/brick/Breakout set/breakout_pieces.png" id="2_tplev"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_amwnx"]
+size = Vector2(64, 20)
+
+[node name="Platform" type="StaticBody2D"]
+script = ExtResource("1_sj0kw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(32, 10)
+shape = SubResource("RectangleShape2D_amwnx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(32, 10)
+texture = ExtResource("2_tplev")
+region_enabled = true
+region_rect = Rect2(8, 151, 64, 20)
