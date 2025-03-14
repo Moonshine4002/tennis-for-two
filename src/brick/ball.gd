@@ -1,7 +1,7 @@
 extends RigidBody2D
 class_name BrickBall
 
-@export var velocity := 200.0
+@export var velocity := 500.0
 
 
 func _ready() -> void:
