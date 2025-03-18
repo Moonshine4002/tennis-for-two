@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://drm3ima8x8w7e"]
+[gd_scene load_steps=12 format=3 uid="uid://drm3ima8x8w7e"]
 
 [ext_resource type="Script" path="res://src/brick/main.gd" id="1_05pdn"]
 [ext_resource type="Script" path="res://src/brick/manager.gd" id="2_oau1y"]
@@ -22,6 +22,10 @@ normal = Vector2(-1, 0)
 
 [sub_resource type="LabelSettings" id="LabelSettings_ak57j"]
 font = ExtResource("3_gfeeb")
+
+[sub_resource type="LabelSettings" id="LabelSettings_stneu"]
+font = ExtResource("3_gfeeb")
+font_size = 8
 
 [node name="Main" type="Node"]
 script = ExtResource("1_05pdn")
@@ -91,6 +95,28 @@ grow_horizontal = 0
 text = "level: 1
 life: 99"
 label_settings = SubResource("LabelSettings_ak57j")
+
+[node name="ItemInfo" type="Label" parent="."]
+texture_filter = 1
+offset_left = 16.0
+offset_top = 60.0
+offset_right = 181.0
+offset_bottom = 83.0
+text = "press number or right key to active skills"
+label_settings = SubResource("LabelSettings_stneu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlatformInfo" type="Label" parent="."]
+texture_filter = 1
+offset_left = 380.0
+offset_top = 400.0
+offset_right = 545.0
+offset_bottom = 423.0
+text = "press left key to shoot ball"
+label_settings = SubResource("LabelSettings_stneu")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ItemList" type="ItemList" parent="."]
 texture_filter = 1

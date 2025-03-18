@@ -126,6 +126,7 @@ func _on_item_list_item_clicked(index: int, _at_position: Vector2, mouse_button_
 
 
 func proliferation() -> void:
+	$ItemInfo.hide()
 	if items["proliferation"] <= 0:
 		return
 	items["proliferation"] -= 1
@@ -139,6 +140,7 @@ func proliferation() -> void:
 
 
 func prolong() -> void:
+	$ItemInfo.hide()
 	if prolong_flag:
 		return
 	if items["prolong"] <= 0:
