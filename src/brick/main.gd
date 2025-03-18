@@ -5,8 +5,9 @@ signal exit(node: Node)
 
 @onready var ball_scene: PackedScene = load("res://src/brick/ball.tscn")
 @onready var brick_scene: PackedScene = load("res://src/brick/brick.tscn")
+@onready var indestructible_scene: PackedScene = load("res://src/brick/indestructible.tscn")
 
-@onready var life := 99
+@onready var life := 20
 
 var level := 1
 
@@ -14,8 +15,8 @@ var exit_flag := false
 var prolong_flag := false
 
 var items := {
-	"proliferation": 10,
-	"prolong": 10,
+	"proliferation": 8,
+	"prolong": 15,
 }
 
 
@@ -58,10 +59,18 @@ func _process(_delta: float) -> void:
 
 
 func select_level(lv: int) -> void:
+	# supply
+	life += 10
+	items["proliferation"] += 2
+	items["prolong"] += 5
+
 	for child in get_children():
 		if child is BrickBall:
 			child.queue_free()
 
+	# level
+	for indestructible in get_tree().get_nodes_in_group("BrickIndestructible"):
+		indestructible.display(str(level))
 	match lv:
 		1:
 			for x in range(32 * 10, 32 * 20, 64):
@@ -72,6 +81,10 @@ func select_level(lv: int) -> void:
 				for y in range(16 * 10, 16 * 20, 16):
 					add_brick(Vector2(x, y))
 		3:
+			for x in range(32 * 10, 32 * 20, 32):
+				for y in range(16 * 10, 16 * 24, 16):
+					add_brick(Vector2(x, y))
+		4:
 			level_over.emit(true)
 		100:
 			for x in range(0, 32 * 30, 32):
@@ -102,7 +115,11 @@ func _on_bottom_area_body_entered(ball: Node2D) -> void:
 	if ball is not BrickBall:
 		return
 	ball.queue_free()
-	if randf() < 0.05:
+
+	# supply
+	if randf() < 0.01:
+		items[items.keys()[randi_range(0, items.size() - 1)]] += 1
+	elif randf() < 0.03:
 		items[items.keys()[randi_range(0, items.size() - 1)]] += 1
 	#call_deferred("add_ball")
 

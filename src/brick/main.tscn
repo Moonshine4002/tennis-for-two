@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://drm3ima8x8w7e"]
+[gd_scene load_steps=13 format=3 uid="uid://drm3ima8x8w7e"]
 
 [ext_resource type="Script" path="res://src/brick/main.gd" id="1_05pdn"]
 [ext_resource type="Script" path="res://src/brick/manager.gd" id="2_oau1y"]
 [ext_resource type="FontFile" uid="uid://cbhhff5f0gqx" path="res://art/textures/brick/breakout_pieces_to_font.png" id="3_gfeeb"]
 [ext_resource type="PackedScene" uid="uid://le0ck4wsgfr6" path="res://src/brick/platform.tscn" id="3_o5op8"]
+[ext_resource type="PackedScene" uid="uid://cxfxvter4j00h" path="res://src/brick/indestructible.tscn" id="5_p3il4"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lady1"]
 friction = 0.0
@@ -130,6 +131,103 @@ item_0/text = "proliferation: 0"
 item_0/selectable = false
 item_1/text = "prolong: 0"
 item_1/selectable = false
+
+[node name="Indestructibles" type="Node2D" parent="."]
+
+[node name="Lv3" type="Node2D" parent="Indestructibles"]
+
+[node name="Indestructible" parent="Indestructibles/Lv3" instance=ExtResource("5_p3il4")]
+position = Vector2(352, 152)
+color = "brown"
+tag = "3"
+
+[node name="Indestructible15" parent="Indestructibles/Lv3" instance=ExtResource("5_p3il4")]
+position = Vector2(352, 392)
+color = "brown"
+tag = "3"
+
+[node name="Indestructible17" parent="Indestructibles/Lv3" instance=ExtResource("5_p3il4")]
+position = Vector2(416, 392)
+color = "brown"
+tag = "3"
+
+[node name="Indestructible18" parent="Indestructibles/Lv3" instance=ExtResource("5_p3il4")]
+position = Vector2(544, 392)
+color = "brown"
+tag = "3"
+
+[node name="Indestructible16" parent="Indestructibles/Lv3" instance=ExtResource("5_p3il4")]
+position = Vector2(608, 392)
+color = "brown"
+tag = "3"
+
+[node name="Indestructible2" parent="Indestructibles/Lv3" instance=ExtResource("5_p3il4")]
+position = Vector2(416, 152)
+color = "brown"
+tag = "3"
+
+[node name="Indestructible3" parent="Indestructibles/Lv3" instance=ExtResource("5_p3il4")]
+position = Vector2(480, 152)
+color = "brown"
+tag = "3"
+
+[node name="Indestructible4" parent="Indestructibles/Lv3" instance=ExtResource("5_p3il4")]
+position = Vector2(544, 152)
+color = "brown"
+tag = "3"
+
+[node name="Indestructible5" parent="Indestructibles/Lv3" instance=ExtResource("5_p3il4")]
+position = Vector2(608, 152)
+color = "brown"
+tag = "3"
+
+[node name="Indestructible7" parent="Indestructibles/Lv3" instance=ExtResource("5_p3il4")]
+position = Vector2(312, 176)
+rotation = 1.5708
+color = "brown"
+tag = "3"
+
+[node name="Indestructible8" parent="Indestructibles/Lv3" instance=ExtResource("5_p3il4")]
+position = Vector2(312, 240)
+rotation = 1.5708
+color = "brown"
+tag = "3"
+
+[node name="Indestructible9" parent="Indestructibles/Lv3" instance=ExtResource("5_p3il4")]
+position = Vector2(312, 304)
+rotation = 1.5708
+color = "brown"
+tag = "3"
+
+[node name="Indestructible10" parent="Indestructibles/Lv3" instance=ExtResource("5_p3il4")]
+position = Vector2(312, 368)
+rotation = 1.5708
+color = "brown"
+tag = "3"
+
+[node name="Indestructible11" parent="Indestructibles/Lv3" instance=ExtResource("5_p3il4")]
+position = Vector2(648, 176)
+rotation = 1.5708
+color = "brown"
+tag = "3"
+
+[node name="Indestructible12" parent="Indestructibles/Lv3" instance=ExtResource("5_p3il4")]
+position = Vector2(648, 240)
+rotation = 1.5708
+color = "brown"
+tag = "3"
+
+[node name="Indestructible13" parent="Indestructibles/Lv3" instance=ExtResource("5_p3il4")]
+position = Vector2(648, 304)
+rotation = 1.5708
+color = "brown"
+tag = "3"
+
+[node name="Indestructible14" parent="Indestructibles/Lv3" instance=ExtResource("5_p3il4")]
+position = Vector2(648, 368)
+rotation = 1.5708
+color = "brown"
+tag = "3"
 
 [connection signal="level_over" from="." to="." method="_on_level_over"]
 [connection signal="body_entered" from="Surrounding/BottomArea" to="." method="_on_bottom_area_body_entered"]
