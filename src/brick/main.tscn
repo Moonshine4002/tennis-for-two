@@ -92,5 +92,19 @@ text = "level: 1
 life: 99"
 label_settings = SubResource("LabelSettings_ak57j")
 
+[node name="ItemList" type="ItemList" parent="."]
+texture_filter = 1
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 253.0
+offset_bottom = 60.0
+theme_override_fonts/font = ExtResource("3_gfeeb")
+item_count = 2
+item_0/text = "proliferation: 0"
+item_0/selectable = false
+item_1/text = "prolong: 0"
+item_1/selectable = false
+
 [connection signal="level_over" from="." to="." method="_on_level_over"]
 [connection signal="body_entered" from="Surrounding/BottomArea" to="." method="_on_bottom_area_body_entered"]
+[connection signal="item_clicked" from="ItemList" to="." method="_on_item_list_item_clicked"]
