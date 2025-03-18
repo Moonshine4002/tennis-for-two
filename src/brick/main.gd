@@ -6,7 +6,7 @@ signal exit(node: Node)
 @onready var ball_scene: PackedScene = load("res://src/brick/ball.tscn")
 @onready var brick_scene: PackedScene = load("res://src/brick/brick.tscn")
 
-@onready var life := 100
+@onready var life := 99
 
 var level := 1
 
@@ -26,7 +26,7 @@ func _process(_delta: float) -> void:
 		await timer.timeout
 		exit.emit(self)
 
-	$Info.text = "life: {0}".format([life])
+	$Info.text = "level: {0}\nlife: {1}".format([level, life])
 	var brick_flag := false
 	for child in get_children():
 		if child is BrickBrick:
