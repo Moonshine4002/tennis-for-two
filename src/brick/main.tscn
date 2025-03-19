@@ -149,7 +149,6 @@ item_1/selectable = false
 [node name="Indestructibles" type="Node2D" parent="."]
 
 [node name="Lv3" type="Node2D" parent="Indestructibles"]
-visible = false
 
 [node name="Indestructible" parent="Indestructibles/Lv3" instance=ExtResource("5_p3il4")]
 position = Vector2(352, 152)
@@ -245,7 +244,6 @@ color = "brown"
 tag = "3"
 
 [node name="Lv4" type="Node2D" parent="Indestructibles"]
-visible = false
 
 [node name="Indestructible" parent="Indestructibles/Lv4" instance=ExtResource("5_p3il4")]
 position = Vector2(352, 152)
