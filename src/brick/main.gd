@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 signal level_over(win: bool)
 signal exit(node: Node)
@@ -13,10 +13,12 @@ var level := 1
 
 var exit_flag := false
 var prolong_flag := false
+var precise_flag := false
 
 var items := {
-	"proliferation": 8,
-	"prolong": 15,
+	"proliferation": 0,
+	"prolong": 0,
+	"precise": 0,
 }
 
 
@@ -62,12 +64,18 @@ func _process(_delta: float) -> void:
 	else:
 		$BallNumberInfo.hide()
 
+	if precise_flag:
+		$PreciseInfo.show()
+	else:
+		$PreciseInfo.hide()
+
 
 func select_level(lv: int) -> void:
 	# supply
 	life += 10
-	items["proliferation"] += 2
+	items["proliferation"] += 3
 	items["prolong"] += 5
+	items["precise"] += 2
 
 	for child in get_children():
 		if child is BrickBall:
@@ -78,6 +86,9 @@ func select_level(lv: int) -> void:
 		indestructible.display(str(level))
 	match lv:
 		1:
+			items["proliferation"] = 5
+			items["prolong"] = 10
+			items["precise"] = 3
 			for x in range(32 * 10, 32 * 20, 64):
 				for y in range(16 * 10, 16 * 20, 32):
 					add_brick(Vector2(x, y))
@@ -126,7 +137,10 @@ func add_ball() -> void:
 	var ball: BrickBall = ball_scene.instantiate()
 	ball.position = $Platform.position
 	ball.position.x += 32
+	ball.position.y -= 8
 	ball.set_linear_velocity(Vector2(randf_range(-1, 1), -1))
+	if precise_flag:
+		ball.set_linear_velocity(get_global_mouse_position() - ball.position)
 	ball.connect("hit_audio", _on_ball_hit_audio)
 	add_child(ball)
 
@@ -144,9 +158,11 @@ func _on_bottom_area_body_entered(ball: Node2D) -> void:
 
 	# supply
 	if randf() < 0.01:
-		items[items.keys()[randi_range(0, items.size() - 1)]] += 1
+		items["proliferation"] += 1
 	elif randf() < 0.03:
-		items[items.keys()[randi_range(0, items.size() - 1)]] += 1
+		items["prolong"] += 1
+	elif randf() < 0.005:
+		items["precise"] += 1
 	#call_deferred("add_ball")
 
 
@@ -166,6 +182,8 @@ func _on_item_list_item_clicked(index: int, _at_position: Vector2, mouse_button_
 			proliferation()
 		1:
 			prolong()
+		2:
+			precise()
 
 
 func proliferation() -> void:
@@ -211,11 +229,28 @@ func prolong() -> void:
 	prolong_flag = false
 
 
+func precise() -> void:
+	if precise_flag:
+		return
+	if items["precise"] <= 0:
+		return
+	items["precise"] -= 1
+	var timer := Timer.new()
+	add_child(timer)
+	precise_flag = true
+	timer.start(1)
+	await timer.timeout
+	precise_flag = false
+	timer.queue_free()
+
+
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_pressed("num1"):
 		proliferation()
 	elif event.is_action_pressed("num2"):
 		prolong()
+	elif event.is_action_pressed("num3"):
+		precise()
 
 
 func _on_ball_hit_audio(kind: String, posi: Vector2) -> void:
