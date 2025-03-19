@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://hkl2rc6iwk7r" path="res://art/textures/brick/Breakout set/breakout_pieces.png" id="2_6o3ug"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_4l6kl"]
-rough = true
+friction = 0.0
 bounce = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5wrfj"]
