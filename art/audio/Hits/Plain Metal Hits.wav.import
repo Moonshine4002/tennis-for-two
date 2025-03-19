@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://y0jnc3up6wdi"
+path="res://.godot/imported/Plain Metal Hits.wav-e6625e5cf6e53f7730e6b1e1944ec3bc.sample"
+
+[deps]
+
+source_file="res://art/audio/Hits/Plain Metal Hits.wav"
+dest_files=["res://.godot/imported/Plain Metal Hits.wav-e6625e5cf6e53f7730e6b1e1944ec3bc.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

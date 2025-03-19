@@ -85,6 +85,10 @@ func select_level(lv: int) -> void:
 				for y in range(16 * 10, 16 * 24, 16):
 					add_brick(Vector2(x, y))
 		4:
+			for x in range(32 * 0, 32 * 30, 64):
+				for y in range(16 * 0, 16 * 24, 32):
+					add_brick(Vector2(x + 16, y))
+		5:
 			level_over.emit(true)
 		100:
 			for x in range(0, 32 * 30, 32):
@@ -102,6 +106,7 @@ func add_ball() -> void:
 	ball.position = $Platform.position
 	ball.position.x += 32
 	ball.set_linear_velocity(Vector2(randf_range(-1, 1), -1))
+	ball.connect("hit_audio", _on_ball_hit_audio)
 	add_child(ball)
 
 
@@ -185,3 +190,28 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		proliferation()
 	elif event.is_action_pressed("num2"):
 		prolong()
+
+
+func _on_ball_hit_audio(kind: String, posi: Vector2) -> void:
+	var timer := Timer.new()
+	var audio := AudioStreamPlayer2D.new()
+	audio.position = posi
+	add_child(timer)
+	add_child(audio)
+
+	match kind:
+		"hard":
+			audio.stream = load("res://art/audio/Hits/Hard Hits.wav")
+			audio.play(0.0)
+			timer.start(0.14)
+		"wood":
+			audio.stream = load("res://art/audio/Hits/Wood Hits.wav")
+			audio.play(0.16)
+			timer.start(0.16)
+		"metal":
+			audio.stream = load("res://art/audio/Hits/Metal Hit.wav")
+			audio.play(0.12)
+			timer.start(0.14)
+	await timer.timeout
+	timer.queue_free()
+	audio.queue_free()

@@ -1,6 +1,7 @@
 extends RigidBody2D
 class_name BrickBall
 
+signal hit_audio(kind: String, posi: Vector2)
 @export var velocity := 750.0
 
 
@@ -21,7 +22,14 @@ func _integrate_forces(_state: PhysicsDirectBodyState2D) -> void:
 
 
 func _on_body_entered(body: Node) -> void:
-	if body is BrickBrick:
+	if body is BrickBall:
+		hit_audio.emit("wood", position)
+	elif body is BrickBrick:
 		body.queue_free()
-	if body is BrickPlatform:
-		return
+		hit_audio.emit("wood", position)
+	elif body is BrickPlatform:
+		hit_audio.emit("hard", position)
+	elif body is BrickIndestructible:
+		hit_audio.emit("metal", position)
+	else:
+		hit_audio.emit("wood", position)
