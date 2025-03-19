@@ -2,7 +2,7 @@ extends RigidBody2D
 class_name BrickBall
 
 signal hit_audio(kind: String, posi: Vector2)
-@export var velocity := 750.0
+@export var velocity_ := 750.0
 
 
 func _ready() -> void:
@@ -14,7 +14,7 @@ func _process(_delta: float) -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	set_linear_velocity(linear_velocity.normalized() * velocity)
+	set_linear_velocity(linear_velocity.normalized() * velocity_)
 
 
 func _integrate_forces(_state: PhysicsDirectBodyState2D) -> void:

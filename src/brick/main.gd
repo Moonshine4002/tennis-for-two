@@ -7,7 +7,7 @@ signal exit(node: Node)
 @onready var brick_scene: PackedScene = load("res://src/brick/brick.tscn")
 @onready var indestructible_scene: PackedScene = load("res://src/brick/indestructible.tscn")
 
-@onready var life := 20
+@onready var life := 10
 
 var level := 1
 
@@ -56,6 +56,11 @@ func _process(_delta: float) -> void:
 		text += str(value)
 		$ItemList.set_item_text(items_index, text)
 		items_index += 1
+
+	if get_tree().get_nodes_in_group("BrickBall").size() > 99:
+		$BallNumberInfo.show()
+	else:
+		$BallNumberInfo.hide()
 
 
 func select_level(lv: int) -> void:
@@ -113,6 +118,8 @@ func select_level(lv: int) -> void:
 
 
 func add_ball() -> void:
+	if get_tree().get_nodes_in_group("BrickBall").size() > 99:
+		return
 	if life == 0:
 		return
 	life -= 1
@@ -162,6 +169,8 @@ func _on_item_list_item_clicked(index: int, _at_position: Vector2, mouse_button_
 
 
 func proliferation() -> void:
+	if get_tree().get_nodes_in_group("BrickBall").size() > 99:
+		return
 	$ItemInfo.hide()
 	if items["proliferation"] <= 0:
 		return
@@ -171,8 +180,11 @@ func proliferation() -> void:
 			continue
 		var ball: BrickBall = ball_scene.instantiate()
 		ball.position = child.position
-		ball.set_linear_velocity(Vector2.RIGHT.rotated(randf_range(0, 2 * PI)))
+		ball.linear_velocity = child.linear_velocity
 		add_child(ball)
+
+		ball.linear_velocity = ball.linear_velocity.rotated(PI / 8)
+		child.linear_velocity = child.linear_velocity.rotated(-PI / 8)
 
 
 func prolong() -> void:

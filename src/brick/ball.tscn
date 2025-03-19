@@ -9,7 +9,7 @@ bounce = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5wrfj"]
 
-[node name="Ball" type="RigidBody2D"]
+[node name="Ball" type="RigidBody2D" groups=["BrickBall"]]
 z_index = 9
 physics_material_override = SubResource("PhysicsMaterial_4l6kl")
 gravity_scale = 0.0
