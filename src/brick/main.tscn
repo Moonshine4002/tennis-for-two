@@ -79,7 +79,6 @@ zoom = Vector2(1.2, 1.2)
 script = ExtResource("2_oau1y")
 
 [node name="Platform" parent="." instance=ExtResource("3_o5op8")]
-z_index = 10
 position = Vector2(0, 500)
 
 [node name="Info" type="Label" parent="."]
@@ -138,6 +137,7 @@ item_1/selectable = false
 [node name="Indestructibles" type="Node2D" parent="."]
 
 [node name="Lv3" type="Node2D" parent="Indestructibles"]
+visible = false
 
 [node name="Indestructible" parent="Indestructibles/Lv3" instance=ExtResource("5_p3il4")]
 position = Vector2(352, 152)
@@ -233,6 +233,7 @@ color = "brown"
 tag = "3"
 
 [node name="Lv4" type="Node2D" parent="Indestructibles"]
+visible = false
 
 [node name="Indestructible" parent="Indestructibles/Lv4" instance=ExtResource("5_p3il4")]
 position = Vector2(352, 152)
@@ -326,6 +327,268 @@ position = Vector2(648, 368)
 rotation = 1.5708
 color = "grey"
 tag = "4"
+
+[node name="Lv5" type="Node2D" parent="Indestructibles"]
+
+[node name="Indestructible" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(32, 88)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible2" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(96, 88)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible3" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(160, 88)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible4" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(224, 88)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible5" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(288, 88)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible6" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(352, 88)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible7" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(416, 88)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible8" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(480, 88)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible9" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(544, 88)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible10" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(608, 88)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible11" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(672, 88)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible12" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(736, 88)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible13" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(800, 88)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible14" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(160, 168)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible15" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(224, 168)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible16" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(288, 168)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible17" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(352, 168)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible18" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(416, 168)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible19" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(480, 168)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible20" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(544, 168)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible21" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(608, 168)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible22" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(672, 168)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible23" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(736, 168)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible24" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(800, 168)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible25" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(864, 168)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible26" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(928, 168)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible27" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(32, 264)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible28" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(96, 264)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible29" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(160, 264)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible30" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(224, 264)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible31" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(288, 264)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible32" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(352, 264)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible33" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(416, 264)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible34" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(480, 264)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible35" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(544, 264)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible36" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(608, 264)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible37" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(672, 264)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible38" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(736, 264)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible39" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(800, 264)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible40" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(160, 360)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible41" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(224, 360)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible42" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(288, 360)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible43" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(352, 360)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible44" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(416, 360)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible45" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(480, 360)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible46" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(544, 360)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible47" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(608, 360)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible48" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(672, 360)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible49" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(736, 360)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible50" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(800, 360)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible51" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(864, 360)
+color = "grey"
+tag = "5"
+
+[node name="Indestructible52" parent="Indestructibles/Lv5" instance=ExtResource("5_p3il4")]
+position = Vector2(928, 360)
+color = "grey"
+tag = "5"
 
 [connection signal="level_over" from="." to="." method="_on_level_over"]
 [connection signal="body_entered" from="Surrounding/BottomArea" to="." method="_on_bottom_area_body_entered"]

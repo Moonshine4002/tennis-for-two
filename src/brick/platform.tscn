@@ -11,6 +11,7 @@ bounce = 1.0
 radius = 32.0
 
 [node name="Platform" type="StaticBody2D"]
+z_index = 10
 physics_material_override = SubResource("PhysicsMaterial_kfnkb")
 script = ExtResource("1_sj0kw")
 

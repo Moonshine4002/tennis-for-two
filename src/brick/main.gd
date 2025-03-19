@@ -89,6 +89,20 @@ func select_level(lv: int) -> void:
 				for y in range(16 * 0, 16 * 24, 32):
 					add_brick(Vector2(x + 16, y))
 		5:
+			for x in range(32 * 0, 32 * 30, 32):
+				for y in range(16 * 0, 16 * 24, 16):
+					var flag := true
+					for node in get_tree().get_nodes_in_group("BrickIndestructible"):
+						if node.tag != str(level):
+							continue
+						if (
+							Vector2(x + 32, y + 8) == node.position
+							or Vector2(x, y + 8) == node.position
+						):
+							flag = false
+					if flag:
+						add_brick(Vector2(x, y))
+		6:
 			level_over.emit(true)
 		100:
 			for x in range(0, 32 * 30, 32):

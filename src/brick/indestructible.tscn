@@ -10,6 +10,7 @@ friction = 0.0
 size = Vector2(64, 16)
 
 [node name="Indestructible" type="StaticBody2D" groups=["BrickIndestructible"]]
+z_index = 9
 physics_material_override = SubResource("PhysicsMaterial_d5mec")
 script = ExtResource("1_2r0tk")
 
