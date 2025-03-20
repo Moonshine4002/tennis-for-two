@@ -6,13 +6,14 @@ signal level_over(win: bool)
 @onready var brick_scene: PackedScene = load("res://src/brick/brick.tscn")
 @onready var indestructible_scene: PackedScene = load("res://src/brick/indestructible.tscn")
 
-@onready var life := 10
+@onready var life := 1  # override
 
 var level := 1
 
 var exit_flag := false
 var prolong_flag := false
 var precise_flag := false
+signal precise_signal
 
 var items := {
 	"proliferation": 0,
@@ -85,9 +86,10 @@ func select_level(lv: int) -> void:
 		indestructible.display(str(level))
 	match lv:
 		1:
-			items["proliferation"] = 5
+			life = 30
+			items["proliferation"] = 10
 			items["prolong"] = 10
-			items["precise"] = 3
+			items["precise"] = 10
 			for x in range(32 * 10, 32 * 20, 64):
 				for y in range(16 * 10, 16 * 20, 32):
 					add_brick(Vector2(x, y))
@@ -140,6 +142,7 @@ func add_ball() -> void:
 	ball.set_linear_velocity(Vector2(randf_range(-1, 1), -1))
 	if precise_flag:
 		ball.set_linear_velocity(get_global_mouse_position() - ball.position)
+		precise_signal.emit()
 	ball.connect("hit_audio", _on_ball_hit_audio)
 	add_child(ball)
 
@@ -238,7 +241,7 @@ func precise() -> void:
 	add_child(timer)
 	precise_flag = true
 	timer.start(1)
-	await timer.timeout
+	await precise_signal
 	precise_flag = false
 	timer.queue_free()
 
