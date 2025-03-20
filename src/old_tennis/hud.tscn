@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://iln0mul2pjvx"]
 
-[ext_resource type="PackedScene" uid="uid://bn7orgyw3fdmp" path="res://src/arrow.tscn" id="1_nsjwd"]
-[ext_resource type="Script" path="res://src/hud.gd" id="1_vexfr"]
+[ext_resource type="PackedScene" uid="uid://bn7orgyw3fdmp" path="res://src/old_tennis/arrow.tscn" id="1_nsjwd"]
+[ext_resource type="Script" path="res://src/old_tennis/hud.gd" id="1_vexfr"]
 [ext_resource type="FontFile" uid="uid://btx4r6ytf1kkt" path="res://art/fonts/Xolonium-Regular.ttf" id="3_1tuai"]
 
 [node name="HUD" type="CanvasLayer"]

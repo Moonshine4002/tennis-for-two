@@ -1,4 +1,4 @@
-extends GameTemplate
+extends GameTemplate2D
 
 @onready var ball_scene: PackedScene = load("res://src/snooker/ball.tscn")
 

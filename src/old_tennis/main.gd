@@ -1,4 +1,4 @@
-extends Node
+extends GameTemplate
 
 enum Side { LEFT, RIGHT }
 

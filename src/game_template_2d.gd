@@ -1,5 +1,5 @@
-extends Node
-class_name GameTemplate
+extends Node2D
+class_name GameTemplate2D
 signal exit
 
 

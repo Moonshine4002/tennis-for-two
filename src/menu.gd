@@ -1,7 +1,7 @@
 extends Node
 
 var scene: PackedScene
-var game: GameTemplate
+var game: Node
 var gaming_flag := false
 
 
@@ -33,6 +33,7 @@ func _on_item_list_item_clicked(
 
 	var timer = get_tree().create_timer(0.2)
 	game = scene.instantiate()
+	assert(game is GameTemplate or game is GameTemplate2D)
 	game.connect("exit", _on_game_exit)
 	await timer.timeout
 

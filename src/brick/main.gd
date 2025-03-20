@@ -1,4 +1,4 @@
-extends GameTemplate
+extends GameTemplate2D
 
 signal level_over(win: bool)
 
