@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b0dyfpbrcnsf1"
-path="res://.godot/imported/NetVert.png-738279da8c0a564592866eb8dc6b6c24.ctex"
+uid="uid://b8r18i64f1xcn"
+path="res://.godot/imported/Set.png-464278497d4b9ae1c195ac1d41487b56.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/textures/NetVert.png"
-dest_files=["res://.godot/imported/NetVert.png-738279da8c0a564592866eb8dc6b6c24.ctex"]
+source_file="res://art/textures/tennis/Set.png"
+dest_files=["res://.godot/imported/Set.png-464278497d4b9ae1c195ac1d41487b56.ctex"]
 
 [params]
 

@@ -1,9 +1,7 @@
 extends Node
 
-@onready var game_scene: PackedScene = load("res://src/old_tennis/main.tscn")
-@onready var game := game_scene.instantiate()
-@onready var menu_scene: PackedScene = load("res://src/menu.tscn")
-@onready var menu := menu_scene.instantiate()
+var scene: PackedScene
+var game: Node
 
 
 func _ready() -> void:
@@ -17,8 +15,18 @@ func _process(_delta: float) -> void:
 func _on_tutorial_start_game(game_name: String) -> void:
 	match game_name:
 		"tennis for two":
-			add_child(game)
+			scene = load("res://src/old_tennis/main.tscn")
 		"game menu":
-			add_child(menu)
+			scene = load("res://src/menu.tscn")
 		_:
 			push_error("Wrong game name!")
+	game = scene.instantiate()
+	assert(game is GameTemplate or game is GameTemplate2D)
+	game.connect("exit", _on_game_exit)
+	add_child(game)
+
+
+func _on_game_exit() -> void:
+	game.queue_free()
+	for child in $Tutorial.get_children():
+		child.show()

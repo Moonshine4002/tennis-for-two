@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://2hq2cxfmvmb4"]
+[gd_scene load_steps=8 format=3 uid="uid://2hq2cxfmvmb4"]
 
 [ext_resource type="Texture2D" uid="uid://cpgrehg8jdt4c" path="res://icon.svg" id="1_jerj4"]
 [ext_resource type="Script" path="res://src/menu.gd" id="1_rcvxq"]
 [ext_resource type="FontFile" uid="uid://btx4r6ytf1kkt" path="res://art/fonts/Xolonium-Regular.ttf" id="2_3uhpr"]
 [ext_resource type="Texture2D" uid="uid://ctnjxt7iyxj3c" path="res://art/textures/snooker/SMS Pool Asset Pack FREE/Pool_Table_Type_1_NO_BG Wide.png" id="2_ehc1j"]
+[ext_resource type="Texture2D" uid="uid://lcv58d0epfb" path="res://art/textures/tennis/Ball.png" id="2_pmyto"]
 [ext_resource type="Texture2D" uid="uid://hkl2rc6iwk7r" path="res://art/textures/brick/Breakout set/breakout_pieces.png" id="3_chjnk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ce8pf"]
@@ -34,14 +35,16 @@ offset_right = 215.5
 offset_bottom = 156.5
 grow_horizontal = 2
 grow_vertical = 2
-item_count = 3
+item_count = 4
 fixed_icon_size = Vector2i(50, 50)
-item_0/text = "Snooker (beta)"
-item_0/icon = ExtResource("2_ehc1j")
-item_1/text = "Break the Bricks (beta)"
-item_1/icon = SubResource("AtlasTexture_ce8pf")
-item_2/text = "Coming soon!"
-item_2/icon = ExtResource("1_jerj4")
+item_0/text = "[Old] Tennis for Two (stable)"
+item_0/icon = ExtResource("2_pmyto")
+item_1/text = "Snooker (beta)"
+item_1/icon = ExtResource("2_ehc1j")
+item_2/text = "Break the Bricks (beta)"
+item_2/icon = SubResource("AtlasTexture_ce8pf")
+item_3/text = "Coming soon!"
+item_3/icon = ExtResource("1_jerj4")
 
 [node name="Label" type="Label" parent="."]
 anchors_preset = 5
@@ -58,4 +61,17 @@ text = "Extra Games"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Exit" type="Button" parent="."]
+z_index = 20
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -59.0
+offset_bottom = 33.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("2_3uhpr")
+theme_override_font_sizes/font_size = 20
+text = "Exit"
+
 [connection signal="item_clicked" from="ItemList" to="." method="_on_item_list_item_clicked"]
+[connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]

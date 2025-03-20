@@ -1,62 +1,27 @@
-[gd_scene load_steps=8 format=3 uid="uid://cg8kmgjnsd127"]
+[gd_scene load_steps=4 format=3 uid="uid://bbp1jvpkoc0pj"]
 
-[ext_resource type="Script" path="res://src/old_tennis/main.gd" id="1_nf47p"]
-[ext_resource type="PackedScene" uid="uid://k2nku1xhnt1c" path="res://src/old_tennis/floor.tscn" id="2_cgyxt"]
-[ext_resource type="Texture2D" uid="uid://b0dyfpbrcnsf1" path="res://art/textures/NetVert.png" id="3_kvva6"]
-[ext_resource type="PackedScene" uid="uid://f3xc8n6f3yh4" path="res://src/old_tennis/ball.tscn" id="4_nf03e"]
-[ext_resource type="PackedScene" uid="uid://iln0mul2pjvx" path="res://src/old_tennis/hud.tscn" id="5_smubo"]
-
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_neuko"]
-distance = -17.8827
-
-[sub_resource type="SegmentShape2D" id="SegmentShape2D_tjjb1"]
-b = Vector2(0, 152)
+[ext_resource type="Script" path="res://src/old_tennis/main.gd" id="1_rogt1"]
+[ext_resource type="PackedScene" uid="uid://c8vfgcrk8ibbp" path="res://src/old_tennis/tutorial.tscn" id="2_uxyek"]
+[ext_resource type="FontFile" uid="uid://btx4r6ytf1kkt" path="res://art/fonts/Xolonium-Regular.ttf" id="3_0o4l2"]
 
 [node name="Main" type="Node"]
-script = ExtResource("1_nf47p")
+script = ExtResource("1_rogt1")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-anchors_preset = 15
+[node name="Tutorial" parent="." instance=ExtResource("2_uxyek")]
+
+[node name="HUDLayer" type="CanvasLayer" parent="."]
+
+[node name="Exit" type="Button" parent="HUDLayer"]
+z_index = 20
+anchors_preset = 1
+anchor_left = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.803922, 0.333333, 0.196078, 1)
+offset_left = -59.0
+offset_bottom = 33.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("3_0o4l2")
+theme_override_font_sizes/font_size = 20
+text = "Exit"
 
-[node name="Left" type="Area2D" parent="."]
-collision_layer = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Left"]
-position = Vector2(584, 320)
-rotation = 1.5708
-scale = Vector2(0.901143, 1.78944)
-shape = SubResource("WorldBoundaryShape2D_neuko")
-
-[node name="Floor" parent="." instance=ExtResource("2_cgyxt")]
-position = Vector2(0, 648)
-
-[node name="Net" type="Area2D" parent="."]
-collision_layer = 8
-
-[node name="Sprite2D" type="Sprite2D" parent="Net"]
-position = Vector2(576, 584)
-rotation = 1.5708
-scale = Vector2(0.3, 0.2)
-skew = -0.872665
-texture = ExtResource("3_kvva6")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Net"]
-position = Vector2(576, 496)
-shape = SubResource("SegmentShape2D_tjjb1")
-
-[node name="Ball" parent="." instance=ExtResource("4_nf03e")]
-position = Vector2(576, 440)
-
-[node name="HUD" parent="." instance=ExtResource("5_smubo")]
-
-[connection signal="body_entered" from="Left" to="." method="_on_left_body_entered"]
-[connection signal="body_exited" from="Left" to="." method="_on_left_body_exited"]
-[connection signal="body_entered" from="Net" to="." method="_on_net_body_entered"]
-[connection signal="ball_hit" from="Ball" to="." method="_on_ball_ball_hit"]
-[connection signal="ball_hit_floor" from="Ball" to="." method="_on_ball_ball_hit_floor"]
-[connection signal="ball_screen_exited" from="Ball" to="." method="_on_ball_ball_screen_exited"]
+[connection signal="start_game" from="Tutorial" to="." method="_on_tutorial_start_game"]
+[connection signal="pressed" from="HUDLayer/Exit" to="." method="_on_exit_pressed"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://f3xc8n6f3yh4"]
 
-[ext_resource type="Texture2D" uid="uid://lcv58d0epfb" path="res://art/textures/Ball.png" id="1_co2np"]
+[ext_resource type="Texture2D" uid="uid://lcv58d0epfb" path="res://art/textures/tennis/Ball.png" id="1_co2np"]
 [ext_resource type="Script" path="res://src/old_tennis/ball.gd" id="1_y3d57"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_m1l6x"]
