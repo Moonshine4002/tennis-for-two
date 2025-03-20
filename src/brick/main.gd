@@ -34,7 +34,7 @@ func _process(_delta: float) -> void:
 		await timer.timeout
 		exit.emit()
 
-	$Info.text = "level: {0}\nlife: {1}".format([level, life])
+	$HUD/Info.text = "level: {0}\nlife: {1}".format([level, life])
 	var brick_flag := false
 	for child in get_children():
 		if child is BrickBrick:
@@ -59,14 +59,14 @@ func _process(_delta: float) -> void:
 		items_index += 1
 
 	if get_tree().get_nodes_in_group("BrickBall").size() > 99:
-		$BallNumberInfo.show()
+		$HUD/BallNumberInfo.show()
 	else:
-		$BallNumberInfo.hide()
+		$HUD/BallNumberInfo.hide()
 
 	if precise_flag:
-		$PreciseInfo.show()
+		$HUD/PreciseInfo.show()
 	else:
-		$PreciseInfo.hide()
+		$HUD/PreciseInfo.hide()
 
 
 func select_level(lv: int) -> void:
@@ -167,9 +167,9 @@ func _on_bottom_area_body_entered(ball: Node2D) -> void:
 
 func _on_level_over(win: bool) -> void:
 	if win:
-		$Info.text = "you win!"
+		$HUD/Info.text = "you win!"
 	else:
-		$Info.text = "you lose!"
+		$HUD/Info.text = "you lose!"
 	exit_flag = true
 
 
@@ -188,7 +188,7 @@ func _on_item_list_item_clicked(index: int, _at_position: Vector2, mouse_button_
 func proliferation() -> void:
 	if get_tree().get_nodes_in_group("BrickBall").size() > 99:
 		return
-	$ItemInfo.hide()
+	$HUD/ItemInfo.hide()
 	if items["proliferation"] <= 0:
 		return
 	items["proliferation"] -= 1
@@ -205,7 +205,7 @@ func proliferation() -> void:
 
 
 func prolong() -> void:
-	$ItemInfo.hide()
+	$HUD/ItemInfo.hide()
 	if prolong_flag:
 		return
 	if items["prolong"] <= 0:
@@ -275,3 +275,7 @@ func _on_ball_hit_audio(kind: String, posi: Vector2) -> void:
 	await timer.timeout
 	timer.queue_free()
 	audio.queue_free()
+
+
+func _on_hud_exit() -> void:
+	exit.emit()

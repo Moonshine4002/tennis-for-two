@@ -13,7 +13,7 @@ func _process(_delta: float) -> void:
 	if not timer.is_stopped():
 		return
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-		get_parent().get_node("PlatformInfo").hide()
+		get_parent().get_node("HUD").get_node("PlatformInfo").hide()
 		get_parent().add_ball()
 		timer.start()
 		await timer.timeout

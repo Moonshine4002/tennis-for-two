@@ -1,0 +1,94 @@
+[gd_scene load_steps=6 format=3 uid="uid://mtynhape1nsy"]
+
+[ext_resource type="Script" path="res://src/brick/hud.gd" id="1_xmoyl"]
+[ext_resource type="FontFile" uid="uid://btx4r6ytf1kkt" path="res://art/fonts/Xolonium-Regular.ttf" id="2_n2ssw"]
+[ext_resource type="FontFile" uid="uid://cbhhff5f0gqx" path="res://art/textures/brick/breakout_pieces_to_font.png" id="2_stbmm"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_0vv8t"]
+font = ExtResource("2_stbmm")
+
+[sub_resource type="LabelSettings" id="LabelSettings_4r4t7"]
+font = ExtResource("2_stbmm")
+font_size = 12
+
+[node name="HUD" type="Node2D"]
+script = ExtResource("1_xmoyl")
+
+[node name="Info" type="Label" parent="."]
+z_index = 20
+texture_filter = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 840.0
+offset_top = 16.0
+offset_right = 936.0
+offset_bottom = 51.0
+grow_horizontal = 0
+text = "level: 1
+life: 99"
+label_settings = SubResource("LabelSettings_0vv8t")
+
+[node name="ItemInfo" type="Label" parent="."]
+z_index = 20
+texture_filter = 1
+offset_left = 27.0
+offset_right = 263.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0.443137, 0.737255, 0.988235, 1)
+text = "press number to active skills"
+label_settings = SubResource("LabelSettings_4r4t7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlatformInfo" type="Label" parent="."]
+z_index = 20
+texture_filter = 1
+offset_left = 344.0
+offset_top = 400.0
+offset_right = 580.0
+offset_bottom = 423.0
+theme_override_colors/font_color = Color(0.443137, 0.737255, 0.988235, 1)
+text = "press left key to shoot ball"
+label_settings = SubResource("LabelSettings_4r4t7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BallNumberInfo" type="Label" parent="."]
+z_index = 20
+texture_filter = 1
+offset_left = 328.0
+offset_top = 16.0
+offset_right = 564.0
+offset_bottom = 39.0
+text = "too many balls!"
+label_settings = SubResource("LabelSettings_4r4t7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PreciseInfo" type="Label" parent="."]
+z_index = 20
+texture_filter = 1
+offset_left = 328.0
+offset_top = 32.0
+offset_right = 564.0
+offset_bottom = 55.0
+text = "in precise mod!"
+label_settings = SubResource("LabelSettings_4r4t7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Exit" type="Button" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 904.0
+offset_top = 512.0
+offset_right = 963.0
+offset_bottom = 545.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("2_n2ssw")
+theme_override_font_sizes/font_size = 20
+text = "Exit"
+
+[connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]

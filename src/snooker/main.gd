@@ -240,3 +240,7 @@ func set_info_text() -> void:
 		target_text = "Colored"
 	$HUD/Score.text = "{0} : {1}".format(score)
 	$HUD/Side.text = "Side: {0}\nTarget: {1}".format([side_text, target_text])
+
+
+func _on_hud_exit() -> void:
+	exit.emit()

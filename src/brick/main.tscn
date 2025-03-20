@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://drm3ima8x8w7e"]
+[gd_scene load_steps=12 format=3 uid="uid://drm3ima8x8w7e"]
 
 [ext_resource type="Script" path="res://src/brick/main.gd" id="1_05pdn"]
 [ext_resource type="Script" path="res://src/brick/manager.gd" id="2_oau1y"]
 [ext_resource type="FontFile" uid="uid://cbhhff5f0gqx" path="res://art/textures/brick/breakout_pieces_to_font.png" id="3_gfeeb"]
 [ext_resource type="PackedScene" uid="uid://le0ck4wsgfr6" path="res://src/brick/platform.tscn" id="3_o5op8"]
 [ext_resource type="PackedScene" uid="uid://cxfxvter4j00h" path="res://src/brick/indestructible.tscn" id="5_p3il4"]
+[ext_resource type="PackedScene" uid="uid://mtynhape1nsy" path="res://src/brick/hud.tscn" id="6_aktmu"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lady1"]
 friction = 0.0
@@ -20,13 +21,6 @@ normal = Vector2(1, 0)
 normal = Vector2(-1, 0)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_i8tyt"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_ak57j"]
-font = ExtResource("3_gfeeb")
-
-[sub_resource type="LabelSettings" id="LabelSettings_stneu"]
-font = ExtResource("3_gfeeb")
-font_size = 8
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_05pdn")
@@ -74,68 +68,6 @@ script = ExtResource("2_oau1y")
 
 [node name="Platform" parent="." instance=ExtResource("3_o5op8")]
 position = Vector2(0, 500)
-
-[node name="Info" type="Label" parent="."]
-z_index = 20
-texture_filter = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = 840.0
-offset_top = 16.0
-offset_right = 936.0
-offset_bottom = 51.0
-grow_horizontal = 0
-text = "level: 1
-life: 99"
-label_settings = SubResource("LabelSettings_ak57j")
-
-[node name="ItemInfo" type="Label" parent="."]
-z_index = 20
-texture_filter = 1
-offset_left = 27.0
-offset_right = 263.0
-offset_bottom = 23.0
-text = "press number or right key to active skills"
-label_settings = SubResource("LabelSettings_stneu")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="PlatformInfo" type="Label" parent="."]
-z_index = 20
-texture_filter = 1
-offset_left = 397.0
-offset_top = 400.0
-offset_right = 562.0
-offset_bottom = 423.0
-text = "press left key to shoot ball"
-label_settings = SubResource("LabelSettings_stneu")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="BallNumberInfo" type="Label" parent="."]
-z_index = 20
-texture_filter = 1
-offset_left = 360.0
-offset_top = 16.0
-offset_right = 596.0
-offset_bottom = 39.0
-text = "too many balls!"
-label_settings = SubResource("LabelSettings_stneu")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="PreciseInfo" type="Label" parent="."]
-z_index = 20
-texture_filter = 1
-offset_left = 360.0
-offset_top = 24.0
-offset_right = 596.0
-offset_bottom = 47.0
-text = "in precise mod!"
-label_settings = SubResource("LabelSettings_stneu")
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="ItemList" type="ItemList" parent="."]
 z_index = 20
@@ -587,6 +519,9 @@ position = Vector2(928, 360)
 color = "golden"
 tag = "5"
 
+[node name="HUD" parent="." instance=ExtResource("6_aktmu")]
+
 [connection signal="level_over" from="." to="." method="_on_level_over"]
 [connection signal="body_entered" from="Surrounding/BottomArea" to="." method="_on_bottom_area_body_entered"]
 [connection signal="item_clicked" from="ItemList" to="." method="_on_item_list_item_clicked"]
+[connection signal="exit" from="HUD" to="." method="_on_hud_exit"]
