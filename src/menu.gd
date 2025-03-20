@@ -1,5 +1,9 @@
 extends Node
 
+var scene: PackedScene
+var game: GameTemplate
+var gaming_flag := false
+
 
 func _ready() -> void:
 	pass
@@ -12,34 +16,43 @@ func _process(_delta: float) -> void:
 func _on_item_list_item_clicked(
 	index: int, _at_position: Vector2, _mouse_button_index: int
 ) -> void:
-	var scene: PackedScene
+	if gaming_flag:
+		return
+	gaming_flag = true
+
 	match index:
 		0:
 			scene = load("res://src/snooker/main.tscn")
-			var timer = get_tree().create_timer(0.2)
-			await timer.timeout
 
 		1:
 			scene = load("res://src/brick/main.tscn")
-			var timer = get_tree().create_timer(0.2)
-			await timer.timeout
 
 		2:
 			print("Not implemented!")
 			return
 
-	var game := scene.instantiate()
+	var timer = get_tree().create_timer(0.2)
+	game = scene.instantiate()
+	game.connect("exit", _on_game_exit)
+	await timer.timeout
+
+	hide()
+	add_child(game)
+
+
+func _on_game_exit() -> void:
+	game.queue_free()
+	show()
+	gaming_flag = false
+
+
+func hide() -> void:
 	for child in get_children():
 		if child is CanvasItem:
 			child.hide()
 
-	if index == 1:
-		game.connect("exit", _on_game_exit)
-	add_child(game)
 
-
-func _on_game_exit(node: Node) -> void:
-	node.queue_free()
+func show() -> void:
 	for child in get_children():
 		if child is CanvasItem:
 			child.show()

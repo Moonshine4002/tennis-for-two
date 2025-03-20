@@ -1,7 +1,6 @@
-extends Node2D
+extends GameTemplate
 
 signal level_over(win: bool)
-signal exit(node: Node)
 
 @onready var ball_scene: PackedScene = load("res://src/brick/ball.tscn")
 @onready var brick_scene: PackedScene = load("res://src/brick/brick.tscn")
@@ -33,7 +32,7 @@ func _process(_delta: float) -> void:
 		add_child(timer)
 		timer.start()
 		await timer.timeout
-		exit.emit(self)
+		exit.emit()
 
 	$Info.text = "level: {0}\nlife: {1}".format([level, life])
 	var brick_flag := false

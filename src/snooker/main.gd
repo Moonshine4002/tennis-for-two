@@ -1,4 +1,4 @@
-extends Node2D
+extends GameTemplate
 
 @onready var ball_scene: PackedScene = load("res://src/snooker/ball.tscn")
 
