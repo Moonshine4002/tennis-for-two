@@ -6,14 +6,6 @@
 [node name="Tutorial" type="CanvasLayer"]
 script = ExtResource("1_2juo1")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.803922, 0.333333, 0.196078, 1)
-
 [node name="Title" type="Label" parent="."]
 anchors_preset = 5
 anchor_left = 0.5

@@ -13,9 +13,11 @@ func _process(_delta: float) -> void:
 
 
 func _on_tutorial_start_game(game_name: String) -> void:
+	for child in $Tutorial.get_children():
+		child.hide()
 	match game_name:
 		"tennis for two":
-			scene = load("res://src/old_tennis/main.tscn")
+			scene = load("res://src/tennis/main.tscn")
 		"game menu":
 			scene = load("res://src/menu.tscn")
 		_:
