@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b8r18i64f1xcn"
-path="res://.godot/imported/Set.png-464278497d4b9ae1c195ac1d41487b56.ctex"
+uid="uid://rswr1ob3sbd3"
+path="res://.godot/imported/Arrow.png-31537888a31afb3a5aae53c80a0f4936.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/textures/tennis/Set.png"
-dest_files=["res://.godot/imported/Set.png-464278497d4b9ae1c195ac1d41487b56.ctex"]
+source_file="res://art/textures/old_tennis/Arrow.png"
+dest_files=["res://.godot/imported/Arrow.png-31537888a31afb3a5aae53c80a0f4936.ctex"]
 
 [params]
 

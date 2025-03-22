@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b0eg30whg82c3"
-path="res://.godot/imported/Grass.png-c9b272eaac288d0cd977446e0b0950ac.ctex"
+uid="uid://lcv58d0epfb"
+path="res://.godot/imported/Ball.png-16685f8d0b366fe4ef2579e1a8db2973.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/textures/tennis/Grass.png"
-dest_files=["res://.godot/imported/Grass.png-c9b272eaac288d0cd977446e0b0950ac.ctex"]
+source_file="res://art/textures/old_tennis/Ball.png"
+dest_files=["res://.godot/imported/Ball.png-16685f8d0b366fe4ef2579e1a8db2973.ctex"]
 
 [params]
 
