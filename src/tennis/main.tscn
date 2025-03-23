@@ -1,15 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://0ob2kdmfmge8"]
+[gd_scene load_steps=5 format=3 uid="uid://0ob2kdmfmge8"]
 
 [ext_resource type="Script" path="res://src/tennis/main.gd" id="1_vynd5"]
 [ext_resource type="PackedScene" uid="uid://yuuuv33shbrm" path="res://src/tennis/oscilloscope.tscn" id="2_o3gax"]
 [ext_resource type="FontFile" uid="uid://btx4r6ytf1kkt" path="res://art/fonts/Xolonium-Regular.ttf" id="3_3er11"]
+[ext_resource type="Texture2D" uid="uid://2qa3xh7rgjyd" path="res://art/textures/tennis/MDO3000.jpg" id="3_t41co"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_vynd5")
 
 [node name="Oscilloscope" parent="." instance=ExtResource("2_o3gax")]
-horizontal = 0.251388
-vertical = 0.184176
+texture = ExtResource("3_t41co")
+texture_rect = Rect2(50, 230, 1990, 1070)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 

@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://src/menu.gd" id="1_rcvxq"]
 [ext_resource type="FontFile" uid="uid://btx4r6ytf1kkt" path="res://art/fonts/Xolonium-Regular.ttf" id="2_3uhpr"]
 [ext_resource type="Texture2D" uid="uid://ctnjxt7iyxj3c" path="res://art/textures/snooker/SMS Pool Asset Pack FREE/Pool_Table_Type_1_NO_BG Wide.png" id="2_ehc1j"]
-[ext_resource type="Texture2D" uid="uid://lcv58d0epfb" path="res://art/textures/tennis/Ball.png" id="2_pmyto"]
+[ext_resource type="Texture2D" uid="uid://lcv58d0epfb" path="res://art/textures/old_tennis/Ball.png" id="2_pmyto"]
 [ext_resource type="Texture2D" uid="uid://hkl2rc6iwk7r" path="res://art/textures/brick/Breakout set/breakout_pieces.png" id="3_chjnk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ce8pf"]
