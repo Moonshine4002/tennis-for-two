@@ -4,38 +4,64 @@ class_name Oscilloscope
 
 @export var width := 800
 @export var height := 600
-@export var horizontal := 0.0:
-	set(value):
-		horizontal = value
-		#queue_redraw()
-@export var vertical := 0.0:
-	set(value):
-		vertical = value
-		#queue_redraw()
+@export var percentage := Vector2()
+@export var percentages: Array[Vector2] = []
 
 @export var strength := 5.0
 @export var base := Color.SKY_BLUE
 @export var intensity := 2.0
 @export var attenuation := 0.1
-@export var frequency := 60.0:
-	set(value):
-		frequency = value
+@export var frequency := 60.0
 
-@export var texture: Texture2D:
-	set(value):
-		texture = value
-		#queue_redraw()
+@export var texture: Texture2D
 @export var texture_rect: Rect2
+
+var action_point := 0.0
+
+
+func _ready() -> void:
+	Dot.s_dots.clear()
 
 
 func _process(delta: float) -> void:
 	add_dot()
+	add_dots(delta)
 	Dot.s_update(delta)
 	queue_redraw()
 
 
+func add_dots(delta: float) -> void:
+	for percentage in percentages:
+		var coordinate := Vector2(width * percentage.x, height * percentage.y)
+		Dot.new(self, coordinate, strength, base, intensity, attenuation)
+
+	'''
+	if percentages.size() == 0:
+		return
+	action_point += delta
+	var step := 1 / frequency
+	while action_point > 0:
+		var percent := 1 - action_point / delta
+
+		var index := int(percentages.size() * percent)
+		var percentage0 := percentages[index]
+		var percentage1: Vector2
+		if index == percentages.size() - 1:
+			percentage1 = percentage0
+		else:
+			percentage1 = percentages[index + 1]
+		var percentage := (percentage0 + percentage1) / 2
+		var coordinate := Vector2(width * percentage.x, height * percentage.y)
+		Dot.new(self, coordinate, strength, base, intensity, attenuation)
+
+		action_point -= step
+	'''
+
+
 func add_dot() -> void:
-	var coordinate := Vector2(width * horizontal, height * vertical)
+	if percentage == Vector2():
+		return
+	var coordinate := Vector2(width * percentage.x, height * percentage.y)
 	Dot.new(self, coordinate, strength, base, intensity, attenuation)
 
 
@@ -67,7 +93,8 @@ class Dot:
 		radius_: float,
 		color_: Color,
 		intensity_ := 2.0,
-		fade_ := 0.1
+		fade_ := 0.1,
+		fade_init := 0.0,
 	) -> void:
 		canvas = canvas_
 		coordinate = coordinate_
@@ -76,6 +103,7 @@ class Dot:
 		intensity = intensity_
 		fade = fade_
 		s_dots.append(self)
+		update(fade_init)
 
 	static func s_draw():
 		for dot in Dot.s_dots:
@@ -83,6 +111,7 @@ class Dot:
 
 	func draw() -> void:
 		canvas.draw_circle(coordinate, radius, color)
+		#canvas.draw_polyline(coordinates, color, radius / 2)
 
 	static func s_update(delta: float) -> void:
 		for dot in s_dots:
