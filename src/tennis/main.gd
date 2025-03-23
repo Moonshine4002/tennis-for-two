@@ -16,9 +16,10 @@ func _process(delta: float) -> void:
 	#$Oscilloscope.percentage.y = (sin(Time.get_ticks_msec() / 100.0)) / 2 + 0.5
 
 	$Oscilloscope.percentages.clear()
-	for i in range(0, 1000):
+	var frequency := 240.0
+	for i in range(0, int(frequency)):
 		$Oscilloscope.percentages.append(
-			Vector2(i / 1000.0, sin(i / 1000.0 * TAU + time / 1000.0) / 2 + 0.5)
+			Vector2(i / frequency, sin(i / frequency * TAU + time / frequency) / 2 + 0.5)
 		)
 
 

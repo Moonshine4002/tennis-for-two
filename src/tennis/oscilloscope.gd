@@ -11,7 +11,7 @@ class_name Oscilloscope
 @export var base := Color.SKY_BLUE
 @export var intensity := 2.0
 @export var attenuation := 0.1
-@export var frequency := 60.0
+#@export var frequency := 60.0
 
 @export var texture: Texture2D
 @export var texture_rect: Rect2
@@ -21,19 +21,30 @@ var action_point := 0.0
 
 func _ready() -> void:
 	Dot.s_dots.clear()
+	Poly.s_polys.clear()
 
 
 func _process(delta: float) -> void:
+	Dot.s_update(delta)
+	Poly.s_update(delta)
 	add_dot()
 	add_dots(delta)
-	Dot.s_update(delta)
+	add_polyline(delta)
 	queue_redraw()
 
 
+func add_polyline(delta: float) -> void:
+	var coordinates: Array[Vector2] = []
+	for percentage in percentages:
+		coordinates.append(Vector2(width * percentage.x, height * percentage.y))
+	Poly.new(self, coordinates, base, strength, intensity, attenuation)
+
+
 func add_dots(delta: float) -> void:
+	return
 	for percentage in percentages:
 		var coordinate := Vector2(width * percentage.x, height * percentage.y)
-		Dot.new(self, coordinate, strength, base, intensity, attenuation)
+		Dot.new(self, coordinate, strength / 2, base, intensity, attenuation)
 
 	'''
 	if percentages.size() == 0:
@@ -52,7 +63,7 @@ func add_dots(delta: float) -> void:
 			percentage1 = percentages[index + 1]
 		var percentage := (percentage0 + percentage1) / 2
 		var coordinate := Vector2(width * percentage.x, height * percentage.y)
-		Dot.new(self, coordinate, strength, base, intensity, attenuation)
+		Dot.new(self, coordinate, strength / 2, base, intensity, attenuation)
 
 		action_point -= step
 	'''
@@ -62,7 +73,7 @@ func add_dot() -> void:
 	if percentage == Vector2():
 		return
 	var coordinate := Vector2(width * percentage.x, height * percentage.y)
-	Dot.new(self, coordinate, strength, base, intensity, attenuation)
+	Dot.new(self, coordinate, strength / 2, base, intensity, attenuation)
 
 
 func _draw():
@@ -71,6 +82,59 @@ func _draw():
 	else:
 		draw_texture_rect(texture, Rect2(0, 0, width, height), false)
 	Dot.s_draw()
+	Poly.s_draw()
+
+
+class Poly:
+	static var s_polys: Array[Poly] = []
+
+	var canvas: CanvasItem
+	var coordinates: Array[Vector2] = []
+	var color: Color:
+		set(value):
+			color = value
+		get():
+			return Color(color.r * intensity, color.g * intensity, color.b * intensity, color.a)
+	var width: float
+	var intensity: float
+	var fade: float
+
+	func _init(
+		canvas_: CanvasItem,
+		coordinates_: Array[Vector2],
+		color_: Color,
+		width_: float,
+		intensity_ := 2.0,
+		fade_ := 0.1,
+	) -> void:
+		canvas = canvas_
+		coordinates = coordinates_  # TODO
+		width = width_
+		color = color_
+		intensity = intensity_
+		fade = fade_
+		s_polys.append(self)
+
+	static func s_draw():
+		for poly in s_polys:
+			poly.draw()
+
+	func draw() -> void:
+		canvas.draw_polyline(coordinates, color, width)
+
+	static func s_update(delta: float) -> void:
+		for poly in s_polys:
+			poly.update(delta)
+
+	func update(delta: float) -> void:
+		if fade == 0:
+			s_polys.erase(self)
+		intensity *= pow(fade, delta)
+		if _color_to_grey() <= 0.66:
+			s_polys.erase(self)
+
+	func _color_to_grey() -> float:
+		return (color.r * 0.299 + color.g * 0.587 + color.b * 0.114) * color.a
 
 
 class Dot:
@@ -94,7 +158,7 @@ class Dot:
 		color_: Color,
 		intensity_ := 2.0,
 		fade_ := 0.1,
-		fade_init := 0.0,
+		#fade_init := 0.0,
 	) -> void:
 		canvas = canvas_
 		coordinate = coordinate_
@@ -103,7 +167,8 @@ class Dot:
 		intensity = intensity_
 		fade = fade_
 		s_dots.append(self)
-		update(fade_init)
+		#if fade_init != 0.0:
+		#	update(fade_init)
 
 	static func s_draw():
 		for dot in Dot.s_dots:
@@ -111,13 +176,14 @@ class Dot:
 
 	func draw() -> void:
 		canvas.draw_circle(coordinate, radius, color)
-		#canvas.draw_polyline(coordinates, color, radius / 2)
 
 	static func s_update(delta: float) -> void:
 		for dot in s_dots:
 			dot.update(delta)
 
 	func update(delta: float) -> void:
+		if fade == 0:
+			s_dots.erase(self)
 		intensity *= pow(fade, delta)
 		if _color_to_grey() <= 0.66:
 			#color = Color()
