@@ -36,7 +36,7 @@ func _process(delta: float) -> void:
 
 func add_dot() -> void:
 	var coordinate := Vector2(width * horizontal, height * vertical)
-	Dot.new(coordinate, strength, base, intensity, attenuation)
+	Dot.new(self, coordinate, strength, base, intensity, attenuation)
 
 
 func _draw():
@@ -44,17 +44,13 @@ func _draw():
 		draw_texture_rect_region(texture, Rect2(0, 0, width, height), texture_rect)
 	else:
 		draw_texture_rect(texture, Rect2(0, 0, width, height), false)
-	draw_dots()
-
-
-func draw_dots():
-	for dot in Dot.s_dots:
-		draw_circle(dot.coordinate, dot.radius, dot.color)
+	Dot.s_draw()
 
 
 class Dot:
 	static var s_dots: Array[Dot] = []
 
+	var canvas: CanvasItem
 	var coordinate: Vector2
 	var radius: float
 	var color: Color:
@@ -66,14 +62,27 @@ class Dot:
 	var fade: float
 
 	func _init(
-		coordinate_: Vector2, radius_: float, color_: Color, intensity_ := 2.0, fade_ := 0.1
+		canvas_: CanvasItem,
+		coordinate_: Vector2,
+		radius_: float,
+		color_: Color,
+		intensity_ := 2.0,
+		fade_ := 0.1
 	) -> void:
+		canvas = canvas_
 		coordinate = coordinate_
 		radius = radius_
 		color = color_
-		s_dots.append(self)
 		intensity = intensity_
 		fade = fade_
+		s_dots.append(self)
+
+	static func s_draw():
+		for dot in Dot.s_dots:
+			dot.draw()
+
+	func draw() -> void:
+		canvas.draw_circle(coordinate, radius, color)
 
 	static func s_update(delta: float) -> void:
 		for dot in s_dots:
