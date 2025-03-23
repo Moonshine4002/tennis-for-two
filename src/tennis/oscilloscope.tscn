@@ -14,9 +14,3 @@ texture = ExtResource("3_ysf7x")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_tkdb4")
-
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.017
-autostart = true
-
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

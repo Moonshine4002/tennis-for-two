@@ -20,7 +20,6 @@ class_name Oscilloscope
 @export var frequency := 60.0:
 	set(value):
 		frequency = value
-		$Timer.wait_time = 1 / frequency
 
 @export var texture: Texture2D:
 	set(value):
@@ -30,17 +29,14 @@ class_name Oscilloscope
 
 
 func _process(delta: float) -> void:
+	add_dot()
 	Dot.s_update(delta)
 	queue_redraw()
 
 
-func _on_timer_timeout() -> void:
-	add_dot()
-
-
 func add_dot() -> void:
-	var position_ := Vector2(width * horizontal, height * vertical)
-	Dot.new(position_, strength, base, intensity, attenuation)
+	var coordinate := Vector2(width * horizontal, height * vertical)
+	Dot.new(coordinate, strength, base, intensity, attenuation)
 
 
 func _draw():
@@ -53,13 +49,13 @@ func _draw():
 
 func draw_dots():
 	for dot in Dot.s_dots:
-		draw_circle(dot.position, dot.radius, dot.color)
+		draw_circle(dot.coordinate, dot.radius, dot.color)
 
 
 class Dot:
 	static var s_dots: Array[Dot] = []
 
-	var position: Vector2
+	var coordinate: Vector2
 	var radius: float
 	var color: Color:
 		set(value):
@@ -70,9 +66,9 @@ class Dot:
 	var fade: float
 
 	func _init(
-		position_: Vector2, radius_: float, color_: Color, intensity_ := 2.0, fade_ := 0.1
+		coordinate_: Vector2, radius_: float, color_: Color, intensity_ := 2.0, fade_ := 0.1
 	) -> void:
-		position = position_
+		coordinate = coordinate_
 		radius = radius_
 		color = color_
 		s_dots.append(self)
