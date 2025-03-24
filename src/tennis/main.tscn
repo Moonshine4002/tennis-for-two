@@ -9,9 +9,10 @@
 script = ExtResource("1_vynd5")
 
 [node name="Oscilloscope" parent="." instance=ExtResource("2_o3gax")]
+strength = 1.0
 intensity = 1.2
 life = 0.0
-noise = Vector2(0.1, 0.1)
+noise = Vector2(0, 0.2)
 texture = ExtResource("3_t41co")
 texture_rect = Rect2(50, 230, 1990, 1070)
 
