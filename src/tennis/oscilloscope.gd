@@ -11,6 +11,8 @@ class_name Oscilloscope
 @export var color := Color.SKY_BLUE
 @export var intensity := 2.0
 @export var life := 1.0
+@export var noise := Vector2(1, 1)
+@export var shift := Vector2(0, 0)
 
 @export var texture: Texture2D
 @export var texture_rect: Rect2
@@ -21,9 +23,10 @@ var polys: Array[Poly] = []
 
 func _process(delta: float) -> void:
 	update(delta)
+	add_noise()
 	add_dot()
-	add_dots(delta)
-	add_polyline(delta)
+	add_dots()
+	add_polyline()
 	queue_redraw()
 
 
@@ -36,14 +39,14 @@ func update(delta: float) -> void:
 			polys.erase(poly)
 
 
-func add_polyline(delta: float) -> void:
+func add_polyline() -> void:
 	var coordinates: Array[Vector2] = []
 	for percentage in percentages:
 		coordinates.append(Vector2(width * percentage.x, height * percentage.y))
 	polys.append(Poly.new(self, coordinates, color, strength, intensity, life / 5))
 
 
-func add_dots(delta: float) -> void:
+func add_dots() -> void:
 	return
 	for percentage in percentages:
 		var coordinate := Vector2(width * percentage.x, height * percentage.y)
@@ -68,6 +71,14 @@ func _draw():
 		poly.draw()
 
 
+func add_noise():
+	var shift_x = randfn(0, shift.x / width)
+	var shift_y = randfn(0, shift.y / height)
+	for i in range(percentages.size()):
+		percentages[i].x += shift_x + randfn(0, noise.x / width)
+		percentages[i].y += shift_y + randfn(0, noise.y / height)
+
+
 class Poly:
 	extends Primitive
 	var coordinates: Array[Vector2]
@@ -86,7 +97,7 @@ class Poly:
 		super._init(canvas_, base_, intensity_, lifespan_)
 
 	func draw() -> void:
-		canvas.draw_polyline(coordinates, base, width)
+		canvas.draw_polyline(coordinates, color, width)
 
 
 class Dot:
@@ -107,7 +118,7 @@ class Dot:
 		super._init(canvas_, base_, intensity_, lifespan_)
 
 	func draw() -> void:
-		canvas.draw_circle(coordinate, radius, base)
+		canvas.draw_circle(coordinate, radius, color)
 
 
 class Primitive:
@@ -128,7 +139,9 @@ class Primitive:
 		base = base_
 		intensity = intensity_
 		lifespan = lifespan_
+		color = Color.MAGENTA
 		_time = Time.get_ticks_usec() / 1e6
+		update_color()
 
 	func update(delta: float) -> bool:
 		if lifespan == 0:
@@ -139,11 +152,14 @@ class Primitive:
 		return true
 
 	func update_color() -> void:
+		if lifespan == 0:
+			color = base * intensity
+			color.a = base.a
+			return
 		var delta := Time.get_ticks_usec() / 1e6 - _time
 		var attenuation := intensity * exp(-delta / lifespan)
-		color.r = base.r * attenuation
-		color.g = base.g * attenuation
-		color.b = base.b * attenuation
+		color = base * attenuation
+		color.a = base.a
 
 	func _color_to_grey() -> float:
-		return (base.r * 0.299 + base.g * 0.587 + base.b * 0.114) * base.a
+		return (color.r * 0.299 + color.g * 0.587 + color.b * 0.114) * color.a

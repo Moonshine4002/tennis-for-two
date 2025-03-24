@@ -4,7 +4,9 @@
 
 [sub_resource type="Environment" id="Environment_tkdb4"]
 background_mode = 3
+tonemap_mode = 3
 glow_enabled = true
+glow_bloom = 0.1
 glow_blend_mode = 0
 
 [node name="Oscilloscope" type="Node2D"]

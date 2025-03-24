@@ -17,10 +17,10 @@ func _process(delta: float) -> void:
 
 	$Oscilloscope.percentages.clear()
 	var frequency := 240.0
-	var rand := randf() / 20
+	#var rand := randf() / 20
 	for i in range(0, int(frequency)):
 		$Oscilloscope.percentages.append(
-			Vector2(i / frequency, sin(i / frequency * TAU + rand + randf() / 20) / 2 + 0.5)
+			Vector2(i / frequency, sin(i / frequency * TAU + time / 1000.0) / 2 + 0.5)
 		)
 
 
