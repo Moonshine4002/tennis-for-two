@@ -112,18 +112,10 @@ class Dot:
 
 class Primitive:
 	var canvas: CanvasItem
-	var base: Color:
-		set(value):
-			base = value
-		get():
-			var delta := Time.get_ticks_usec() / 1e6 - _time
-			if lifespan == 0:
-				return base * intensity
-			var attenuation := intensity * exp(-delta / lifespan)
-			return Color(base.r * attenuation, base.g * attenuation, base.b * attenuation, base.a)
+	var base: Color
 	var intensity: float
 	var lifespan: float
-	var color: Color  # TODO
+	var color: Color
 	var _time: float
 
 	func _init(
@@ -141,9 +133,17 @@ class Primitive:
 	func update(delta: float) -> bool:
 		if lifespan == 0:
 			return false
+		update_color()
 		if _color_to_grey() <= 0.66:
 			return false
 		return true
+
+	func update_color() -> void:
+		var delta := Time.get_ticks_usec() / 1e6 - _time
+		var attenuation := intensity * exp(-delta / lifespan)
+		color.r = base.r * attenuation
+		color.g = base.g * attenuation
+		color.b = base.b * attenuation
 
 	func _color_to_grey() -> float:
 		return (base.r * 0.299 + base.g * 0.587 + base.b * 0.114) * base.a
