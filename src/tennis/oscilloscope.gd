@@ -7,52 +7,54 @@ class_name Oscilloscope
 @export var percentage := Vector2()
 @export var percentages: Array[Vector2] = []
 
-@export var strength := 5.0
-@export var base := Color.SKY_BLUE
+@export var strength := 2.0
+@export var color := Color.SKY_BLUE
 @export var intensity := 2.0
-@export var attenuation := 0.1
+@export var life := 1.0
 
 @export var texture: Texture2D
 @export var texture_rect: Rect2
-
-var action_point := 0.0
 
 var dots: Array[Dot] = []
 var polys: Array[Poly] = []
 
 
 func _process(delta: float) -> void:
-	for dot in dots:
-		if not dot.update(delta):
-			dots.erase(dot)
-	for poly in polys:
-		if not poly.update(delta):
-			polys.erase(poly)
+	update(delta)
 	add_dot()
 	add_dots(delta)
 	add_polyline(delta)
 	queue_redraw()
 
 
+func update(delta: float) -> void:
+	for dot in dots:
+		if not dot.update(delta):
+			dots.erase(dot)
+	for poly in polys:
+		if not poly.update(delta):
+			polys.erase(poly)
+
+
 func add_polyline(delta: float) -> void:
 	var coordinates: Array[Vector2] = []
 	for percentage in percentages:
 		coordinates.append(Vector2(width * percentage.x, height * percentage.y))
-	polys.append(Poly.new(self, coordinates, base, strength, intensity, attenuation))
+	polys.append(Poly.new(self, coordinates, color, strength, intensity, life / 5))
 
 
 func add_dots(delta: float) -> void:
 	return
 	for percentage in percentages:
 		var coordinate := Vector2(width * percentage.x, height * percentage.y)
-		dots.append(Dot.new(self, coordinate, strength / 2, base, intensity, attenuation))
+		dots.append(Dot.new(self, coordinate, strength / 2, color, intensity, life / 5))
 
 
 func add_dot() -> void:
 	if percentage == Vector2():
 		return
 	var coordinate := Vector2(width * percentage.x, height * percentage.y)
-	dots.append(Dot.new(self, coordinate, strength / 2, base, intensity, attenuation))
+	dots.append(Dot.new(self, coordinate, strength / 2, color, intensity, life / 5))  # 5τ
 
 
 func _draw():
@@ -74,17 +76,17 @@ class Poly:
 	func _init(
 		canvas_: CanvasItem,
 		coordinates_: Array[Vector2],
-		color_: Color,
+		base_: Color,
 		width_: float,
 		intensity_ := 2.0,
-		fade_ := 0.1,
+		lifespan_ := 0.1,
 	) -> void:
 		coordinates = coordinates_  # TODO
 		width = width_
-		super._init(canvas_, color_, intensity_, fade_)
+		super._init(canvas_, base_, intensity_, lifespan_)
 
 	func draw() -> void:
-		canvas.draw_polyline(coordinates, color, width)
+		canvas.draw_polyline(coordinates, base, width)
 
 
 class Dot:
@@ -96,46 +98,52 @@ class Dot:
 		canvas_: CanvasItem,
 		coordinate_: Vector2,
 		radius_: float,
-		color_: Color,
+		base_: Color,
 		intensity_ := 2.0,
-		fade_ := 0.1,
+		lifespan_ := 0.1,
 	) -> void:
 		coordinate = coordinate_
 		radius = radius_
-		super._init(canvas_, color_, intensity_, fade_)
+		super._init(canvas_, base_, intensity_, lifespan_)
 
 	func draw() -> void:
-		canvas.draw_circle(coordinate, radius, color)
+		canvas.draw_circle(coordinate, radius, base)
 
 
 class Primitive:
 	var canvas: CanvasItem
-	var color: Color:
+	var base: Color:
 		set(value):
-			color = value
+			base = value
 		get():
-			return Color(color.r * intensity, color.g * intensity, color.b * intensity, color.a)
+			var delta := Time.get_ticks_usec() / 1e6 - _time
+			if lifespan == 0:
+				return base * intensity
+			var attenuation := intensity * exp(-delta / lifespan)
+			return Color(base.r * attenuation, base.g * attenuation, base.b * attenuation, base.a)
 	var intensity: float
-	var fade: float
+	var lifespan: float
+	var color: Color  # TODO
+	var _time: float
 
 	func _init(
 		canvas_: CanvasItem,
-		color_: Color,
+		base_: Color,
 		intensity_ := 2.0,
-		fade_ := 0.1,
+		lifespan_ := 0.1,
 	) -> void:
 		canvas = canvas_
-		color = color_
+		base = base_
 		intensity = intensity_
-		fade = fade_
+		lifespan = lifespan_
+		_time = Time.get_ticks_usec() / 1e6
 
 	func update(delta: float) -> bool:
-		if fade == 0:
+		if lifespan == 0:
 			return false
-		intensity *= pow(fade, delta)
 		if _color_to_grey() <= 0.66:
 			return false
 		return true
 
 	func _color_to_grey() -> float:
-		return (color.r * 0.299 + color.g * 0.587 + color.b * 0.114) * color.a
+		return (base.r * 0.299 + base.g * 0.587 + base.b * 0.114) * base.a
