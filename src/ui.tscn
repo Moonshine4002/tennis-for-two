@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=3 uid="uid://b80ct7arfwwy0"]
+
+[ext_resource type="Script" path="res://src/ui.gd" id="1_kylai"]
+
+[node name="UI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kylai")
+
+[node name="Menu" type="CanvasLayer" parent="."]
+
+[node name="Create" type="Button" parent="Menu"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 68.0
+offset_bottom = 39.0
+text = "Create"
+
+[node name="Join" type="Button" parent="Menu"]
+offset_left = 8.0
+offset_top = 48.0
+offset_right = 68.0
+offset_bottom = 79.0
+text = "Join"
+
+[node name="Link" type="CanvasLayer" parent="."]
+
+[node name="Load" type="Button" parent="Link"]
+offset_left = 8.0
+offset_top = 88.0
+offset_right = 68.0
+offset_bottom = 119.0
+text = "Load"
+
+[node name="Settings" type="CanvasLayer" parent="."]
+
+[node name="Exit" type="Button" parent="Settings"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -60.0
+offset_bottom = 31.0
+grow_horizontal = 0
+text = "Exit"
+
+[connection signal="pressed" from="Menu/Create" to="." method="_on_create_pressed"]
+[connection signal="pressed" from="Menu/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="Link/Load" to="." method="_on_load_pressed"]
+[connection signal="pressed" from="Settings/Exit" to="." method="_on_exit_pressed"]

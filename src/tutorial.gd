@@ -17,3 +17,7 @@ func _on_button_pressed() -> void:
 
 func _on_more_games_pressed() -> void:
 	start_game.emit("game menu")
+
+
+func _on_lobby_pressed() -> void:
+	start_game.emit("lobby")

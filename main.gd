@@ -20,6 +20,9 @@ func _on_tutorial_start_game(game_name: String) -> void:
 			scene = load("res://src/tennis/main.tscn")
 		"game menu":
 			scene = load("res://src/menu.tscn")
+		"lobby":
+			UI.state_menu()
+			return
 		_:
 			push_error("Wrong game name!")
 	game = scene.instantiate()
