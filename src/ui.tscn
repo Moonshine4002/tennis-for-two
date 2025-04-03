@@ -29,12 +29,18 @@ text = "Join"
 
 [node name="Link" type="CanvasLayer" parent="."]
 
-[node name="Load" type="Button" parent="Link"]
+[node name="Start" type="Button" parent="Link"]
 offset_left = 8.0
 offset_top = 88.0
 offset_right = 68.0
 offset_bottom = 119.0
-text = "Load"
+text = "Start!"
+
+[node name="List" type="ItemList" parent="Link"]
+offset_left = 80.0
+offset_top = 8.0
+offset_right = 256.0
+offset_bottom = 120.0
 
 [node name="Settings" type="CanvasLayer" parent="."]
 
@@ -49,5 +55,5 @@ text = "Exit"
 
 [connection signal="pressed" from="Menu/Create" to="." method="_on_create_pressed"]
 [connection signal="pressed" from="Menu/Join" to="." method="_on_join_pressed"]
-[connection signal="pressed" from="Link/Load" to="." method="_on_load_pressed"]
+[connection signal="pressed" from="Link/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="Settings/Exit" to="." method="_on_exit_pressed"]
