@@ -138,7 +138,7 @@ offset_bottom = 49.0
 grow_horizontal = 2
 text = "Join"
 
-[node name="IP" type="LineEdit" parent="Menu/Panel"]
+[node name="Name" type="LineEdit" parent="Menu/Panel"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -148,6 +148,17 @@ offset_top = 74.0
 offset_right = 80.0
 offset_bottom = 105.0
 grow_horizontal = 2
+
+[node name="IP" type="LineEdit" parent="Menu/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -80.0
+offset_top = 130.0
+offset_right = 80.0
+offset_bottom = 161.0
+grow_horizontal = 2
 text = "127.0.0.1"
 
 [node name="Error" type="Label" parent="Menu/Panel"]
@@ -156,27 +167,64 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -72.0
-offset_top = 106.0
+offset_top = 162.0
 offset_right = 72.0
-offset_bottom = 122.0
+offset_bottom = 178.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_font_sizes/font_size = 8
 
 [node name="Link" type="CanvasLayer" parent="."]
 
-[node name="Start" type="Button" parent="Link"]
-offset_left = 8.0
-offset_top = 88.0
-offset_right = 68.0
-offset_bottom = 119.0
+[node name="Panel" type="Panel" parent="Link"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -150.0
+offset_right = 100.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Start" type="Button" parent="Link/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -32.0
+offset_top = 154.0
+offset_right = 32.0
+offset_bottom = 185.0
+grow_horizontal = 2
 text = "Start!"
 
-[node name="List" type="ItemList" parent="Link"]
-offset_left = 80.0
-offset_top = 8.0
-offset_right = 256.0
-offset_bottom = 120.0
+[node name="List" type="ItemList" parent="Link/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -88.0
+offset_top = 18.0
+offset_right = 88.0
+offset_bottom = 130.0
+grow_horizontal = 2
+
+[node name="Error" type="Label" parent="Link/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -72.0
+offset_top = 186.0
+offset_right = 72.0
+offset_bottom = 202.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 8
+horizontal_alignment = 1
 
 [connection signal="pressed" from="Cover/Main Game" to="." method="_on_main_game_pressed"]
 [connection signal="pressed" from="Cover/More Games" to="." method="_on_more_games_pressed"]
@@ -185,4 +233,4 @@ offset_bottom = 120.0
 [connection signal="pressed" from="Settings/Exit" to="." method="_on_exit_pressed"]
 [connection signal="pressed" from="Menu/Panel/Create" to="." method="_on_create_pressed"]
 [connection signal="pressed" from="Menu/Panel/Join" to="." method="_on_join_pressed"]
-[connection signal="pressed" from="Link/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Link/Panel/Start" to="." method="_on_start_pressed"]

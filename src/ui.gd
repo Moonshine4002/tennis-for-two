@@ -9,6 +9,16 @@ func _ready() -> void:
 	Lobby.player_disconnected.connect(_on_lobby_player_disconnected)
 	Lobby.server_disconnected.connect(_on_lobby_server_disconnected)
 
+	if OS.has_feature("windows") and OS.has_environment("USERNAME"):
+		$Menu/Panel/Name.text = OS.get_environment("USERNAME")
+	elif OS.has_feature("linux") and OS.has_environment("USER"):
+		$Menu/Panel/Name.text = OS.get_environment("USER")
+	elif OS.has_feature("macos") and OS.has_environment("USER"):
+		$Menu/Panel/Name.text = OS.get_environment("USER")
+	else:
+		var desktop_path = OS.get_system_dir(0).replace("\\", "/").split("/")
+		$Menu/Panel/Name.text = desktop_path[desktop_path.size() - 2]
+
 
 @rpc("call_local", "reliable")
 func state_disabled() -> void:
@@ -75,6 +85,7 @@ func _on_exit_pressed() -> void:
 
 
 func _on_create_pressed() -> void:
+	Lobby.player_info["name"] = $Menu/Panel/Name.text
 	if Lobby.create_game() == null:
 		$Menu/Panel/Error.text = "IP not allowed."
 		return
@@ -82,6 +93,7 @@ func _on_create_pressed() -> void:
 
 
 func _on_join_pressed() -> void:
+	Lobby.player_info["name"] = $Menu/Panel/Name.text
 	if Lobby.join_game($Menu/Panel/IP.text) != null:
 		$Menu/Panel/Error.text = "IP not allowed."
 		return
@@ -94,6 +106,8 @@ func _on_start_pressed() -> void:
 	if multiplayer.is_server():
 		state_settings.rpc()
 		Lobby.load_game.rpc("res://src/game.tscn")
+	else:
+		$Link/Panel/Error.text = "You are not hosting."
 
 
 func _on_lobby_player_connected(peer_id, player_info) -> void:
@@ -114,12 +128,12 @@ func _on_lobby_server_disconnected() -> void:
 func refresh_lobby():
 	var players: Dictionary = Lobby.players
 	#players.sort()
-	$Link/List.clear()
+	$Link/Panel/List.clear()
 
 	for id in players:
 		var list_text: String = players[id]["name"]
 		if id == multiplayer.get_unique_id():
 			list_text += " (You)"
-		$Link/List.add_item(list_text)
+		$Link/Panel/List.add_item(list_text)
 
-	$Link/Start.disabled = not multiplayer.is_server()
+	#$Link/Panel/Start.disabled = not multiplayer.is_server()
