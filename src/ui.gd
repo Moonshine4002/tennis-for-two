@@ -5,23 +5,24 @@ func _ready() -> void:
 	state_disabled()
 	Lobby.player_connected.connect(_on_lobby_player_connected)
 	Lobby.player_disconnected.connect(_on_lobby_player_disconnected)
+	Lobby.server_disconnected.connect(_on_lobby_server_disconnected)
 
 
-@rpc("any_peer", "call_local", "reliable")
+@rpc("call_local", "reliable")
 func state_disabled() -> void:
 	$Menu.hide()
 	$Link.hide()
 	$Settings.hide()
 
 
-@rpc("any_peer", "call_local", "reliable")
+@rpc("call_local", "reliable")
 func state_menu() -> void:
 	$Menu.show()
 	$Link.hide()
 	$Settings.show()
 
 
-@rpc("any_peer", "call_local", "reliable")
+@rpc("call_local", "reliable")
 func state_linking() -> void:
 	$Menu.hide()
 	$Link.show()
@@ -56,6 +57,10 @@ func _on_lobby_player_connected(peer_id, player_info) -> void:
 
 func _on_lobby_player_disconnected(peer_id) -> void:
 	refresh_lobby()
+
+
+func _on_lobby_server_disconnected() -> void:
+	_on_exit_pressed()
 
 
 func refresh_lobby():
