@@ -1,7 +1,5 @@
 extends Control
 
-signal button(game_name: String)
-
 
 func _ready() -> void:
 	state_cover()

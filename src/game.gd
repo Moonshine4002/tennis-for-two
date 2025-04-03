@@ -11,4 +11,4 @@ func _ready():
 func start_game():
 	print("Start!")
 	# All peers are ready to receive RPCs in this scene.
-	Lobby.load_game.rpc("res://src/tennis/main.tscn")
+	Lobby.load_game.rpc.call_deferred("res://src/tennis/main.tscn")
