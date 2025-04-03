@@ -1,5 +1,7 @@
 extends Control
 
+signal connected_to_server
+
 
 func _ready() -> void:
 	state_cover()
@@ -73,13 +75,19 @@ func _on_exit_pressed() -> void:
 
 
 func _on_create_pressed() -> void:
-	Lobby.create_game()
+	if Lobby.create_game() == null:
+		$Menu/Panel/Error.text = "IP not allowed."
+		return
 	state_linking()
 
 
 func _on_join_pressed() -> void:
-	Lobby.join_game()
-	state_linking()
+	if Lobby.join_game($Menu/Panel/IP.text) != null:
+		$Menu/Panel/Error.text = "IP not allowed."
+		return
+	await get_tree().create_timer(1.0).timeout
+	if not multiplayer.get_peers():
+		$Menu/Panel/Error.text = "Connection failed."
 
 
 func _on_start_pressed() -> void:
@@ -90,6 +98,9 @@ func _on_start_pressed() -> void:
 
 func _on_lobby_player_connected(peer_id, player_info) -> void:
 	refresh_lobby()
+	if peer_id == multiplayer.get_unique_id():
+		state_linking()
+		connected_to_server.emit()
 
 
 func _on_lobby_player_disconnected(peer_id) -> void:
