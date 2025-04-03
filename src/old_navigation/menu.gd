@@ -5,14 +5,6 @@ var game: Node
 var gaming_flag := false
 
 
-func _ready() -> void:
-	pass
-
-
-func _process(_delta: float) -> void:
-	pass
-
-
 func _on_item_list_item_clicked(
 	index: int, _at_position: Vector2, _mouse_button_index: int
 ) -> void:

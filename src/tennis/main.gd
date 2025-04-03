@@ -1,4 +1,4 @@
-extends GameTemplate
+extends Node
 
 var time: int
 var lobby_flag := true
@@ -25,7 +25,11 @@ func _process(delta: float) -> void:
 		)
 
 
-func _on_exit_pressed() -> void:
-	exit.emit()
-	if lobby_flag:
-		UI._on_exit_pressed()
+func set_mode_lobby() -> void:
+	lobby_flag = true
+	$HUD/Mode.text = "Multi player mode."
+
+
+func set_mode_ai() -> void:
+	lobby_flag = false
+	$HUD/Mode.text = "Single player mode."

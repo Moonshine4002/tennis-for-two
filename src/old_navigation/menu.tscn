@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://2hq2cxfmvmb4"]
 
 [ext_resource type="Texture2D" uid="uid://cpgrehg8jdt4c" path="res://icon.svg" id="1_jerj4"]
-[ext_resource type="Script" path="res://src/menu.gd" id="1_rcvxq"]
+[ext_resource type="Script" path="res://src/old_navigation/menu.gd" id="1_rcvxq"]
 [ext_resource type="FontFile" uid="uid://btx4r6ytf1kkt" path="res://art/fonts/Xolonium-Regular.ttf" id="2_3uhpr"]
 [ext_resource type="Texture2D" uid="uid://ctnjxt7iyxj3c" path="res://art/textures/snooker/SMS Pool Asset Pack FREE/Pool_Table_Type_1_NO_BG Wide.png" id="2_ehc1j"]
 [ext_resource type="Texture2D" uid="uid://lcv58d0epfb" path="res://art/textures/old_tennis/Ball.png" id="2_pmyto"]
