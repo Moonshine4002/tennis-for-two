@@ -16,12 +16,12 @@ var ball_velocity_inc: Vector2
 var score := [0, 0]
 
 # rule
-enum Side { NULL = 0, LEFT = -1, RIGHT = 1 }
-var side := Side.NULL
-var side_host: Side
-var ball_side: Side
+enum Area { NULL = 0, LEFT = -1, RIGHT = 1 }
+var area := Area.NULL
+var area_host: Area
+var ball_area: Area
 
-enum State { NULL, NORMAL, HIT_FLOOR_LEFT, HIT_FLOOR_RIGHT, HIT_NET, OUTSIDE }
+enum State { NULL, NORMAL, HIT_FLOOR_LEFT, HIT_FLOOR_RIGHT, HIT_NET, OUTarea }
 var state := State.NORMAL
 
 var permission: Array[bool]
@@ -40,19 +40,19 @@ func _ready() -> void:
 	reset()
 
 
-func reset(score_side := Side.NULL) -> void:
-	if not side:
-		side = Side.LEFT
-		side_host = side
-		ball_side = side_host
+func reset(score_area := Area.NULL) -> void:
+	if not area:
+		area = Area.LEFT
+		area_host = area
+		ball_area = area_host
 	else:
 		print("reset: ", repr())
-		side_host = side_switch(side_host)
-		ball_side = side_host
-		if score_side:
-			add_score(score_side)
+		area_host = area_switch(area_host)
+		ball_area = area_host
+		if score_area:
+			add_score(score_area)
 
-	ball_position = Vector2(0.5 + 0.2 * side_host, 0.3)
+	ball_position = Vector2(0.5 + 0.2 * area_host, 0.3)
 	ball_velocity = Vector2()
 
 	ball_velocity_inc = Vector2()
@@ -62,8 +62,8 @@ func reset(score_side := Side.NULL) -> void:
 	hit = [0, 0]
 	fall = [0, 0]
 
-	judge_ball_side()
-	if ball_side == Side.LEFT:
+	judge_ball_area()
+	if ball_area == Area.LEFT:
 		permission = [true, false]
 	else:
 		permission = [false, true]
@@ -71,61 +71,61 @@ func reset(score_side := Side.NULL) -> void:
 	input_flag = false
 
 
-func judge_ball_side() -> void:
-	assert(ball_side)
+func judge_ball_area() -> void:
+	assert(ball_area)
 	if ball_position.x < 0.5:
-		ball_side = Side.LEFT
+		ball_area = Area.LEFT
 	else:
-		ball_side = Side.RIGHT
+		ball_area = Area.RIGHT
 
 
 func _process(_delta: float) -> void:
 	# state
 	if ball_position.y > max(floor_left_rect.end.y, floor_right_rect.end.y):
-		state = State.OUTSIDE
-		if hit[side2index(ball_side)]:
-			reset(side_switch(ball_side))
+		state = State.OUTarea
+		if hit[area2index(ball_area)]:
+			reset(area_switch(ball_area))
 		else:
-			reset(ball_side)
+			reset(ball_area)
 	elif floor_left_rect.has_point(ball_position):
 		if state != State.HIT_FLOOR_LEFT:
 			state = State.HIT_FLOOR_LEFT
-			fall[side2index(ball_side)] += 1
-		assert(fall[side2index(ball_side)] <= 2)
-		if fall[side2index(ball_side)] == 2:
-			reset(side_switch(ball_side))
+			fall[area2index(ball_area)] += 1
+		assert(fall[area2index(ball_area)] <= 2)
+		if fall[area2index(ball_area)] == 2:
+			reset(area_switch(ball_area))
 	elif floor_right_rect.has_point(ball_position):
 		if state != State.HIT_FLOOR_RIGHT:
 			state = State.HIT_FLOOR_RIGHT
-			fall[side2index(ball_side)] += 1
-		assert(fall[side2index(ball_side)] <= 2)
-		if fall[side2index(ball_side)] == 2:
-			reset(side_switch(ball_side))
+			fall[area2index(ball_area)] += 1
+		assert(fall[area2index(ball_area)] <= 2)
+		if fall[area2index(ball_area)] == 2:
+			reset(area_switch(ball_area))
 	elif net_rect.has_point(ball_position):
 		state = State.HIT_NET
-		reset(side_switch(ball_side))
+		reset(area_switch(ball_area))
 	else:
 		state = State.NORMAL
 
 	print("process: ", repr())
 
 	# rule
-	var last_ball_side = ball_side
-	judge_ball_side()
-	if last_ball_side != ball_side:
-		permission[side2index(ball_side)] = true
-		permission[side2index(side_switch(ball_side))] = false
-		hit[side2index(side_switch(ball_side))] = 0
-		fall[side2index(side_switch(ball_side))] = 0
+	var last_ball_area = ball_area
+	judge_ball_area()
+	if last_ball_area != ball_area:
+		permission[area2index(ball_area)] = true
+		permission[area2index(area_switch(ball_area))] = false
+		hit[area2index(area_switch(ball_area))] = 0
+		fall[area2index(area_switch(ball_area))] = 0
 	else:
-		assert(hit[side2index(ball_side)] <= 1)
-		if hit[side2index(ball_side)] == 1:
-			permission[side2index(ball_side)] = false
+		assert(hit[area2index(ball_area)] <= 1)
+		if hit[area2index(ball_area)] == 1:
+			permission[area2index(ball_area)] = false
 
 	# input
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-		if side == ball_side and permission[side2index(ball_side)]:
-			hit[side2index(ball_side)] += 1
+		if area == ball_area and permission[area2index(ball_area)]:
+			hit[area2index(ball_area)] += 1
 			input_flag = true
 
 
@@ -205,23 +205,23 @@ func _physics_process(delta: float) -> void:
 	$Ball.position.y = ball_position.y * $Oscilloscope.height
 
 
-func side2index(s: Side) -> Side:
+func area2index(s: Area) -> Area:
 	assert(s)
-	if s == Side.LEFT:
+	if s == Area.LEFT:
 		return 0
 	return 1
 
 
-func side_switch(s: Side) -> Side:
+func area_switch(s: Area) -> Area:
 	assert(s)
-	if s == Side.LEFT:
-		return Side.RIGHT
-	return Side.LEFT
+	if s == Area.LEFT:
+		return Area.RIGHT
+	return Area.LEFT
 
 
-func add_score(score_side: Side):
-	assert(score_side)
-	score[side2index(score_side)] += 1
+func add_score(score_area: Area):
+	assert(score_area)
+	score[area2index(score_area)] += 1
 	$HUD/Score.text = "{0} : {1}".format(score)
 
 
@@ -236,20 +236,20 @@ func set_mode_ai() -> void:
 
 
 func repr() -> String:
-	assert(side)
-	assert(side_host)
-	assert(ball_side)
+	assert(area)
+	assert(area_host)
+	assert(ball_area)
 	return (
-		"side={side} ball_side={ball_side} state={state} permission={permission} hit={hit} fall={fall}"
+		"area={area} ball_area={ball_area} state={state} permission={permission} hit={hit} fall={fall}"
 		. format(
 			{
 				"ball_position": "({0},{1})".format([ball_position.x, ball_position.y]),
 				"ball_velocity": "({0},{1})".format([ball_velocity.x, ball_velocity.y]),
 				"ball_velocity_inc": "{0}:{1}".format([ball_velocity_inc.x, ball_velocity_inc.y]),
 				"score": "{0}:{1}".format(score),
-				"side": "right" if side2index(side) else "left",
-				"side_host": "right" if side2index(side_host) else "left",
-				"ball_side": "right" if side2index(ball_side) else "left",
+				"area": "right" if area2index(area) else "left",
+				"area_host": "right" if area2index(area_host) else "left",
+				"ball_area": "right" if area2index(ball_area) else "left",
 				"state": state,
 				"permission": "{0}:{1}".format(permission),
 				"hit": "{0}:{1}".format(hit),
