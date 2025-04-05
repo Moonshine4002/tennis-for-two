@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bbp1jvpkoc0pj"]
 
-[ext_resource type="Script" path="res://src/old_tennis/main.gd" id="1_rogt1"]
+[ext_resource type="Script" uid="uid://cepnv87fmc8dq" path="res://src/old_tennis/main.gd" id="1_rogt1"]
 [ext_resource type="PackedScene" uid="uid://c8vfgcrk8ibbp" path="res://src/old_tennis/tutorial.tscn" id="2_uxyek"]
 [ext_resource type="FontFile" uid="uid://btx4r6ytf1kkt" path="res://art/fonts/Xolonium-Regular.ttf" id="3_0o4l2"]
 

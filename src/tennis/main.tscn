@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://0ob2kdmfmge8"]
 
-[ext_resource type="Script" path="res://src/tennis/main.gd" id="1_vynd5"]
+[ext_resource type="Script" uid="uid://bynrfm35ptggl" path="res://src/tennis/main.gd" id="1_vynd5"]
 [ext_resource type="PackedScene" uid="uid://yuuuv33shbrm" path="res://src/tennis/oscilloscope.tscn" id="2_o3gax"]
 [ext_resource type="Texture2D" uid="uid://2qa3xh7rgjyd" path="res://art/textures/tennis/MDO3000.jpg" id="3_t41co"]
 

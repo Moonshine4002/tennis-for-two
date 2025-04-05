@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://cg8kmgjnsd127"]
 
-[ext_resource type="Script" path="res://src/old_tennis/game.gd" id="1_nf47p"]
+[ext_resource type="Script" uid="uid://brb1onndi81nx" path="res://src/old_tennis/game.gd" id="1_nf47p"]
 [ext_resource type="PackedScene" uid="uid://k2nku1xhnt1c" path="res://src/old_tennis/floor.tscn" id="2_cgyxt"]
-[ext_resource type="Texture2D" uid="uid://b0dyfpbrcnsf1" path="res://art/textures/tennis/NetVert.png" id="3_kvva6"]
+[ext_resource type="Texture2D" uid="uid://b0dyfpbrcnsf1" path="res://art/textures/old_tennis/NetVert.png" id="3_kvva6"]
 [ext_resource type="PackedScene" uid="uid://f3xc8n6f3yh4" path="res://src/old_tennis/ball.tscn" id="4_nf03e"]
 [ext_resource type="PackedScene" uid="uid://iln0mul2pjvx" path="res://src/old_tennis/hud.tscn" id="5_smubo"]
 

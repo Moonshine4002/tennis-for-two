@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://c1rny5yy5yfdh"]
 
-[ext_resource type="Script" path="res://src/brick/brick.gd" id="1_2grtg"]
+[ext_resource type="Script" uid="uid://ha4numka86es" path="res://src/brick/brick.gd" id="1_2grtg"]
 [ext_resource type="Texture2D" uid="uid://hkl2rc6iwk7r" path="res://art/textures/brick/Breakout set/breakout_pieces.png" id="1_msr4a"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_41o4s"]

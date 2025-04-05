@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://mtynhape1nsy"]
 
-[ext_resource type="Script" path="res://src/brick/hud.gd" id="1_xmoyl"]
+[ext_resource type="Script" uid="uid://cbnv55xr6bs7x" path="res://src/brick/hud.gd" id="1_xmoyl"]
 [ext_resource type="FontFile" uid="uid://btx4r6ytf1kkt" path="res://art/fonts/Xolonium-Regular.ttf" id="2_n2ssw"]
 [ext_resource type="FontFile" uid="uid://cbhhff5f0gqx" path="res://art/textures/brick/breakout_pieces_to_font.png" id="2_stbmm"]
 

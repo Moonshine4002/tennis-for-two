@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bj4td5fhl3ew"]
 
-[ext_resource type="Script" path="res://src/snooker/cue.gd" id="1_scexr"]
+[ext_resource type="Script" uid="uid://ytnkox1owvv" path="res://src/snooker/cue.gd" id="1_scexr"]
 [ext_resource type="Texture2D" uid="uid://c4apvtm410gw0" path="res://art/textures/snooker/SMS Pool Asset Pack FREE/SMS_GUI_Display_NO_BG.png" id="1_su0oe"]
 
 [node name="Cue" type="Node2D"]

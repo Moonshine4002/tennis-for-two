@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c8vfgcrk8ibbp"]
 
-[ext_resource type="Script" path="res://src/old_tennis/tutorial.gd" id="1_dk0of"]
+[ext_resource type="Script" uid="uid://churbndvlcwbo" path="res://src/old_tennis/tutorial.gd" id="1_dk0of"]
 [ext_resource type="FontFile" uid="uid://btx4r6ytf1kkt" path="res://art/fonts/Xolonium-Regular.ttf" id="2_yx0gu"]
 
 [node name="Tutorial" type="CanvasLayer"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://k2nku1xhnt1c"]
 
-[ext_resource type="Texture2D" uid="uid://b0eg30whg82c3" path="res://art/textures/tennis/Grass.png" id="1_k60qj"]
+[ext_resource type="Texture2D" uid="uid://b0eg30whg82c3" path="res://art/textures/old_tennis/Grass.png" id="1_k60qj"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_d2xjp"]
 bounce = 0.4

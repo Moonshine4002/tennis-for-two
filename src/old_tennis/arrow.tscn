@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bn7orgyw3fdmp"]
 
-[ext_resource type="Texture2D" uid="uid://rswr1ob3sbd3" path="res://art/textures/tennis/Arrow.png" id="1_pyq1o"]
+[ext_resource type="Texture2D" uid="uid://rswr1ob3sbd3" path="res://art/textures/old_tennis/Arrow.png" id="1_pyq1o"]
 
 [node name="Arrow" type="TextureRect"]
 offset_left = -848.0

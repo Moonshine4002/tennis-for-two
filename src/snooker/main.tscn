@@ -1,10 +1,10 @@
 [gd_scene load_steps=11 format=3 uid="uid://ca13f34jem686"]
 
 [ext_resource type="Texture2D" uid="uid://ctnjxt7iyxj3c" path="res://art/textures/snooker/SMS Pool Asset Pack FREE/Pool_Table_Type_1_NO_BG Wide.png" id="1_fbdd3"]
-[ext_resource type="Script" path="res://src/snooker/main.gd" id="1_n1yvf"]
+[ext_resource type="Script" uid="uid://b2lsgrdvyoxex" path="res://src/snooker/main.gd" id="1_n1yvf"]
 [ext_resource type="PackedScene" uid="uid://bj4td5fhl3ew" path="res://src/snooker/cue.tscn" id="3_7uwum"]
 [ext_resource type="PackedScene" uid="uid://cwncbx43sfaox" path="res://src/snooker/hud.tscn" id="4_2ibaj"]
-[ext_resource type="Script" path="res://src/snooker/manager.gd" id="4_wyw7c"]
+[ext_resource type="Script" uid="uid://qcfqurwlojey" path="res://src/snooker/manager.gd" id="4_wyw7c"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_iwkx0"]
 

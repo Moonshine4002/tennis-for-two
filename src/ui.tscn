@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cp7b0jichxxgn"]
 
-[ext_resource type="Script" path="res://src/ui.gd" id="1_kylai"]
+[ext_resource type="Script" uid="uid://bsygnnn4lvny" path="res://src/ui.gd" id="1_kylai"]
 [ext_resource type="FontFile" uid="uid://btx4r6ytf1kkt" path="res://art/fonts/Xolonium-Regular.ttf" id="1_ton1s"]
 
 [node name="UI" type="Control"]

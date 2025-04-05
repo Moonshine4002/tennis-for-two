@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://drm3ima8x8w7e"]
 
-[ext_resource type="Script" path="res://src/brick/main.gd" id="1_05pdn"]
-[ext_resource type="Script" path="res://src/brick/manager.gd" id="2_oau1y"]
+[ext_resource type="Script" uid="uid://bcksl78x511hh" path="res://src/brick/main.gd" id="1_05pdn"]
+[ext_resource type="Script" uid="uid://bhcjydboxjytd" path="res://src/brick/manager.gd" id="2_oau1y"]
 [ext_resource type="FontFile" uid="uid://cbhhff5f0gqx" path="res://art/textures/brick/breakout_pieces_to_font.png" id="3_gfeeb"]
 [ext_resource type="PackedScene" uid="uid://le0ck4wsgfr6" path="res://src/brick/platform.tscn" id="3_o5op8"]
 [ext_resource type="PackedScene" uid="uid://cxfxvter4j00h" path="res://src/brick/indestructible.tscn" id="5_p3il4"]

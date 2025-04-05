@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://yuuuv33shbrm"]
 
-[ext_resource type="Script" path="res://src/tennis/oscilloscope.gd" id="1_o1hav"]
+[ext_resource type="Script" uid="uid://c8d5feuthahi0" path="res://src/tennis/oscilloscope.gd" id="1_o1hav"]
 
 [sub_resource type="Environment" id="Environment_tkdb4"]
 background_mode = 3
