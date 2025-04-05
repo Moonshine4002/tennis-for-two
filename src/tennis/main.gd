@@ -8,6 +8,8 @@ var floor_left_rect := Rect2(0.0, 0.5, 0.5, 0.01)
 var floor_right_rect := Rect2(0.5, 0.5, 0.5, 0.01)
 @onready var net_rect := Rect2(0.495, 0.3, 0.01 * $Oscilloscope.height / $Oscilloscope.width, 0.21)
 
+@export var force := 3.0
+
 # data
 var ball_position: Vector2
 var ball_velocity: Vector2
@@ -30,6 +32,7 @@ var fall: Array[int]
 
 # input
 var input_flag: bool
+var input_ai: Dictionary
 
 # render
 var accuracy := 100.0
@@ -52,7 +55,7 @@ func reset(score_area := Area.NULL) -> void:
 		if score_area:
 			add_score(score_area)
 
-	ball_position = Vector2(0.5 + 0.2 * area_host, 0.3)
+	ball_position = Vector2(0.5 + 0.3 * area_host, 0.3)
 	ball_velocity = Vector2()
 
 	ball_velocity_inc = Vector2()
@@ -69,6 +72,10 @@ func reset(score_area := Area.NULL) -> void:
 		permission = [false, true]
 
 	input_flag = false
+	input_ai = {
+		"flag": false,
+		"angle_vec": Vector2(),
+	}
 
 
 func judge_ball_area() -> void:
@@ -123,10 +130,16 @@ func _process(_delta: float) -> void:
 			permission[area2index(ball_area)] = false
 
 	# input
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-		if area == ball_area and permission[area2index(ball_area)]:
-			hit[area2index(ball_area)] += 1
-			input_flag = true
+	if permission[area2index(ball_area)]:
+		if area == ball_area:
+			if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+				hit[area2index(ball_area)] += 1
+				input_flag = true
+		elif not lobby_flag:  # ai
+			if randf() < 0.1 and ball_position.x > 0.6 and ball_position.y < 0.4:
+				hit[area2index(ball_area)] += 1
+				input_ai["flag"] = true
+				input_ai["angle_vec"] = Vector2(-1, -3)
 
 
 func _physics_process(delta: float) -> void:
@@ -194,13 +207,14 @@ func _physics_process(delta: float) -> void:
 	if input_flag:
 		input_flag = false
 		var vec = ($Ball.position - get_global_mouse_position()).normalized()
-		ball_velocity_inc = vec * 0.5
+		ball_velocity = vec * force
 
 	# ai
-	if not lobby_flag:
-		if ball_position.x > 0.6 and randf() < 0.01:
-			ball_velocity += Vector2(-1, -3) * 0.5
+	if not lobby_flag and input_ai["flag"]:
+		input_ai["flag"] = false
+		ball_velocity = input_ai["angle_vec"].normalized() * force
 
+	# utils
 	$Ball.position.x = ball_position.x * $Oscilloscope.width
 	$Ball.position.y = ball_position.y * $Oscilloscope.height
 

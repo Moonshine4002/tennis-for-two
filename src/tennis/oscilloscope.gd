@@ -56,6 +56,7 @@ func add_polyline() -> void:
 		coordinates.append(Vector2(width * p.x, height * p.y))
 	polys.append(Poly.new(self, coordinates, color, strength, intensity, life / 5))
 
+
 ## @deprecated: Use [method add_polyline] instead.
 func add_dots() -> void:
 	for p in percentages:
