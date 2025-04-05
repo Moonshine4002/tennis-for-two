@@ -34,5 +34,3 @@ vertical_alignment = 1
 offset_right = 40.0
 offset_bottom = 23.0
 text = "Multi player mode."
-
-[node name="Ball" type="Marker2D" parent="."]

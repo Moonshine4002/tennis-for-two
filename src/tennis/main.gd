@@ -206,17 +206,16 @@ func _physics_process(delta: float) -> void:
 	# input
 	if input_flag:
 		input_flag = false
-		var vec = ($Ball.position - get_global_mouse_position()).normalized()
+		var ball_screen_position = Vector2(
+			ball_position.x * $Oscilloscope.width, ball_position.y * $Oscilloscope.height
+		)
+		var vec = (ball_screen_position - get_global_mouse_position()).normalized()
 		ball_velocity = vec * force
 
 	# ai
 	if not lobby_flag and input_ai["flag"]:
 		input_ai["flag"] = false
 		ball_velocity = input_ai["angle_vec"].normalized() * force
-
-	# utils
-	$Ball.position.x = ball_position.x * $Oscilloscope.width
-	$Ball.position.y = ball_position.y * $Oscilloscope.height
 
 
 func area2index(s: Area) -> int:
