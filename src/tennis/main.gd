@@ -4,9 +4,12 @@ extends Node2D
 var lobby_flag := true
 
 # const
-var floor_left_rect := Rect2(0.0, 0.5, 0.5, 0.01)
-var floor_right_rect := Rect2(0.5, 0.5, 0.5, 0.01)
-@onready var net_rect := Rect2(0.495, 0.3, 0.01 * $Oscilloscope.height / $Oscilloscope.width, 0.21)
+@onready
+var floor_left_rect := Rect2(0.0, 0.5, 0.5, 0.01 * $Oscilloscope.width / $Oscilloscope.height)
+@onready
+var floor_right_rect := Rect2(0.5, 0.5, 0.5, 0.01 * $Oscilloscope.width / $Oscilloscope.height)
+var net_rect := Rect2(0.495, 0.3, 0.01, 0.21)
+var ball_radius := 0.0075
 
 @export var force := 3.0
 
@@ -23,7 +26,7 @@ var area := Area.NULL
 var area_host: Area
 var ball_area: Area
 
-enum State { NULL, NORMAL, HIT_FLOOR_LEFT, HIT_FLOOR_RIGHT, HIT_NET, OUTarea }
+enum State { NULL, NORMAL, HIT_FLOOR_LEFT, HIT_FLOOR_RIGHT, HIT_NET, OUT }
 var state := State.NORMAL
 
 var permission: Array[bool]
@@ -89,26 +92,29 @@ func judge_ball_area() -> void:
 func _process(_delta: float) -> void:
 	# state
 	if ball_position.y > max(floor_left_rect.end.y, floor_right_rect.end.y):
-		state = State.OUTarea
+		state = State.OUT
 		if hit[area2index(ball_area)]:
 			reset(area_switch(ball_area))
 		else:
-			reset(ball_area)
-	elif floor_left_rect.has_point(ball_position):
+			if fall[area2index(ball_area)]:
+				reset(area_switch(ball_area))
+			else:
+				reset(ball_area)
+	elif circle_in_rect(ball_position, ball_radius, floor_left_rect):
 		if state != State.HIT_FLOOR_LEFT:
 			state = State.HIT_FLOOR_LEFT
 			fall[area2index(ball_area)] += 1
 		assert(fall[area2index(ball_area)] <= 2)
 		if fall[area2index(ball_area)] == 2:
 			reset(area_switch(ball_area))
-	elif floor_right_rect.has_point(ball_position):
+	elif circle_in_rect(ball_position, ball_radius, floor_right_rect):
 		if state != State.HIT_FLOOR_RIGHT:
 			state = State.HIT_FLOOR_RIGHT
 			fall[area2index(ball_area)] += 1
 		assert(fall[area2index(ball_area)] <= 2)
 		if fall[area2index(ball_area)] == 2:
 			reset(area_switch(ball_area))
-	elif net_rect.has_point(ball_position):
+	elif circle_in_rect(ball_position, ball_radius, net_rect):
 		state = State.HIT_NET
 		reset(area_switch(ball_area))
 	else:
@@ -180,7 +186,7 @@ func _physics_process(delta: float) -> void:
 		start += step
 	$Oscilloscope.add_polyline()
 	$Oscilloscope.reset()
-	$Oscilloscope.strength = 10
+	$Oscilloscope.strength = ball_radius * $Oscilloscope.width * 2
 	$Oscilloscope.percentage = ball_position
 	$Oscilloscope.add_dot()
 
@@ -198,8 +204,8 @@ func _physics_process(delta: float) -> void:
 		ball_velocity_inc = Vector2()
 
 	# clamp velocity
-	ball_velocity.x = clamp(ball_velocity.x, -0.5, 0.5)
-	ball_velocity.y = clamp(ball_velocity.y, -0.5, 0.5)
+	ball_velocity.x = clamp(ball_velocity.x, -1, 1)
+	ball_velocity.y = clamp(ball_velocity.y, -1, 1)
 	if ball_velocity.length() < 0.001:
 		ball_velocity = Vector2()
 
@@ -238,6 +244,16 @@ func add_score(score_area: Area):
 	$HUD/Score.text = "{0} : {1}".format(score)
 
 
+func circle_in_rect(position_: Vector2, radius: float, rect: Rect2) -> bool:
+	var flag := false
+	var precision := 12.0
+	for i in range(precision):
+		var angle = i / precision * TAU
+		if rect.has_point(position_ + Vector2.RIGHT.rotated(angle) * radius):
+			flag = true
+	return flag
+
+
 func set_mode_lobby() -> void:
 	lobby_flag = true
 	$HUD/Mode.text = "Multi player mode."
@@ -253,7 +269,7 @@ func repr() -> String:
 	assert(area_host)
 	assert(ball_area)
 	return (
-		"area={area} ball_area={ball_area} state={state} permission={permission} hit={hit} fall={fall}"
+		"({score}) area={area} ball_area={ball_area} state={state} permission={permission} hit={hit} fall={fall}"
 		. format(
 			{
 				"ball_position": "({0},{1})".format([ball_position.x, ball_position.y]),
