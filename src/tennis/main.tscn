@@ -4,20 +4,35 @@
 [ext_resource type="PackedScene" uid="uid://yuuuv33shbrm" path="res://src/tennis/oscilloscope.tscn" id="2_o3gax"]
 [ext_resource type="Texture2D" uid="uid://2qa3xh7rgjyd" path="res://art/textures/tennis/MDO3000.jpg" id="3_t41co"]
 
-[node name="Main" type="Node"]
+[node name="Main" type="Node2D"]
 script = ExtResource("1_vynd5")
 
 [node name="Oscilloscope" parent="." instance=ExtResource("2_o3gax")]
 strength = 1.0
 intensity = 1.2
-life = 0.0
-noise = Vector2(0, 0.2)
+noise = Vector2(0.1, 0.1)
 texture = ExtResource("3_t41co")
 texture_rect = Rect2(50, 230, 1990, 1070)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
+[node name="Score" type="Label" parent="HUD"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -24.0
+offset_top = 8.0
+offset_right = 24.0
+offset_bottom = 40.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 20
+text = "0 : 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Mode" type="Label" parent="HUD"]
 offset_right = 40.0
 offset_bottom = 23.0
 text = "Multi player mode."
+
+[node name="Ball" type="Marker2D" parent="."]

@@ -63,10 +63,15 @@ func state_linking() -> void:
 func _on_main_game_pressed() -> void:
 	get_tree().change_scene_to_file("res://src/tennis/main.tscn")
 	state_settings()
+	await get_tree().tree_changed
+	var a = get_tree().current_scene
+	get_tree().current_scene.set_mode_ai()
 
 
 func _on_more_games_pressed() -> void:
-	pass
+	$"Cover/More Games".disabled = true
+	$"Cover/More Games".add_theme_color_override("font_disabled_color", Color.RED)
+	$"Cover/More Games".text = "ERROR 501 :)"
 
 
 func _on_lobby_pressed() -> void:

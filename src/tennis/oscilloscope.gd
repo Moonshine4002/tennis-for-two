@@ -7,12 +7,13 @@ class_name Oscilloscope
 @export var percentage := Vector2()
 @export var percentages: Array[Vector2] = []
 
-@export var strength := 2.0
-@export var color := Color.SKY_BLUE
-@export var intensity := 2.0
+@export var strength: float
+@export var color: Color
+@export var intensity: float
+
 @export var life := 1.0
-@export var noise := Vector2(1, 1)
-@export var shift := Vector2(0, 0)
+@export var noise := Vector2.ONE
+@export var shift := Vector2()
 
 @export var texture: Texture2D
 @export var texture_rect: Rect2
@@ -22,24 +23,34 @@ var polys: Array[Poly] = []
 
 
 func _process(delta: float) -> void:
-	update(delta)
-	add_noise()
-	add_dot()
-	add_dots()
-	add_polyline()
+	update()
+	#add_noise()
+	#add_dot()
+	#add_dots()
+	#add_polyline()
 	queue_redraw()
 
 
-func update(delta: float) -> void:
+func reset() -> void:
+	percentage = Vector2()
+	percentages.clear()
+
+	strength = 2.0
+	color = Color.SKY_BLUE
+	intensity = 2.0
+
+
+func update() -> void:
 	for dot in dots:
-		if not dot.update(delta):
+		if not dot.update():
 			dots.erase(dot)
 	for poly in polys:
-		if not poly.update(delta):
+		if not poly.update():
 			polys.erase(poly)
 
 
 func add_polyline() -> void:
+	add_noise()
 	var coordinates: Array[Vector2] = []
 	for percentage in percentages:
 		coordinates.append(Vector2(width * percentage.x, height * percentage.y))
@@ -54,6 +65,7 @@ func add_dots() -> void:
 
 
 func add_dot() -> void:
+	add_noise()
 	if percentage == Vector2():
 		return
 	var coordinate := Vector2(width * percentage.x, height * percentage.y)
@@ -143,7 +155,7 @@ class Primitive:
 		_time = Time.get_ticks_usec() / 1e6
 		update_color()
 
-	func update(delta: float) -> bool:
+	func update() -> bool:
 		if lifespan == 0:
 			return false
 		update_color()
