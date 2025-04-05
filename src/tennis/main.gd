@@ -205,7 +205,7 @@ func _physics_process(delta: float) -> void:
 	$Ball.position.y = ball_position.y * $Oscilloscope.height
 
 
-func area2index(s: Area) -> Area:
+func area2index(s: Area) -> int:
 	assert(s)
 	if s == Area.LEFT:
 		return 0

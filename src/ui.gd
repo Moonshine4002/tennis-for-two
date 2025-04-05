@@ -16,7 +16,7 @@ func _ready() -> void:
 	elif OS.has_feature("macos") and OS.has_environment("USER"):
 		$Menu/Panel/Name.text = OS.get_environment("USER")
 	else:
-		var desktop_path = OS.get_system_dir(0).replace("\\", "/").split("/")
+		var desktop_path = OS.get_system_dir(OS.SYSTEM_DIR_DESKTOP).replace("\\", "/").split("/")
 		$Menu/Panel/Name.text = desktop_path[desktop_path.size() - 2]
 
 
@@ -64,7 +64,6 @@ func _on_main_game_pressed() -> void:
 	get_tree().change_scene_to_file("res://src/tennis/main.tscn")
 	state_settings()
 	await get_tree().tree_changed
-	var a = get_tree().current_scene
 	get_tree().current_scene.set_mode_ai()
 
 
@@ -115,14 +114,14 @@ func _on_start_pressed() -> void:
 		$Link/Panel/Error.text = "You are not hosting."
 
 
-func _on_lobby_player_connected(peer_id, player_info) -> void:
+func _on_lobby_player_connected(peer_id, _player_info) -> void:
 	refresh_lobby()
 	if peer_id == multiplayer.get_unique_id():
 		state_linking()
 		connected_to_server.emit()
 
 
-func _on_lobby_player_disconnected(peer_id) -> void:
+func _on_lobby_player_disconnected(_peer_id) -> void:
 	refresh_lobby()
 
 

@@ -22,7 +22,7 @@ var dots: Array[Dot] = []
 var polys: Array[Poly] = []
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	update()
 	#add_noise()
 	#add_dot()
@@ -52,15 +52,14 @@ func update() -> void:
 func add_polyline() -> void:
 	add_noise()
 	var coordinates: Array[Vector2] = []
-	for percentage in percentages:
-		coordinates.append(Vector2(width * percentage.x, height * percentage.y))
+	for p in percentages:
+		coordinates.append(Vector2(width * p.x, height * p.y))
 	polys.append(Poly.new(self, coordinates, color, strength, intensity, life / 5))
 
-
+## @deprecated: Use [method add_polyline] instead.
 func add_dots() -> void:
-	return
-	for percentage in percentages:
-		var coordinate := Vector2(width * percentage.x, height * percentage.y)
+	for p in percentages:
+		var coordinate := Vector2(width * p.x, height * p.y)
 		dots.append(Dot.new(self, coordinate, strength / 2, color, intensity, life / 5))
 
 
