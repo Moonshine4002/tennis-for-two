@@ -46,6 +46,13 @@ func create_game():
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(PORT, MAX_CONNECTIONS)
 	if error:
+		if OS.has_feature("web"):
+			peer = WebSocketMultiplayerPeer.new()
+			error = peer.create_server(PORT)
+		if error:
+			peer = WebRTCMultiplayerPeer.new()
+			error = peer.create_server()
+	if error:
 		return error
 	multiplayer.multiplayer_peer = peer
 

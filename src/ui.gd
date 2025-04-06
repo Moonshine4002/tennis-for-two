@@ -90,8 +90,8 @@ func _on_exit_pressed() -> void:
 
 func _on_create_pressed() -> void:
 	Lobby.player_info["name"] = $Menu/Panel/Name.text
-	if Lobby.create_game() == null:
-		$Menu/Panel/Error.text = "IP not allowed."
+	if Lobby.create_game() != null:
+		$Menu/Panel/Error.text = "Can't create server."
 		return
 	state_linking()
 
