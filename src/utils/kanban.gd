@@ -4,12 +4,16 @@ extends Panel
 	"Main Game_Progress":
 	[
 		"Gameplay_alpha",
+		"Art_20%",
+		"Music_0%",
 		"Physics_80%",
 		"Network_80%",
 		"UI_50%",
+		"HUD_20%",
+		"Camera_0%",
+		"Render_alpha",
 		"Tutorial_0%",
 		"Cover_20%",
-		"Music_0%",
 	],
 	"More Games_0%": [],
 	"Archive_Progress":
