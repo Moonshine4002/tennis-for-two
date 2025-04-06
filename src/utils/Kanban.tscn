@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://b23umiafwpiok"]
+[gd_scene load_steps=2 format=3 uid="uid://b23umiafwpiok"]
+
+[ext_resource type="Script" uid="uid://dhn6yilmyv7ii" path="res://src/utils/kanban.gd" id="1_bjq3m"]
 
 [node name="Kanban" type="Panel"]
 offset_left = -128.0
@@ -6,6 +8,7 @@ offset_top = -128.0
 offset_right = 128.0
 offset_bottom = 128.0
 pivot_offset = Vector2(128, 128)
+script = ExtResource("1_bjq3m")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
@@ -20,3 +23,17 @@ grow_horizontal = 2
 text = "Kanban"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Tree" type="Tree" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -96.0
+offset_top = -80.0
+offset_right = 96.0
+offset_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2

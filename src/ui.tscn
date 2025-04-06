@@ -95,6 +95,14 @@ offset_top = 376.0
 offset_right = 1128.0
 offset_bottom = 632.0
 
+[node name="Version" type="Label" parent="Cover"]
+offset_left = 1048.0
+offset_top = 632.0
+offset_right = 1128.0
+offset_bottom = 648.0
+theme_override_font_sizes/font_size = 10
+text = "pre-alpha v1.6.4"
+
 [node name="Settings" type="CanvasLayer" parent="."]
 
 [node name="Exit" type="Button" parent="Settings"]
