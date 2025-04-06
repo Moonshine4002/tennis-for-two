@@ -1,21 +1,37 @@
 extends Panel
 
-@export var data: Array[Array] = [
-	["Task", "Progress"],
-	["Gameplay", "alpha"],
-	["Physics", "alpha"],
-	["Network", "beta"],
-	["UI", "50%"],
-	["Tutorial", "0%"],
-	["Cover", "20%"],
-	["Music", "0%"],
-	["More :)", "0%"],
-]
+@export var data: Dictionary = {
+	"Main Game_Progress":
+	[
+		"Gameplay_alpha",
+		"Physics_80%",
+		"Network_80%",
+		"UI_50%",
+		"Tutorial_0%",
+		"Cover_20%",
+		"Music_0%",
+	],
+	"More Games_0%": [],
+	"Archive_Progress":
+	[
+		"Tennis for Two[OLD]_stable",
+		"Snooker_80%",
+		"Break the Bricks_beta",
+	]
+}
 
 
 func _ready() -> void:
 	$Tree.columns = 2
-	for value: Array[String] in data:
-		var item: TreeItem = $Tree.create_item()
+	var root: TreeItem = $Tree.create_item()
+	$Tree.hide_root = true
+	for key: String in data:
+		var sub_root: TreeItem = $Tree.create_item(root)
+		var strs_title = key.split("_")
 		for i in $Tree.columns:
-			item.set_text(i, value[i])
+			sub_root.set_text(i, strs_title[i])
+		for value: String in data[key]:
+			var item: TreeItem = $Tree.create_item(sub_root)
+			var strs = value.split("_")
+			for i in $Tree.columns:
+				item.set_text(i, strs[i])

@@ -43,11 +43,6 @@ var delta_max := 1.0 / 60
 
 func _ready() -> void:
 	reset()
-	get_window().title = str(area) + str(multiplayer.get_unique_id())
-
-	#if not multiplayer.is_server():
-	#	set_process(false)
-	#	set_physics_process(false)
 
 
 func reset(score_area := Area.NULL) -> void:
@@ -59,7 +54,7 @@ func reset(score_area := Area.NULL) -> void:
 		area_host = area
 		ball_area = area_host
 	else:
-		print("reset: ", repr())
+		#print("reset: ", repr())
 		area_host = area_switch(area_host)
 		ball_area = area_host
 		if score_area:
@@ -141,7 +136,7 @@ func logic() -> void:
 	else:
 		state = State.NORMAL
 
-	print("process: ", repr())
+	#print("process: ", repr())
 
 	# rule
 	var last_ball_area = ball_area

@@ -101,7 +101,7 @@ offset_top = 632.0
 offset_right = 1128.0
 offset_bottom = 648.0
 theme_override_font_sizes/font_size = 10
-text = "pre-alpha v1.6.4"
+text = "pre-alpha v1.6.5"
 
 [node name="Settings" type="CanvasLayer" parent="."]
 
@@ -118,7 +118,6 @@ metadata/_edit_use_anchors_ = true
 [node name="Tutorial" type="CanvasLayer" parent="."]
 
 [node name="Menu" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="Panel" type="Panel" parent="Menu"]
 anchors_preset = 8
@@ -275,6 +274,38 @@ theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_font_sizes/font_size = 8
 horizontal_alignment = 1
 
+[node name="Port Forward" type="Label" parent="Link/Panel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -248.0
+offset_top = 8.0
+offset_right = 55.0
+offset_bottom = 83.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "If you want non-LAN clients to connect,
+make sure the port 7000 in UDP
+is forwarded on your router."
+
+[node name="Find Public IP" type="LinkButton" parent="Link/Panel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 72.0
+offset_top = 32.0
+offset_right = 280.0
+offset_bottom = 72.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Find your public IP address"
+
 [connection signal="pressed" from="Cover/Main Game" to="." method="_on_main_game_pressed"]
 [connection signal="pressed" from="Cover/More Games" to="." method="_on_more_games_pressed"]
 [connection signal="pressed" from="Cover/Lobby" to="." method="_on_lobby_pressed"]
@@ -283,3 +314,4 @@ horizontal_alignment = 1
 [connection signal="pressed" from="Menu/Panel/Create" to="." method="_on_create_pressed"]
 [connection signal="pressed" from="Menu/Panel/Join" to="." method="_on_join_pressed"]
 [connection signal="pressed" from="Link/Panel/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Link/Panel/Find Public IP" to="." method="_on_find_public_ip_pressed"]

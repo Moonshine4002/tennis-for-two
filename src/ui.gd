@@ -141,3 +141,7 @@ func refresh_lobby():
 		$Link/Panel/List.add_item(list_text)
 
 	#$Link/Panel/Start.disabled = not multiplayer.is_server()
+
+
+func _on_find_public_ip_pressed():
+	OS.shell_open("https://icanhazip.com/")
