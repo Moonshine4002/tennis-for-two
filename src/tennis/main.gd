@@ -34,8 +34,7 @@ var hit: Array[int]
 var fall: Array[int]
 
 # input
-var input_flag: bool
-var input_ai: Dictionary
+var input_data: Array[Dictionary]
 
 # render
 var accuracy := 100.0
@@ -44,11 +43,19 @@ var delta_max := 1.0 / 60
 
 func _ready() -> void:
 	reset()
+	get_window().title = str(area) + str(multiplayer.get_unique_id())
+
+	#if not multiplayer.is_server():
+	#	set_process(false)
+	#	set_physics_process(false)
 
 
 func reset(score_area := Area.NULL) -> void:
 	if not area:
-		area = Area.LEFT
+		if multiplayer.is_server():
+			area = Area.LEFT
+		else:
+			area = Area.RIGHT
 		area_host = area
 		ball_area = area_host
 	else:
@@ -74,11 +81,20 @@ func reset(score_area := Area.NULL) -> void:
 	else:
 		permission = [false, true]
 
-	input_flag = false
-	input_ai = {
-		"flag": false,
-		"angle_vec": Vector2(),
-	}
+	input_data = [
+		{
+			"flag": false,
+			"angle_vec": Vector2(),
+		},
+		{
+			"flag": false,
+			"angle_vec": Vector2(),
+		},
+		{
+			"flag": false,
+			"angle_vec": Vector2(),
+		}
+	]
 
 
 func judge_ball_area() -> void:
@@ -90,6 +106,11 @@ func judge_ball_area() -> void:
 
 
 func _process(_delta: float) -> void:
+	if multiplayer.is_server():
+		logic()
+
+
+func logic() -> void:
 	# state
 	if ball_position.y > max(floor_left_rect.end.y, floor_right_rect.end.y):
 		state = State.OUT
@@ -130,29 +151,49 @@ func _process(_delta: float) -> void:
 		permission[area2index(area_switch(ball_area))] = false
 		hit[area2index(area_switch(ball_area))] = 0
 		fall[area2index(area_switch(ball_area))] = 0
-	else:
-		assert(hit[area2index(ball_area)] <= 1)
-		if hit[area2index(ball_area)] == 1:
-			permission[area2index(ball_area)] = false
 
-	# input
-	if permission[area2index(ball_area)]:
-		if area == ball_area:
-			if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-				hit[area2index(ball_area)] += 1
-				input_flag = true
-		elif not lobby_flag:  # ai
+	# ai
+	if not lobby_flag:
+		if permission[area2index(ball_area)]:
 			if randf() < 0.1 and ball_position.x > 0.6 and ball_position.y < 0.4:
 				hit[area2index(ball_area)] += 1
-				input_ai["flag"] = true
-				input_ai["angle_vec"] = Vector2(-1, -3)
+				assert(hit[area2index(ball_area)] <= 1)
+				if hit[area2index(ball_area)] == 1:
+					permission[area2index(ball_area)] = false
+
+				input_data[2]["flag"] = true
+				input_data[2]["angle_vec"] = Vector2(-1, -3)
+
+
+@rpc("any_peer", "call_local", "reliable")
+func input(area_: Area, vec: Vector2) -> void:
+	# input
+	if permission[area2index(ball_area)]:
+		if area_ == ball_area:
+			hit[area2index(ball_area)] += 1
+			assert(hit[area2index(ball_area)] <= 1)
+			if hit[area2index(ball_area)] == 1:
+				permission[area2index(ball_area)] = false
+
+			input_data[area2index(area_)]["flag"] = true
+			input_data[area2index(area_)]["angle_vec"] = vec
+
+
+func _input(event: InputEvent) -> void:
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		var ball_screen_position = Vector2(
+			ball_position.x * $Oscilloscope.width, ball_position.y * $Oscilloscope.height
+		)
+		input.rpc_id(1, area, ball_screen_position - get_global_mouse_position())
 
 
 func _physics_process(delta: float) -> void:
-	# clamp delta
-	#if delta < delta_max:
-	#	delta = delta_max
+	if multiplayer.is_server():
+		physics(delta)
+	render()
 
+
+func render() -> void:
 	# render
 	$Oscilloscope.reset()
 	$Oscilloscope.strength = floor_left_rect.size.y * $Oscilloscope.height
@@ -190,6 +231,12 @@ func _physics_process(delta: float) -> void:
 	$Oscilloscope.percentage = ball_position
 	$Oscilloscope.add_dot()
 
+
+func physics(delta: float) -> void:
+	# clamp delta
+	#if delta < delta_max:
+	#	delta = delta_max
+
 	# physics
 	ball_velocity = ball_velocity.normalized() * clamp(ball_velocity.length() - 0.2 * delta, 0, 1)
 	if state in [State.HIT_FLOOR_LEFT, State.HIT_FLOOR_RIGHT]:
@@ -210,18 +257,14 @@ func _physics_process(delta: float) -> void:
 		ball_velocity = Vector2()
 
 	# input
-	if input_flag:
-		input_flag = false
-		var ball_screen_position = Vector2(
-			ball_position.x * $Oscilloscope.width, ball_position.y * $Oscilloscope.height
-		)
-		var vec = (ball_screen_position - get_global_mouse_position()).normalized()
-		ball_velocity = vec * force
+	if input_data[area2index(ball_area)]["flag"]:
+		input_data[area2index(ball_area)]["flag"] = false
+		ball_velocity = input_data[area2index(ball_area)]["angle_vec"].normalized() * force
 
 	# ai
-	if not lobby_flag and input_ai["flag"]:
-		input_ai["flag"] = false
-		ball_velocity = input_ai["angle_vec"].normalized() * force
+	if not lobby_flag and input_data[2]["flag"]:
+		input_data[2]["flag"] = false
+		ball_velocity = input_data[2]["angle_vec"].normalized() * force
 
 
 func area2index(s: Area) -> int:
@@ -283,7 +326,7 @@ func repr() -> String:
 				"permission": "{0}:{1}".format(permission),
 				"hit": "{0}:{1}".format(hit),
 				"fall": "{0}:{1}".format(fall),
-				"input_flag": input_flag,
+				"input_data": input_data,
 			}
 		)
 	)
