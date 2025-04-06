@@ -4,6 +4,7 @@ extends Panel
 	"Main Game_Progress":
 	[
 		"Gameplay_alpha",
+		"Control_20%",
 		"Art_20%",
 		"Music_0%",
 		"Physics_80%",

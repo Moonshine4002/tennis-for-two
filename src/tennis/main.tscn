@@ -45,3 +45,7 @@ text = "Multi player mode."
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_56x4y")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(426, 124)
+zoom = Vector2(0.75, 0.75)
