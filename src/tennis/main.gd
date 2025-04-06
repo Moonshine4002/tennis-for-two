@@ -8,7 +8,7 @@ var lobby_flag := true
 var floor_left_rect := Rect2(0.0, 0.5, 0.5, 0.01 * $Oscilloscope.width / $Oscilloscope.height)
 @onready
 var floor_right_rect := Rect2(0.5, 0.5, 0.5, 0.01 * $Oscilloscope.width / $Oscilloscope.height)
-var net_rect := Rect2(0.495, 0.3, 0.01, 0.21)
+var net_rect := Rect2(0.495, 0.35, 0.01, 0.16)
 var ball_radius := 0.0075
 
 @export var force := 3.0
@@ -35,6 +35,7 @@ var fall: Array[int]
 
 # input
 var input_data: Array[Dictionary]
+var mouse_time: int
 
 # render
 var accuracy := 100.0
@@ -54,7 +55,7 @@ func reset(score_area := Area.NULL) -> void:
 		area_host = area
 		ball_area = area_host
 	else:
-		#print("reset: ", repr())
+		print("reset: ", repr())
 		area_host = area_switch(area_host)
 		ball_area = area_host
 		if score_area:
@@ -80,14 +81,17 @@ func reset(score_area := Area.NULL) -> void:
 		{
 			"flag": false,
 			"angle_vec": Vector2(),
+			"force_mul": 0.5,
 		},
 		{
 			"flag": false,
 			"angle_vec": Vector2(),
+			"force_mul": 0.5,
 		},
 		{
 			"flag": false,
 			"angle_vec": Vector2(),
+			"force_mul": 0.5,
 		}
 	]
 
@@ -101,6 +105,10 @@ func judge_ball_area() -> void:
 
 
 func _process(_delta: float) -> void:
+	# input
+	if not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		mouse_time = Time.get_ticks_msec()
+
 	if not multiplayer.multiplayer_peer or multiplayer.is_server():
 		logic()
 
@@ -116,6 +124,7 @@ func logic() -> void:
 				reset(area_switch(ball_area))
 			else:
 				reset(ball_area)
+		return
 	elif circle_in_rect(ball_position, ball_radius, floor_left_rect):
 		if state != State.HIT_FLOOR_LEFT:
 			state = State.HIT_FLOOR_LEFT
@@ -123,6 +132,7 @@ func logic() -> void:
 		assert(fall[area2index(ball_area)] <= 2)
 		if fall[area2index(ball_area)] == 2:
 			reset(area_switch(ball_area))
+			return
 	elif circle_in_rect(ball_position, ball_radius, floor_right_rect):
 		if state != State.HIT_FLOOR_RIGHT:
 			state = State.HIT_FLOOR_RIGHT
@@ -130,13 +140,15 @@ func logic() -> void:
 		assert(fall[area2index(ball_area)] <= 2)
 		if fall[area2index(ball_area)] == 2:
 			reset(area_switch(ball_area))
+			return
 	elif circle_in_rect(ball_position, ball_radius, net_rect):
 		state = State.HIT_NET
 		reset(area_switch(ball_area))
+		return
 	else:
 		state = State.NORMAL
 
-	#print("process: ", repr())
+	print("process: ", repr())
 
 	# rule
 	var last_ball_area = ball_area
@@ -151,10 +163,10 @@ func logic() -> void:
 	if not lobby_flag:
 		if permission[area2index(ball_area)]:
 			if (
-				randf() < 0.1
-				and ball_position.x > 0.6
+				randf() < 0.15
+				and ball_position.x > 0.55
 				and ball_position.x < 0.9
-				and ball_position.y < 0.4
+				and ball_position.y < 0.45
 				and ball_position.y > 0.1
 			):
 				hit[area2index(ball_area)] += 1
@@ -163,11 +175,12 @@ func logic() -> void:
 					permission[area2index(ball_area)] = false
 
 				input_data[2]["flag"] = true
-				input_data[2]["angle_vec"] = Vector2(-1, -3)
+				input_data[2]["angle_vec"] = Vector2(-1, -0.8 - randf() * 2)
+				input_data[2]["force_mul"] = 0.3
 
 
 @rpc("any_peer", "call_local", "reliable")
-func input(area_: Area, vec: Vector2) -> void:
+func input(area_: Area, data: Dictionary) -> void:
 	# input
 	if permission[area2index(ball_area)]:
 		if area_ == ball_area:
@@ -176,19 +189,23 @@ func input(area_: Area, vec: Vector2) -> void:
 			if hit[area2index(ball_area)] == 1:
 				permission[area2index(ball_area)] = false
 
-			input_data[area2index(area_)]["flag"] = true
-			input_data[area2index(area_)]["angle_vec"] = vec
+			input_data[area2index(area_)] = data
 
 
-func _input(_event: InputEvent) -> void:
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+func _input(event: InputEvent) -> void:
+	if event.is_action_released("mouse_click"):
 		var ball_screen_position = Vector2(
 			ball_position.x * $Oscilloscope.width, ball_position.y * $Oscilloscope.height
 		)
+		var data = {
+			"flag": true,
+			"angle_vec": ball_screen_position - get_global_mouse_position(),
+			"force_mul": 0.2 + (Time.get_ticks_msec() - mouse_time) / 1000.0,
+		}
 		if not multiplayer.multiplayer_peer:
-			input(area, ball_screen_position - get_global_mouse_position())
+			input(area, data)
 			return
-		input.rpc_id(1, area, ball_screen_position - get_global_mouse_position())
+		input.rpc_id(1, area, data)
 
 
 func _physics_process(delta: float) -> void:
@@ -242,33 +259,38 @@ func physics(delta: float) -> void:
 	#	delta = delta_max
 
 	# physics
-	ball_velocity = ball_velocity.normalized() * clamp(ball_velocity.length() - 0.2 * delta, 0, 1)
 	if state in [State.HIT_FLOOR_LEFT, State.HIT_FLOOR_RIGHT]:
 		ball_velocity.y = -abs(ball_velocity.y)
 	#elif state == State.HIT_NET:
 	#	ball_velocity.x *= 0
 	ball_position += ball_velocity * delta
-	ball_velocity.y += 9.8 * delta * 0.1
+	ball_velocity.y += 9.8 * delta * 0.15
 
 	if ball_velocity_inc:
 		ball_velocity += ball_velocity_inc
 		ball_velocity_inc = Vector2()
 
 	# clamp velocity
-	ball_velocity.x = clamp(ball_velocity.x, -1, 1)
-	ball_velocity.y = clamp(ball_velocity.y, -1, 1)
+	var max_velocity := 1.5
+	ball_velocity = (
+		ball_velocity.normalized() * clamp(ball_velocity.length() - 0.05 * delta, 0, max_velocity)
+	)
 	if ball_velocity.length() < 0.001:
 		ball_velocity = Vector2()
 
 	# input
 	if input_data[area2index(ball_area)]["flag"]:
 		input_data[area2index(ball_area)]["flag"] = false
-		ball_velocity = input_data[area2index(ball_area)]["angle_vec"].normalized() * force
+		ball_velocity = (
+			input_data[area2index(ball_area)]["angle_vec"].normalized()
+			* force
+			* input_data[area2index(ball_area)]["force_mul"]
+		)
 
 	# ai
 	if not lobby_flag and input_data[2]["flag"]:
 		input_data[2]["flag"] = false
-		ball_velocity = input_data[2]["angle_vec"].normalized() * force
+		ball_velocity = input_data[2]["angle_vec"].normalized() * force * input_data[2]["force_mul"]
 
 
 func area2index(s: Area) -> int:
@@ -292,13 +314,14 @@ func add_score(score_area: Area):
 
 
 func circle_in_rect(position_: Vector2, radius: float, rect: Rect2) -> bool:
-	var flag := false
 	var precision := 12.0
+	if rect.has_point(position_):
+		return true
 	for i in range(precision):
 		var angle = i / precision * TAU
 		if rect.has_point(position_ + Vector2.RIGHT.rotated(angle) * radius):
-			flag = true
-	return flag
+			return true
+	return false
 
 
 func set_mode_lobby() -> void:

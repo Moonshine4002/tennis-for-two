@@ -19,6 +19,10 @@ func _ready() -> void:
 		var desktop_path = OS.get_system_dir(OS.SYSTEM_DIR_DESKTOP).replace("\\", "/").split("/")
 		$Menu/Panel/Name.text = desktop_path[desktop_path.size() - 2]
 
+	$Cover/Version.text = $Cover/Version.text.format(
+		{"version": ProjectSettings.get_setting("application/config/version")}
+	)
+
 
 @rpc("call_local", "reliable")
 func state_disabled() -> void:
