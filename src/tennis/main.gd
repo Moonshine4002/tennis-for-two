@@ -47,7 +47,7 @@ func _ready() -> void:
 
 func reset(score_area := Area.NULL) -> void:
 	if not area:
-		if multiplayer.is_server():
+		if not multiplayer.multiplayer_peer or multiplayer.is_server():
 			area = Area.LEFT
 		else:
 			area = Area.RIGHT
@@ -101,7 +101,7 @@ func judge_ball_area() -> void:
 
 
 func _process(_delta: float) -> void:
-	if multiplayer.is_server():
+	if not multiplayer.multiplayer_peer or multiplayer.is_server():
 		logic()
 
 
@@ -180,16 +180,19 @@ func input(area_: Area, vec: Vector2) -> void:
 			input_data[area2index(area_)]["angle_vec"] = vec
 
 
-func _input(event: InputEvent) -> void:
+func _input(_event: InputEvent) -> void:
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		var ball_screen_position = Vector2(
 			ball_position.x * $Oscilloscope.width, ball_position.y * $Oscilloscope.height
 		)
+		if not multiplayer.multiplayer_peer:
+			input(area, ball_screen_position - get_global_mouse_position())
+			return
 		input.rpc_id(1, area, ball_screen_position - get_global_mouse_position())
 
 
 func _physics_process(delta: float) -> void:
-	if multiplayer.is_server():
+	if not multiplayer.multiplayer_peer or multiplayer.is_server():
 		physics(delta)
 	render()
 
