@@ -155,7 +155,13 @@ func logic() -> void:
 	# ai
 	if not lobby_flag:
 		if permission[area2index(ball_area)]:
-			if randf() < 0.1 and ball_position.x > 0.6 and ball_position.y < 0.4:
+			if (
+				randf() < 0.1
+				and ball_position.x > 0.6
+				and ball_position.x < 0.9
+				and ball_position.y < 0.4
+				and ball_position.y > 0.1
+			):
 				hit[area2index(ball_area)] += 1
 				assert(hit[area2index(ball_area)] <= 1)
 				if hit[area2index(ball_area)] == 1:
