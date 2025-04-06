@@ -107,7 +107,7 @@ func _process(_delta: float) -> void:
 
 func logic() -> void:
 	# state
-	if ball_position.y > max(floor_left_rect.end.y, floor_right_rect.end.y):
+	if ball_position.y > max(floor_left_rect.end.y, floor_right_rect.end.y) + 0.1:
 		state = State.OUT
 		if hit[area2index(ball_area)]:
 			reset(area_switch(ball_area))
