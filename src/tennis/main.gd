@@ -200,7 +200,7 @@ func _input(event: InputEvent) -> void:
 		var data = {
 			"flag": true,
 			"angle_vec": ball_screen_position - get_global_mouse_position(),
-			"force_mul": 0.2 + (Time.get_ticks_msec() - mouse_time) / 1000.0,
+			"force_mul": clamp(0.2 + (Time.get_ticks_msec() - mouse_time) / 1000.0, 0, 1),
 		}
 		if not multiplayer.multiplayer_peer:
 			input(area, data)
