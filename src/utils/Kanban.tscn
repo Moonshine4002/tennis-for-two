@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://b23umiafwpiok"]
+
+[node name="Kanban" type="Panel"]
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+pivot_offset = Vector2(128, 128)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -64.0
+offset_top = 16.0
+offset_right = 64.0
+offset_bottom = 40.0
+grow_horizontal = 2
+text = "Kanban"
+horizontal_alignment = 1
+vertical_alignment = 1
