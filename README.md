@@ -1,13 +1,24 @@
 # Tennis for Two
-A 2D demo game project made with the Godot engine and based on the pioneering Tennis for Two game from the 1950s.
-This is a two-player game. Play it with your friends!
+**A 2D demo game project made with the Godot engine, based on the pioneering Tennis for Two game from the 1950s.
+This is a two-player game—play it with your friends!**
 
 ## Introduction
-Tennis for Two is inspired by one of the world's earliest games, mimicking the gameplay of the original Tennis for Two. This version is designed for two players.
+Tennis for Two is inspired by one of the world's earliest games, replicating the gameplay of the original Tennis for Two. This version is designed for both single-player (with a basic AI) and two players.
 
 ## Gameplay
-Players take turns hitting the ball. You can only hit the ball when it is on your side, and you can only hit it once per turn.
-The player with ball possession loses if the ball hits the net, goes out of bounds, or exceeds the screen height.
+Players take turns hitting the ball. You can only hit the ball once per turn when it is on your side.
+The player with ball possession loses if the ball *hits the floor twice*, *hits the net* or *goes out of bounds*.
+
+## Controls
+Currently only the left mouse button is available. You can *hold the mouse for greater force*.
+
+## Known Issues
+The server always returns a "can't create" error in html5 version.
+
+# Archive - Old TfT
+
+## Gameplay
+Compared to the latest version, the player also loses if the ball *exceeds the screen height*.
 
 ## Controls
 - Player One
